@@ -1,0 +1,29 @@
+**************************************************************
+File = benzene-FrozenCoreCCSD_6Elec_9Orbs.out
+
+Nuclear Repulsion E = 203.15350961142997
+DUCC Energy Shift = -427.901959085802
+Total Energy Shift = -224.74844947437202
+# Active Orbitals = 9
+# Frozen Core = 0
+# Occupied Alpha Orbitals = 3
+# Occupied Beta Orbitals = 3
+# Virtual Alpha Orbitals = 6
+# Virtual Alpha Orbitals = 6
+
+Original SCF Energy = -231.54977838517212
+Core Energy =0.0
+
+New Repulsion Energy (Core+Repulsion)= -224.74844947437202
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-0.540967
+-0.396644
+-0.396595
+0.173184
+0.173226
+0.193999
+0.230309
+0.230391
+0.265518

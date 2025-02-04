@@ -1,0 +1,90 @@
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_14Elec_10Orbs/DUCC3
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_14Elec_10Orbs/DUCC2
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_12Elec_10Orbs/DUCC3
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_12Elec_10Orbs/DUCC2
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_12Elec_9Orbs/DUCC3
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_12Elec_9Orbs/DUCC2
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_10Elec_10Orbs/DUCC3
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_10Elec_10Orbs/DUCC2
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_10Elec_9Orbs/DUCC3
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_10Elec_9Orbs/DUCC2
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_10Elec_8Orbs/DUCC3
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_10Elec_8Orbs/DUCC2
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_8Elec_10Orbs/DUCC3
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_8Elec_10Orbs/DUCC2
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_8Elec_9Orbs/DUCC3
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_8Elec_9Orbs/DUCC2
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_8Elec_8Orbs/DUCC3
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_8Elec_8Orbs/DUCC2
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_8Elec_7Orbs/DUCC3
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_8Elec_7Orbs/DUCC2
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_6Elec_10Orbs/DUCC3
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_6Elec_10Orbs/DUCC2
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_6Elec_9Orbs/DUCC3
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_6Elec_9Orbs/DUCC2
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_6Elec_8Orbs/DUCC3
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_6Elec_8Orbs/DUCC2
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_6Elec_7Orbs/DUCC3
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_6Elec_7Orbs/DUCC2
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_6Elec_6Orbs/DUCC3
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI
+cd /hpc/home/baum612/TESTS/DUCC\ Hamiltonians/Benzene/FrozenCoreCCSD_6Elec_6Orbs/DUCC2
+python3 ~/code/exachem-dev/exachem/cc/scripts/ExtractDUCC.py *out *files/*/ducc/*txt 0
+python3 /hpc/home/baum612/PYSCF-FCI2.py *.yaml 0 1 > DUCC.FCI

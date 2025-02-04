@@ -1,0 +1,46 @@
+File =  benzene-FrozenCoreCCSD_6Elec_6Orbs.out.yaml
+Orbitals =  6
+Frozen Orbitals =  0
+Correlated Orbitals =  6
+Electrons =  6
+Correlated Electrons =  6
+
+Repulsion Energy = -224.667257193574
+SCF Energy = -231.441274953174
+Core Energy = 0.000000000000
+New Repulsion Energy = -224.667257193574
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-0.537308
+-0.394726
+-0.394726
+0.172663
+0.172682
+0.192600
+
+davidson 0 1  |r|= 0.128  e= [-6.774018]  max|de|= -6.77  lindep= 0.00869
+davidson 1 2  |r|= 0.0264  e= [-6.794757]  max|de|= -0.0207  lindep= 0.656
+davidson 2 3  |r|= 0.00107  e= [-6.795477]  max|de|= -0.00072  lindep= 0.994
+davidson 3 4  |r|= 0.000148  e= [-6.795479]  max|de|= -1.52e-06  lindep= 0.983
+davidson 4 5  |r|= 1.43e-05  e= [-6.795479]  max|de|= -2.98e-08  lindep= 0.997
+davidson 5 6  |r|= 9.25e-07  e= [-6.795479]  max|de|= -2.53e-10  lindep= 0.959
+root 0 converged  |r|= 5.32e-08  e= -6.7954786329074315  max|de|= -8.02e-13
+converged 6 7  |r|= 5.32e-08  e= [-6.795479]  max|de|= -8.02e-13
+
+E = -231.462735826481  2S+1 = 1.0000000
+[('222000', 0.98572),
+ ('220200', -0.08647),
+ ('202020', -0.08647),
+ ('2baab0', 0.05187),
+ ('2abba0', 0.05187),
+ ('2bbaa0', -0.05168),
+ ('2aabb0', -0.05168),
+ ('220020', -0.03441),
+ ('202200', -0.0344),
+ ('200220', 0.01525),
+ ('022002', -0.00613),
+ ('022020', -0.00447),
+ ('022200', -0.00311),
+ ('220002', -0.00177),
+ ('202002', -0.00177)]

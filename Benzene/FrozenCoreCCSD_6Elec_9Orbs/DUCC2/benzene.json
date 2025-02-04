@@ -1,0 +1,59 @@
+{
+  "geometry": {
+    "coordinates": [
+      "C  0.000000  1.396792  0.000000",
+      "C  0.000000 -1.396792  0.000000",
+      "C  1.209657  0.698396  0.000000",
+      "C -1.209657 -0.698396  0.000000",
+      "C -1.209657  0.698396  0.000000",
+      "C  1.209657 -0.698396  0.000000",
+      "H  0.000000  2.484212  0.000000",
+      "H  2.151390  1.242106  0.000000",
+      "H -2.151390 -1.242106  0.000000",
+      "H -2.151390  1.242106  0.000000",
+      "H  2.151390 -1.242106  0.000000",
+      "H  0.000000 -2.484212  0.000000"
+    ],
+    "units": "angstrom"
+  },
+  "basis": {
+    "basisset": "cc-pvdz" 
+  },
+  "common": {
+    "file_prefix": "benzene",
+    "maxiter": 100
+  },
+  "SCF": {
+    "tol_int": 1e-16,
+    "tol_lindep": 1e-09,
+    "conve": 1e-11,
+    "convd": 1e-10,
+    "diis_hist": 10,
+    "charge": 0,
+    "multiplicity": 1,
+    "restart": false,
+    "scf_type": "restricted",
+    "writem": 10
+  },
+  "CD": {
+    "diagtol": 1e-14,
+    "max_cvecs": 1000
+  },
+  "CC": {
+    "threshold": 1e-10,
+    "ndiis": 5,
+    "writet": false,
+    "ccsd_maxiter": 100,
+    "nactive_oa": 3,
+    "nactive_ob": 3,
+    "nactive_va": 6,
+    "nactive_vb": 6,
+    "ducc_lvl": 1,
+    "freeze": {
+      "atomic": true
+    }    
+  },
+  "TASK": {
+    "ducc": true  
+  }  
+}
