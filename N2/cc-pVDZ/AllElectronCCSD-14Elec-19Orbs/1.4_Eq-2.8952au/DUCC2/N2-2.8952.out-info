@@ -1,0 +1,39 @@
+**************************************************************
+File = N2-2.8952.out
+
+Nuclear Repulsion E = 16.924564796905223
+DUCC Energy Shift = -2.363e-09
+Total Energy Shift = 16.924564794542224
+# Active Orbitals = 19
+# Frozen Core = 0
+# Occupied Alpha Orbitals = 7
+# Occupied Beta Orbitals = 7
+# Virtual Alpha Orbitals = 12
+# Virtual Alpha Orbitals = 12
+
+Original SCF Energy = -108.72366327545777
+Core Energy =0.0
+
+New Repulsion Energy (Core+Repulsion)= 16.924564794542224
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-15.787965
+-15.787275
+-1.232158
+-0.907541
+-0.581409
+-0.494263
+-0.492805
+0.008976
+0.009626
+0.277175
+0.870648
+0.916359
+0.916429
+0.946938
+1.000479
+1.000634
+1.030046
+1.404570
+1.710745

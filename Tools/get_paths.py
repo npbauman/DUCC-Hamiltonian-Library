@@ -1,22 +1,22 @@
 import os
+from collections import defaultdict
 
-def get_deepest_dirs(root_dir):
-    deepest_dirs = []
-    max_depth = 0
+def group_dirs_by_depth(root_dir=None):
+    if root_dir is None:
+        root_dir = os.getcwd()  # Use current directory
 
-    for dirpath, dirnames, _ in os.walk(root_dir):
-        depth = dirpath.count(os.sep)
-        if depth > max_depth:
-            max_depth = depth
-            deepest_dirs = [dirpath]
-        elif depth == max_depth:
-            deepest_dirs.append(dirpath)
+    depth_dict = defaultdict(list)
 
-    return deepest_dirs
+    for dirpath, _, _ in os.walk(root_dir):
+        depth = dirpath.count(os.sep) - root_dir.count(os.sep)
+        depth_dict[depth].append(dirpath)
 
-root_directory = "/hpc/home/baum612/TESTS/DUCC Hamiltonians/Benzene"  # Change this to your directory path
-deepest_subdirs = get_deepest_dirs(root_directory)
+    return dict(depth_dict)
 
-for subdir in deepest_subdirs:
-    print(subdir)
+dirs_by_depth = group_dirs_by_depth()
+
+for depth, dirs in sorted(dirs_by_depth.items()):
+    print(f"Depth {depth}:")
+    for d in dirs:
+        print(f"  {d}")
 
