@@ -1,0 +1,138 @@
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/3.0_Eq-6.2040au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-6.2040.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/3.0_Eq-6.2040au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-6.2040.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/3.0_Eq-6.2040au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-6.2040.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.5_Eq-5.1700au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-5.1700.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.5_Eq-5.1700au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-5.1700.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.5_Eq-5.1700au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-5.1700.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.4_Eq-4.9632au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-4.9632.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.4_Eq-4.9632au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-4.9632.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.4_Eq-4.9632au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-4.9632.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.9_Eq-5.9972au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-5.9972.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.9_Eq-5.9972au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-5.9972.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.9_Eq-5.9972au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-5.9972.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.0_Eq-2.0680au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-2.0680.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.0_Eq-2.0680au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-2.0680.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.0_Eq-2.0680au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-2.0680.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.1_Eq-4.3428au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-4.3428.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.1_Eq-4.3428au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-4.3428.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.1_Eq-4.3428au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-4.3428.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.8_Eq-5.7904au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-5.7904.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.8_Eq-5.7904au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-5.7904.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.8_Eq-5.7904au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-5.7904.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.3_Eq-4.7564au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-4.7564.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.3_Eq-4.7564au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-4.7564.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.3_Eq-4.7564au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-4.7564.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.2_Eq-2.4816au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-2.4816.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.2_Eq-2.4816au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-2.4816.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.2_Eq-2.4816au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-2.4816.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.6_Eq-5.3768au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-5.3768.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.6_Eq-5.3768au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-5.3768.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.6_Eq-5.3768au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-5.3768.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/0.8_Eq-1.6544au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-1.6544.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/0.8_Eq-1.6544au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-1.6544.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/0.8_Eq-1.6544au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-1.6544.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.1_Eq-2.2748au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-2.2748.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.1_Eq-2.2748au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-2.2748.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.1_Eq-2.2748au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-2.2748.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.7_Eq-5.5836au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-5.5836.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.7_Eq-5.5836au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-5.5836.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.7_Eq-5.5836au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-5.5836.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.5_Eq-3.1020au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-3.1020.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.5_Eq-3.1020au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-3.1020.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.5_Eq-3.1020au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-3.1020.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.3_Eq-2.6884au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-2.6884.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.3_Eq-2.6884au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-2.6884.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.3_Eq-2.6884au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-2.6884.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.4_Eq-2.8952au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-2.8952.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.4_Eq-2.8952au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-2.8952.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.4_Eq-2.8952au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-2.8952.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.6_Eq-3.3088au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-3.3088.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.6_Eq-3.3088au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-3.3088.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.6_Eq-3.3088au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-3.3088.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.9_Eq-3.9292au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-3.9292.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.9_Eq-3.9292au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-3.9292.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.9_Eq-3.9292au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-3.9292.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.8_Eq-3.7224au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-3.7224.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.8_Eq-3.7224au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-3.7224.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.8_Eq-3.7224au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-3.7224.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.7_Eq-3.5156au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-3.5156.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.7_Eq-3.5156au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-3.5156.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/1.7_Eq-3.5156au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-3.5156.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.0_Eq-4.1360au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-4.1360.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.0_Eq-4.1360au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-4.1360.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.0_Eq-4.1360au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-4.1360.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.2_Eq-4.5496au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-4.5496.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.2_Eq-4.5496au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-4.5496.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/2.2_Eq-4.5496au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-4.5496.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/0.9_Eq-1.8612au/DUCC3
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-1.8612.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/0.9_Eq-1.8612au/Bare
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-1.8612.FCI
+cd  /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVDZ/AllElectronCCSD-14Elec-13Orbs/0.9_Eq-1.8612au/DUCC2
+ python3 /hpc/home/baum612/PYSCF-FCI2.py *yaml 0 1 > N2-1.8612.FCI

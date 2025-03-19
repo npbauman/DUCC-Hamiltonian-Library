@@ -1,0 +1,26 @@
+**************************************************************
+File = 1.5_Eq-3.1020au-DUCC3.out
+
+Nuclear Repulsion E = 15.796260477111542
+DUCC Energy Shift = -114.807080608643
+Total Energy Shift = -99.01082013153146
+# Active Orbitals = 6
+# Frozen Core = 0
+# Occupied Alpha Orbitals = 3
+# Occupied Beta Orbitals = 3
+# Virtual Alpha Orbitals = 3
+# Virtual Alpha Orbitals = 3
+
+Original SCF Energy = -108.94808515223147
+Core Energy =0.0
+
+New Repulsion Energy (Core+Repulsion)= -99.01082013153146
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-0.579901
+-0.494842
+-0.494842
+0.037049
+0.037049
+0.253108

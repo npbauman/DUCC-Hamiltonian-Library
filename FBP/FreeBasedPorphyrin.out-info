@@ -1,0 +1,26 @@
+**************************************************************
+File = FreeBasedPorphyrin.out
+
+Nuclear Repulsion E = 1860.8364825998465
+DUCC Energy Shift = -2843.164148689539
+Total Energy Shift = -982.3276660896927
+# Active Orbitals = 6
+# Frozen Core = 0
+# Occupied Alpha Orbitals = 3
+# Occupied Beta Orbitals = 3
+# Virtual Alpha Orbitals = 3
+# Virtual Alpha Orbitals = 3
+
+Original SCF Energy = -986.7580079674926
+Core Energy =0.0
+
+New Repulsion Energy (Core+Repulsion)= -982.3276660896927
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-0.408012
+-0.324725
+-0.312664
+0.076095
+0.078977
+0.169599
