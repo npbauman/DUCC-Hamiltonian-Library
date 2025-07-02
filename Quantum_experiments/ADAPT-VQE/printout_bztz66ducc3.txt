@@ -1,0 +1,1617 @@
+$ ./vqe/nwq_vqe -f ./Input_Data/Benzene/cc-pVTZ/FrozenCoreCCSD_6Elec_6Orbs/DUCC3/benzene-FC-CCSD-6Electrons-6Orbitals.out-xacc -p 6 -v --abstol 1e-8 -lb -3.1 -ub 3.1 --maxeval 1000 -o LN_BOBYQA --adapt -ag 1e-4
+Reading Hamiltonian...
+Constructed 905 Pauli observables
+Constructing the ansatz...
+
+----- QWC Clique Grouping -----
+Total number of QWC cliques: 315
+Clique 0 (size: 79):
+  (-5.25128 + 0i)IIIIIIIIIIII (coeff: -5.251285)
+  (0.274676 + 0i)IIIIIIIIIIIZ (coeff: 0.274676)
+  (0.274676 + 0i)IIIIIZIIIIII (coeff: 0.274676)
+  (0.207714 + 0i)IIIIIIIIIIZI (coeff: 0.207714)
+  (0.207714 + 0i)IIIIZIIIIIII (coeff: 0.207714)
+  (0.206445 + 0i)IIIIIIIIIZII (coeff: 0.206445)
+  (0.206445 + 0i)IIIZIIIIIIII (coeff: 0.206445)
+  (0.0778183 + 0i)IIIIZIIIIIZI (coeff: 0.077818)
+  (0.0778183 + 0i)IIIZIIIIIZII (coeff: 0.077818)
+  (0.0727179 + 0i)IIIIIZIIIIIZ (coeff: 0.072718)
+  (0.0719791 + 0i)IZIIIIIIIIZI (coeff: 0.071979)
+  (0.0719791 + 0i)IIIIZIIZIIII (coeff: 0.071979)
+  (0.0719789 + 0i)IIZIIIIIIZII (coeff: 0.071979)
+  (0.0719789 + 0i)IIIZIIIIZIII (coeff: 0.071979)
+  (0.0683953 + 0i)IIIIIZIIIIZI (coeff: 0.068395)
+  (0.0683953 + 0i)IIIIZIIIIIIZ (coeff: 0.068395)
+  (0.0678889 + 0i)IIIIIZIIIZII (coeff: 0.067889)
+  (0.0678889 + 0i)IIIZIIIIIIIZ (coeff: 0.067889)
+  (0.0677394 + 0i)IIIIZIIIIZII (coeff: 0.067739)
+  (0.0677394 + 0i)IIIZIIIIIIZI (coeff: 0.067739)
+  (0.0673505 + 0i)IIIIZZIIIIII (coeff: 0.067351)
+  (0.0673505 + 0i)IIIIIIIIIIZZ (coeff: 0.067351)
+  (0.0668568 + 0i)IZIIIIIZIIII (coeff: 0.066857)
+  (0.0668527 + 0i)IIZIIIIIZIII (coeff: 0.066853)
+  (0.0665879 + 0i)IIIIIIIIIZIZ (coeff: 0.066588)
+  (0.0665879 + 0i)IIIZIZIIIIII (coeff: 0.066588)
+  (0.0658019 + 0i)IZIIIIIIIZII (coeff: 0.065802)
+  (0.0658019 + 0i)IIIZIIIZIIII (coeff: 0.065802)
+  (0.0658019 + 0i)IIZIIIIIIIZI (coeff: 0.065802)
+  (0.0658019 + 0i)IIIIZIIIZIII (coeff: 0.065802)
+  (0.0653896 + 0i)IZIIIIIIIIIZ (coeff: 0.065390)
+  (0.0653896 + 0i)IIIIIZIZIIII (coeff: 0.065390)
+  (0.0639124 + 0i)IIIIIZIIZIII (coeff: 0.063912)
+  (0.0639124 + 0i)IIZIIIIIIIIZ (coeff: 0.063912)
+  (0.0638764 + 0i)IIIIIIIZIIIZ (coeff: 0.063876)
+  (0.0638764 + 0i)IZIIIZIIIIII (coeff: 0.063876)
+  (0.0628694 + 0i)IIZIIZIIIIII (coeff: 0.062869)
+  (0.0628694 + 0i)IIIIIIIIZIIZ (coeff: 0.062869)
+  (0.0622258 + 0i)IIIIIIIIIZZI (coeff: 0.062226)
+  (0.0622258 + 0i)IIIZZIIIIIII (coeff: 0.062226)
+  (0.0616074 + 0i)IIZIIIIZIIII (coeff: 0.061607)
+  (0.0616074 + 0i)IZIIIIIIZIII (coeff: 0.061607)
+  (0.0588733 + 0i)IIIIIIIZIIZI (coeff: 0.058873)
+  (0.0588733 + 0i)IZIIZIIIIIII (coeff: 0.058873)
+  (0.0588731 + 0i)IIIIIIIIZZII (coeff: 0.058873)
+  (0.0588731 + 0i)IIZZIIIIIIII (coeff: 0.058873)
+  (0.058631 + 0i)IZZIIIIIIIII (coeff: 0.058631)
+  (0.058631 + 0i)IIIIIIIZZIII (coeff: 0.058631)
+  (0.0566068 + 0i)IZIZIIIIIIII (coeff: 0.056607)
+  (0.0566068 + 0i)IIIIIIIZIZII (coeff: 0.056607)
+  (0.0566067 + 0i)IIZIZIIIIIII (coeff: 0.056607)
+  (0.0566067 + 0i)IIIIIIIIZIZI (coeff: 0.056607)
+  (0.044185 + 0i)ZIIIIIIIIIIZ (coeff: 0.044185)
+  (0.044185 + 0i)IIIIIZZIIIII (coeff: 0.044185)
+  (0.0431773 + 0i)ZIIIIZIIIIII (coeff: 0.043177)
+  (0.0431773 + 0i)IIIIIIZIIIIZ (coeff: 0.043177)
+  (0.04287 + 0i)ZIIIIIIIIZII (coeff: 0.042870)
+  (0.04287 + 0i)IIIZIIZIIIII (coeff: 0.042870)
+  (0.04287 + 0i)ZIIIIIIIIIZI (coeff: 0.042870)
+  (0.04287 + 0i)IIIIZIZIIIII (coeff: 0.042870)
+  (0.0425149 + 0i)ZIIZIIIIIIII (coeff: 0.042515)
+  (0.0425149 + 0i)IIIIIIZIIZII (coeff: 0.042515)
+  (0.0425149 + 0i)ZIIIZIIIIIII (coeff: 0.042515)
+  (0.0425149 + 0i)IIIIIIZIIIZI (coeff: 0.042515)
+  (0.0420118 + 0i)ZIIIIIIIZIII (coeff: 0.042012)
+  (0.0420118 + 0i)IIZIIIZIIIII (coeff: 0.042012)
+  (0.0420117 + 0i)IZIIIIZIIIII (coeff: 0.042012)
+  (0.0420117 + 0i)ZIIIIIIZIIII (coeff: 0.042012)
+  (0.0416384 + 0i)IIIIIIZIZIII (coeff: 0.041638)
+  (0.0416384 + 0i)ZIZIIIIIIIII (coeff: 0.041638)
+  (0.0416384 + 0i)IIIIIIZZIIII (coeff: 0.041638)
+  (0.0416384 + 0i)ZZIIIIIIIIII (coeff: 0.041638)
+  (0.0388787 + 0i)ZIIIIIZIIIII (coeff: 0.038879)
+  (0.0279199 + 0i)IIIIIIIZIIII (coeff: 0.027920)
+  (0.0279199 + 0i)IZIIIIIIIIII (coeff: 0.027920)
+  (-0.0254454 + 0i)ZIIIIIIIIIII (coeff: -0.025445)
+  (-0.0254454 + 0i)IIIIIIZIIIII (coeff: -0.025445)
+  (0.0254336 + 0i)IIIIIIIIZIII (coeff: 0.025434)
+  (0.0254336 + 0i)IIZIIIIIIIII (coeff: 0.025434)
+Clique 1 (size: 13):
+  (0.0134217 + 0i)IIYYIIIIYYII (coeff: 0.013422)
+  (0.0105296 + 0i)IIIIIIIXYYXI (coeff: 0.010530)
+  (0.0105296 + 0i)IXYYXIIIIIII (coeff: 0.010530)
+  (0.000792169 + 0i)IIIIXXIIIIXX (coeff: 0.000792)
+  (0.00047421 + 0i)IIIYXIIIIYXI (coeff: 0.000474)
+  (0.000352936 + 0i)IXYIIIIXYIII (coeff: 0.000353)
+  (0.00033153 + 0i)XXIIIIXXIIII (coeff: 0.000332)
+  (0.000278947 + 0i)IIIYXIIXYIII (coeff: 0.000279)
+  (0.000278947 + 0i)IXYIIIIIIYXI (coeff: 0.000279)
+  (0 - 5.16988e-26i)IIIYXIIIIIII (coeff: 0.000000)
+  (0 + 2.58494e-26i)IXYIIIIIIIII (coeff: 0.000000)
+  (0 - 7.75482e-26i)IIIIIIIXYIII (coeff: 0.000000)
+  (0 + 5.16988e-26i)IIIIIIIIIYXI (coeff: 0.000000)
+Clique 2 (size: 13):
+  (0.0134217 + 0i)IIXXIIIIXXII (coeff: 0.013422)
+  (0.0105296 + 0i)IYXXYIIIIIII (coeff: 0.010530)
+  (0.0105296 + 0i)IIIIIIIYXXYI (coeff: 0.010530)
+  (0.000792169 + 0i)IIIIYYIIIIYY (coeff: 0.000792)
+  (0.00047421 + 0i)IIIXYIIIIXYI (coeff: 0.000474)
+  (0.000352936 + 0i)IYXIIIIYXIII (coeff: 0.000353)
+  (0.00033153 + 0i)YYIIIIYYIIII (coeff: 0.000332)
+  (0.000278947 + 0i)IIIXYIIYXIII (coeff: 0.000279)
+  (0.000278947 + 0i)IYXIIIIIIXYI (coeff: 0.000279)
+  (0 - 2.58494e-26i)IYXIIIIIIIII (coeff: 0.000000)
+  (0 - 5.16988e-26i)IIIIIIIIIXYI (coeff: 0.000000)
+  (0 + 7.75482e-26i)IIIIIIIYXIII (coeff: 0.000000)
+  (0 + 5.16988e-26i)IIIXYIIIIIII (coeff: 0.000000)
+Clique 3 (size: 13):
+  (0.0134217 + 0i)IIYYIIIIXXII (coeff: 0.013422)
+  (0.00636409 + 0i)IYYYYIIIIIII (coeff: 0.006364)
+  (0.00636409 + 0i)IIIIIIIXXXXI (coeff: 0.006364)
+  (0.00503943 + 0i)IIIYYIIIIXXI (coeff: 0.005039)
+  (0.00308863 + 0i)IIIYYIIXXIII (coeff: 0.003089)
+  (0.00308863 + 0i)IYYIIIIIIXXI (coeff: 0.003089)
+  (0.00262353 + 0i)IYYIIIIXXIII (coeff: 0.002624)
+  (0.000792169 + 0i)IIIIYYIIIIXX (coeff: 0.000792)
+  (0.00033153 + 0i)YYIIIIXXIIII (coeff: 0.000332)
+  (-3.75e-10 + 0i)IIIIIIIIIXXI (coeff: -0.000000)
+  (-3.75e-10 + 0i)IIIYYIIIIIII (coeff: -0.000000)
+  (-1.25e-10 + 0i)IIIIIIIXXIII (coeff: -0.000000)
+  (-1.25e-10 + 0i)IYYIIIIIIIII (coeff: -0.000000)
+Clique 4 (size: 13):
+  (0.0134217 + 0i)IIXXIIIIYYII (coeff: 0.013422)
+  (0.00636409 + 0i)IXXXXIIIIIII (coeff: 0.006364)
+  (0.00636409 + 0i)IIIIIIIYYYYI (coeff: 0.006364)
+  (0.00503943 + 0i)IIIXXIIIIYYI (coeff: 0.005039)
+  (0.00308863 + 0i)IIIXXIIYYIII (coeff: 0.003089)
+  (0.00308863 + 0i)IXXIIIIIIYYI (coeff: 0.003089)
+  (0.00262353 + 0i)IXXIIIIYYIII (coeff: 0.002624)
+  (0.000792169 + 0i)IIIIXXIIIIYY (coeff: 0.000792)
+  (0.00033153 + 0i)XXIIIIYYIIII (coeff: 0.000332)
+  (-3.75e-10 + 0i)IIIIIIIIIYYI (coeff: -0.000000)
+  (-3.75e-10 + 0i)IIIXXIIIIIII (coeff: -0.000000)
+  (-1.25e-10 + 0i)IIIIIIIYYIII (coeff: -0.000000)
+  (-1.25e-10 + 0i)IXXIIIIIIIII (coeff: -0.000000)
+Clique 5 (size: 3):
+  (0.0134217 + 0i)IXZZXIIYZZYI (coeff: 0.013422)
+  (-0.000252617 + 0i)IIIIXYIIIIYX (coeff: -0.000253)
+  (-4.18298e-05 + 0i)YXIIIIXYIIII (coeff: -0.000042)
+Clique 6 (size: 3):
+  (0.0134217 + 0i)IYZZYIIYZZYI (coeff: 0.013422)
+  (0.000252617 + 0i)IIIIYXIIIIYX (coeff: 0.000253)
+  (4.18298e-05 + 0i)XYIIIIXYIIII (coeff: 0.000042)
+Clique 7 (size: 3):
+  (0.0134217 + 0i)IXZZXIIXZZXI (coeff: 0.013422)
+  (0.000252617 + 0i)IIIIXYIIIIXY (coeff: 0.000253)
+  (4.18298e-05 + 0i)YXIIIIYXIIII (coeff: 0.000042)
+Clique 8 (size: 3):
+  (0.0134217 + 0i)IYZZYIIXZZXI (coeff: 0.013422)
+  (-0.000252617 + 0i)IIIIYXIIIIXY (coeff: -0.000253)
+  (-4.18298e-05 + 0i)XYIIIIYXIIII (coeff: -0.000042)
+Clique 9 (size: 11):
+  (0.00851233 + 0i)IXZXIIIXZXII (coeff: 0.008512)
+  (0.00503943 + 0i)IIIXXIIIIXXI (coeff: 0.005039)
+  (1.525e-09 + 0i)IIIXXIIIZIII (coeff: 0.000000)
+  (1.525e-09 + 0i)IIZIIIIIIXXI (coeff: 0.000000)
+  (5.5e-10 + 0i)IIZXXIIIIIII (coeff: 0.000000)
+  (5.5e-10 + 0i)IIIIIIIIZXXI (coeff: 0.000000)
+  (-2.25e-10 + 0i)IIIXXZIIIIII (coeff: -0.000000)
+  (-2.25e-10 + 0i)IIIIIIIIIXXZ (coeff: -0.000000)
+  (-1.5e-10 + 0i)IIIIIZIIIXXI (coeff: -0.000000)
+  (-1.5e-10 + 0i)IIIXXIIIIIIZ (coeff: -0.000000)
+  (0 + 1.35525e-20i)XXIIIIYXIIII (coeff: 0.000000)
+Clique 10 (size: 3):
+  (0.00851233 + 0i)IYZYIIIXZXII (coeff: 0.008512)
+  (0.00110328 + 0i)IIIYZYIIIXZX (coeff: 0.001103)
+  (0 + 1.35525e-20i)YYIIIIYXIIII (coeff: 0.000000)
+Clique 11 (size: 3):
+  (0.00851233 + 0i)IXZXIIIYZYII (coeff: 0.008512)
+  (0.00110328 + 0i)IIIXZXIIIYZY (coeff: 0.001103)
+  (0 - 1.35525e-20i)XXIIIIXYIIII (coeff: 0.000000)
+Clique 12 (size: 11):
+  (0.00851233 + 0i)IYZYIIIYZYII (coeff: 0.008512)
+  (0.00503943 + 0i)IIIYYIIIIYYI (coeff: 0.005039)
+  (1.525e-09 + 0i)IIZIIIIIIYYI (coeff: 0.000000)
+  (1.525e-09 + 0i)IIIYYIIIZIII (coeff: 0.000000)
+  (5.5e-10 + 0i)IIZYYIIIIIII (coeff: 0.000000)
+  (5.5e-10 + 0i)IIIIIIIIZYYI (coeff: 0.000000)
+  (-2.25e-10 + 0i)IIIYYZIIIIII (coeff: -0.000000)
+  (-2.25e-10 + 0i)IIIIIIIIIYYZ (coeff: -0.000000)
+  (-1.5e-10 + 0i)IIIYYIIIIIIZ (coeff: -0.000000)
+  (-1.5e-10 + 0i)IIIIIZIIIYYI (coeff: -0.000000)
+  (0 - 1.35525e-20i)YYIIIIXYIIII (coeff: 0.000000)
+Clique 13 (size: 8):
+  (0.00851098 + 0i)IIYZYIIIXZXI (coeff: 0.008511)
+  (-0.000352936 + 0i)IXYIIIIYXIII (coeff: -0.000353)
+  (0 - 2.58494e-26i)IXYIIIIIIZII (coeff: 0.000000)
+  (0 + 8.07794e-28i)IXYIIZIIIIII (coeff: 0.000000)
+  (0 + 2.58494e-26i)IIIZIIIYXIII (coeff: 0.000000)
+  (0 + 3.23117e-27i)IIIIIZIYXIII (coeff: 0.000000)
+  (0 - 3.23117e-27i)IXYIIIIIIIIZ (coeff: 0.000000)
+  (0 - 8.07794e-28i)IIIIIIIYXIIZ (coeff: 0.000000)
+Clique 14 (size: 10):
+  (0.00851098 + 0i)IIYZYIIIYZYI (coeff: 0.008511)
+  (0.00262353 + 0i)IYYIIIIYYIII (coeff: 0.002624)
+  (-1.525e-09 + 0i)IIIZIIIYYIII (coeff: -0.000000)
+  (-1.525e-09 + 0i)IYYIIIIIIZII (coeff: -0.000000)
+  (-5.5e-10 + 0i)IIIIIIIYYZII (coeff: -0.000000)
+  (-5.5e-10 + 0i)IYYZIIIIIIII (coeff: -0.000000)
+  (-7.5e-11 + 0i)IIIIIZIYYIII (coeff: -0.000000)
+  (-7.5e-11 + 0i)IYYIIIIIIIIZ (coeff: -0.000000)
+  (-5e-11 + 0i)IIIIIIIYYIIZ (coeff: -0.000000)
+  (-5e-11 + 0i)IYYIIZIIIIII (coeff: -0.000000)
+Clique 15 (size: 10):
+  (0.00851098 + 0i)IIXZXIIIXZXI (coeff: 0.008511)
+  (0.00262353 + 0i)IXXIIIIXXIII (coeff: 0.002624)
+  (-1.525e-09 + 0i)IXXIIIIIIZII (coeff: -0.000000)
+  (-1.525e-09 + 0i)IIIZIIIXXIII (coeff: -0.000000)
+  (-5.5e-10 + 0i)IXXZIIIIIIII (coeff: -0.000000)
+  (-5.5e-10 + 0i)IIIIIIIXXZII (coeff: -0.000000)
+  (-7.5e-11 + 0i)IXXIIIIIIIIZ (coeff: -0.000000)
+  (-7.5e-11 + 0i)IIIIIZIXXIII (coeff: -0.000000)
+  (-5e-11 + 0i)IXXIIZIIIIII (coeff: -0.000000)
+  (-5e-11 + 0i)IIIIIIIXXIIZ (coeff: -0.000000)
+Clique 16 (size: 5):
+  (0.00851098 + 0i)IIXZXIIIYZYI (coeff: 0.008511)
+  (-0.000352936 + 0i)IYXIIIIXYIII (coeff: -0.000353)
+  (0 + 1.35525e-20i)IIIIXYIIIIYY (coeff: 0.000000)
+  (0 - 2.58494e-26i)IIIZIIIXYIII (coeff: 0.000000)
+  (0 + 2.58494e-26i)IYXIIIIIIZII (coeff: 0.000000)
+Clique 17 (size: 3):
+  (0.00758039 + 0i)IIXZXIIXZXII (coeff: 0.007580)
+  (0.00308863 + 0i)IXXIIIIIIXXI (coeff: 0.003089)
+  (0 - 1.35525e-20i)IIIIXXIIIIXY (coeff: 0.000000)
+Clique 18 (size: 3):
+  (0.00758039 + 0i)IYZYIIIIYZYI (coeff: 0.007580)
+  (0.00308863 + 0i)IIIYYIIYYIII (coeff: 0.003089)
+  (0 - 1.35525e-20i)IIIIYXIIIIYY (coeff: 0.000000)
+Clique 19 (size: 3):
+  (0.00758039 + 0i)IIYZYIIYZYII (coeff: 0.007580)
+  (0.00308863 + 0i)IYYIIIIIIYYI (coeff: 0.003089)
+  (0 + 1.35525e-20i)IIIIYYIIIIYX (coeff: 0.000000)
+Clique 20 (size: 6):
+  (0.00758039 + 0i)IIXZXIIYZYII (coeff: 0.007580)
+  (-0.000278947 + 0i)IYXIIIIIIYXI (coeff: -0.000279)
+  (0 + 3.23117e-27i)IYXIIIIIIIIZ (coeff: 0.000000)
+  (0 - 8.07794e-28i)IYXIIZIIIIII (coeff: 0.000000)
+  (0 - 3.23117e-27i)IIIIIIIIIYXZ (coeff: 0.000000)
+  (0 + 6.46235e-27i)IIIIIZIIIYXI (coeff: 0.000000)
+Clique 21 (size: 4):
+  (0.00758039 + 0i)IIYZYIIXZXII (coeff: 0.007580)
+  (-0.000278947 + 0i)IXYIIIIIIXYI (coeff: -0.000279)
+  (0 + 3.23117e-27i)IIIIIIIIIXYZ (coeff: 0.000000)
+  (0 - 6.46235e-27i)IIIIIZIIIXYI (coeff: 0.000000)
+Clique 22 (size: 4):
+  (0.00758039 + 0i)IYZYIIIIXZXI (coeff: 0.007580)
+  (-0.000278947 + 0i)IIIYXIIYXIII (coeff: -0.000279)
+  (0 + 6.46235e-27i)IIIYXIIIIIIZ (coeff: 0.000000)
+  (0 - 3.23117e-27i)IIIYXZIIIIII (coeff: 0.000000)
+Clique 23 (size: 6):
+  (0.00758039 + 0i)IXZXIIIIYZYI (coeff: 0.007580)
+  (-0.000278947 + 0i)IIIXYIIXYIII (coeff: -0.000279)
+  (0 - 6.46235e-27i)IIIXYIIIIIIZ (coeff: 0.000000)
+  (0 - 3.23117e-27i)IIIIIZIXYIII (coeff: 0.000000)
+  (0 + 8.07794e-28i)IIIIIIIXYIIZ (coeff: 0.000000)
+  (0 + 3.23117e-27i)IIIXYZIIIIII (coeff: 0.000000)
+Clique 24 (size: 3):
+  (0.00758039 + 0i)IXZXIIIIXZXI (coeff: 0.007580)
+  (0.00308863 + 0i)IIIXXIIXXIII (coeff: 0.003089)
+  (0 + 1.35525e-20i)IIIIXYIIIIXX (coeff: 0.000000)
+Clique 25 (size: 3):
+  (-0.00409754 + 0i)IIIIIIIXXYYI (coeff: -0.004098)
+  (-0.00409754 + 0i)IXXYYIIIIIII (coeff: -0.004098)
+  (-0.000315899 + 0i)IIXYIIIIXYII (coeff: -0.000316)
+Clique 26 (size: 3):
+  (-0.00409754 + 0i)IIIIIIIYYXXI (coeff: -0.004098)
+  (-0.00409754 + 0i)IYYXXIIIIIII (coeff: -0.004098)
+  (-0.000315899 + 0i)IIYXIIIIYXII (coeff: -0.000316)
+Clique 27 (size: 3):
+  (-0.00267022 + 0i)IXZZXIIIYYII (coeff: -0.002670)
+  (5.5e-10 + 0i)IIIIIIIYYIZI (coeff: 0.000000)
+  (-8.75e-11 + 0i)IIIIXXIIIYZY (coeff: -0.000000)
+Clique 28 (size: 3):
+  (-0.00267022 + 0i)IIXXIIIYZZYI (coeff: -0.002670)
+  (-5.5e-10 + 0i)IZIXXIIIIIII (coeff: -0.000000)
+  (0 + 1.35525e-20i)IIIIXXIIIIYX (coeff: 0.000000)
+Clique 29 (size: 3):
+  (-0.00267022 + 0i)IIYYIIIYZZYI (coeff: -0.002670)
+  (5.5e-10 + 0i)IYYIZIIIIIII (coeff: 0.000000)
+  (-8.75e-11 + 0i)IIIYZYIIIIYY (coeff: -0.000000)
+Clique 30 (size: 2):
+  (-0.00267022 + 0i)IXZZXIIIXXII (coeff: -0.002670)
+  (-5.5e-10 + 0i)IIIIIIIZIXXI (coeff: -0.000000)
+Clique 31 (size: 3):
+  (-0.00267022 + 0i)IIYYIIIXZZXI (coeff: -0.002670)
+  (-5.5e-10 + 0i)IZIYYIIIIIII (coeff: -0.000000)
+  (0 - 1.35525e-20i)IIIIYYIIIIXY (coeff: 0.000000)
+Clique 32 (size: 3):
+  (-0.00267022 + 0i)IYZZYIIIXXII (coeff: -0.002670)
+  (5.5e-10 + 0i)IIIIIIIXXIZI (coeff: 0.000000)
+  (-8.75e-11 + 0i)IIIIYYIIIXZX (coeff: -0.000000)
+Clique 33 (size: 2):
+  (-0.00267022 + 0i)IYZZYIIIYYII (coeff: -0.002670)
+  (-5.5e-10 + 0i)IIIIIIIZIYYI (coeff: -0.000000)
+Clique 34 (size: 3):
+  (-0.00267022 + 0i)IIXXIIIXZZXI (coeff: -0.002670)
+  (5.5e-10 + 0i)IXXIZIIIIIII (coeff: 0.000000)
+  (-8.75e-11 + 0i)IIIXZXIIIIXX (coeff: -0.000000)
+Clique 35 (size: 5):
+  (0.00136666 + 0i)IXZZZXIYZZZY (coeff: 0.001367)
+  (-0.000154216 + 0i)XXIIIIIYZZZY (coeff: -0.000154)
+  (-0.000154216 + 0i)IXZZZXYYIIII (coeff: -0.000154)
+  (6.97629e-05 + 0i)IIIIIIYIZZZY (coeff: 0.000070)
+  (6.97629e-05 + 0i)XIZZZXIIIIII (coeff: 0.000070)
+Clique 36 (size: 5):
+  (0.00136666 + 0i)IYZZZYIXZZZX (coeff: 0.001367)
+  (-0.000154216 + 0i)IYZZZYXXIIII (coeff: -0.000154)
+  (-0.000154216 + 0i)YYIIIIIXZZZX (coeff: -0.000154)
+  (6.97629e-05 + 0i)IIIIIIXIZZZX (coeff: 0.000070)
+  (6.97629e-05 + 0i)YIZZZYIIIIII (coeff: 0.000070)
+Clique 37 (size: 3):
+  (0.00136666 + 0i)IYZZZYIYZZZY (coeff: 0.001367)
+  (-0.000154216 + 0i)IYZZZYYYIIII (coeff: -0.000154)
+  (-0.000154216 + 0i)YYIIIIIYZZZY (coeff: -0.000154)
+Clique 38 (size: 3):
+  (0.00136666 + 0i)IXZZZXIXZZZX (coeff: 0.001367)
+  (-0.000154216 + 0i)IXZZZXXXIIII (coeff: -0.000154)
+  (-0.000154216 + 0i)XXIIIIIXZZZX (coeff: -0.000154)
+Clique 39 (size: 2):
+  (0.00110328 + 0i)IIIXZXIIIXZX (coeff: 0.001103)
+  (0.000682786 + 0i)IYZXIIIYZXII (coeff: 0.000683)
+Clique 40 (size: 2):
+  (0.00110328 + 0i)IIIYZYIIIYZY (coeff: 0.001103)
+  (0.000682786 + 0i)IXZYIIIXZYII (coeff: 0.000683)
+Clique 41 (size: 17):
+  (0.00109916 + 0i)YZZZZYXZZZZX (coeff: 0.001099)
+  (-0.000331278 + 0i)YZZZZYIIIIII (coeff: -0.000331)
+  (-0.000331278 + 0i)IIIIIIXZZZZX (coeff: -0.000331)
+  (-0.000231316 + 0i)YZZZZYIIZIII (coeff: -0.000231)
+  (-0.000231316 + 0i)IIZIIIXZZZZX (coeff: -0.000231)
+  (0.000231273 + 0i)IZIIIIXZZZZX (coeff: 0.000231)
+  (0.000231273 + 0i)YZZZZYIZIIII (coeff: 0.000231)
+  (9.20007e-05 + 0i)YZZIZYIIIIII (coeff: 0.000092)
+  (9.20007e-05 + 0i)IIIIIIXZZIZX (coeff: 0.000092)
+  (-9.18563e-05 + 0i)IIIIIIXZZZIX (coeff: -0.000092)
+  (-9.18563e-05 + 0i)YZZZIYIIIIII (coeff: -0.000092)
+  (-6.98237e-05 + 0i)YZIZZYIIIIII (coeff: -0.000070)
+  (-6.98237e-05 + 0i)IIIIIIXZIZZX (coeff: -0.000070)
+  (5.6571e-05 + 0i)IIIZIIXZZZZX (coeff: 0.000057)
+  (5.6571e-05 + 0i)YZZZZYIIIZII (coeff: 0.000057)
+  (-5.64413e-05 + 0i)YZZZZYIIIIZI (coeff: -0.000056)
+  (-5.64413e-05 + 0i)IIIIZIXZZZZX (coeff: -0.000056)
+Clique 42 (size: 9):
+  (0.00109916 + 0i)YZZZZYYZZZZY (coeff: 0.001099)
+  (-0.000331278 + 0i)IIIIIIYZZZZY (coeff: -0.000331)
+  (-0.000231316 + 0i)IIZIIIYZZZZY (coeff: -0.000231)
+  (0.000231273 + 0i)IZIIIIYZZZZY (coeff: 0.000231)
+  (9.20007e-05 + 0i)IIIIIIYZZIZY (coeff: 0.000092)
+  (-9.18563e-05 + 0i)IIIIIIYZZZIY (coeff: -0.000092)
+  (-6.98237e-05 + 0i)IIIIIIYZIZZY (coeff: -0.000070)
+  (5.6571e-05 + 0i)IIIZIIYZZZZY (coeff: 0.000057)
+  (-5.64413e-05 + 0i)IIIIZIYZZZZY (coeff: -0.000056)
+Clique 43 (size: 9):
+  (0.00109916 + 0i)XZZZZXYZZZZY (coeff: 0.001099)
+  (-0.000331278 + 0i)XZZZZXIIIIII (coeff: -0.000331)
+  (-0.000231316 + 0i)XZZZZXIIZIII (coeff: -0.000231)
+  (0.000231273 + 0i)XZZZZXIZIIII (coeff: 0.000231)
+  (9.20007e-05 + 0i)XZZIZXIIIIII (coeff: 0.000092)
+  (-9.18563e-05 + 0i)XZZZIXIIIIII (coeff: -0.000092)
+  (-6.98237e-05 + 0i)XZIZZXIIIIII (coeff: -0.000070)
+  (5.6571e-05 + 0i)XZZZZXIIIZII (coeff: 0.000057)
+  (-5.64413e-05 + 0i)XZZZZXIIIIZI (coeff: -0.000056)
+Clique 44 (size: 1):
+  (0.00109916 + 0i)XZZZZXXZZZZX (coeff: 0.001099)
+Clique 45 (size: 4):
+  (0.000993246 + 0i)IIYZZYIIXZZX (coeff: 0.000993)
+  (0.000330497 + 0i)YZYIIIXZXIII (coeff: 0.000330)
+  (0.000156068 + 0i)YZYIIIIIXZZX (coeff: 0.000156)
+  (0.000156068 + 0i)IIYZZYXZXIII (coeff: 0.000156)
+Clique 46 (size: 4):
+  (0.000993246 + 0i)IIXZZXIIYZZY (coeff: 0.000993)
+  (0.000330497 + 0i)XZXIIIYZYIII (coeff: 0.000330)
+  (0.000156068 + 0i)XZXIIIIIYZZY (coeff: 0.000156)
+  (0.000156068 + 0i)IIXZZXYZYIII (coeff: 0.000156)
+Clique 47 (size: 4):
+  (0.000993246 + 0i)IIXZZXIIXZZX (coeff: 0.000993)
+  (0.000330497 + 0i)XZXIIIXZXIII (coeff: 0.000330)
+  (0.000156068 + 0i)XZXIIIIIXZZX (coeff: 0.000156)
+  (0.000156068 + 0i)IIXZZXXZXIII (coeff: 0.000156)
+Clique 48 (size: 4):
+  (0.000993246 + 0i)IIYZZYIIYZZY (coeff: 0.000993)
+  (0.000330497 + 0i)YZYIIIYZYIII (coeff: 0.000330)
+  (0.000156068 + 0i)IIYZZYYZYIII (coeff: 0.000156)
+  (0.000156068 + 0i)YZYIIIIIYZZY (coeff: 0.000156)
+Clique 49 (size: 2):
+  (-0.000684147 + 0i)IIYZXIIIXZYI (coeff: -0.000684)
+  (-4.28682e-05 + 0i)XZYIIIYZXIII (coeff: -0.000043)
+Clique 50 (size: 3):
+  (-0.000684147 + 0i)IIXZYIIIYZXI (coeff: -0.000684)
+  (-4.28682e-05 + 0i)YZXIIIXZYIII (coeff: -0.000043)
+  (0 - 1.35525e-20i)IIIIYXIIIIXX (coeff: 0.000000)
+Clique 51 (size: 2):
+  (0.000684147 + 0i)IIXZYIIIXZYI (coeff: 0.000684)
+  (4.28682e-05 + 0i)YZXIIIYZXIII (coeff: 0.000043)
+Clique 52 (size: 2):
+  (0.000684147 + 0i)IIYZXIIIYZXI (coeff: 0.000684)
+  (4.28682e-05 + 0i)XZYIIIXZYIII (coeff: 0.000043)
+Clique 53 (size: 4):
+  (-0.000682786 + 0i)IYZXIIIXZYII (coeff: -0.000683)
+  (-0.00047421 + 0i)IIIXYIIIIYXI (coeff: -0.000474)
+  (0 + 2.58494e-26i)IIIXYIIIZIII (coeff: 0.000000)
+  (0 - 2.58494e-26i)IIZIIIIIIYXI (coeff: 0.000000)
+Clique 54 (size: 4):
+  (-0.000682786 + 0i)IXZYIIIYZXII (coeff: -0.000683)
+  (-0.00047421 + 0i)IIIYXIIIIXYI (coeff: -0.000474)
+  (0 + 2.58494e-26i)IIZIIIIIIXYI (coeff: 0.000000)
+  (0 - 2.58494e-26i)IIIYXIIIZIII (coeff: 0.000000)
+Clique 55 (size: 2):
+  (0.000605239 + 0i)IYZXIIIIXZYI (coeff: 0.000605)
+  (-1.525e-09 + 0i)IIIXXIIZIIII (coeff: -0.000000)
+Clique 56 (size: 3):
+  (-0.000605239 + 0i)IYZXIIIIYZXI (coeff: -0.000605)
+  (1.525e-09 + 0i)IIIIZIIYYIII (coeff: 0.000000)
+  (1.25e-11 + 0i)IIIXZYIIIIXY (coeff: 0.000000)
+Clique 57 (size: 2):
+  (-0.000605239 + 0i)IIXZYIIXZYII (coeff: -0.000605)
+  (-1.525e-09 + 0i)IZIIIIIIIYYI (coeff: -0.000000)
+Clique 58 (size: 2):
+  (0.000605239 + 0i)IXZYIIIIYZXI (coeff: 0.000605)
+  (-1.525e-09 + 0i)IIIYYIIZIIII (coeff: -0.000000)
+Clique 59 (size: 2):
+  (-0.000605239 + 0i)IIYZXIIYZXII (coeff: -0.000605)
+  (-1.525e-09 + 0i)IZIIIIIIIXXI (coeff: -0.000000)
+Clique 60 (size: 3):
+  (-0.000605239 + 0i)IXZYIIIIXZYI (coeff: -0.000605)
+  (1.525e-09 + 0i)IIIIZIIXXIII (coeff: 0.000000)
+  (1.25e-11 + 0i)IIIYZXIIIIYX (coeff: 0.000000)
+Clique 61 (size: 3):
+  (0.000605239 + 0i)IIXZYIIYZXII (coeff: 0.000605)
+  (1.525e-09 + 0i)IXXIIIIIIIZI (coeff: 0.000000)
+  (-1.25e-11 + 0i)IIIIYXIIIXZY (coeff: -0.000000)
+Clique 62 (size: 3):
+  (0.000605239 + 0i)IIYZXIIXZYII (coeff: 0.000605)
+  (1.525e-09 + 0i)IYYIIIIIIIZI (coeff: 0.000000)
+  (-1.25e-11 + 0i)IIIIXYIIIYZX (coeff: -0.000000)
+Clique 63 (size: 2):
+  (-0.000394222 + 0i)IXZZYIIIXYII (coeff: -0.000394)
+  (-6.79291e-05 + 0i)IIIIIIIYXYXI (coeff: -0.000068)
+Clique 64 (size: 2):
+  (0.000394222 + 0i)IIXYIIIYZZXI (coeff: 0.000394)
+  (-6.79291e-05 + 0i)IYXYXIIIIIII (coeff: -0.000068)
+Clique 65 (size: 2):
+  (0.000394222 + 0i)IXZZYIIIYXII (coeff: 0.000394)
+  (-6.79291e-05 + 0i)IIIIIIIXYXYI (coeff: -0.000068)
+Clique 66 (size: 2):
+  (0.000394222 + 0i)IIYXIIIXZZYI (coeff: 0.000394)
+  (-6.79291e-05 + 0i)IXYXYIIIIIII (coeff: -0.000068)
+Clique 67 (size: 2):
+  (-0.000394222 + 0i)IYZZXIIIYXII (coeff: -0.000394)
+  (-8.75e-11 + 0i)IIIIXXIIIXZX (coeff: -0.000000)
+Clique 68 (size: 2):
+  (-0.000394222 + 0i)IIXYIIIXZZYI (coeff: -0.000394)
+  (0 + 1.61559e-27i)IIIYZXIIIIYY (coeff: 0.000000)
+Clique 69 (size: 2):
+  (0.000394222 + 0i)IYZZXIIIXYII (coeff: 0.000394)
+  (0 + 8.07794e-27i)IIIIXXIIIYZX (coeff: 0.000000)
+Clique 70 (size: 2):
+  (-0.000394222 + 0i)IIYXIIIYZZXI (coeff: -0.000394)
+  (0 - 8.07794e-27i)IIIXZXIIIIXY (coeff: 0.000000)
+Clique 71 (size: 2):
+  (0.000357266 + 0i)XZZXIIYZZYII (coeff: 0.000357)
+  (-0.000197744 + 0i)IIIXZYIIIYZX (coeff: -0.000198)
+Clique 72 (size: 2):
+  (0.000357266 + 0i)XZZXIIXZZXII (coeff: 0.000357)
+  (0.000197744 + 0i)IIIXZYIIIXZY (coeff: 0.000198)
+Clique 73 (size: 2):
+  (0.000357266 + 0i)YZZYIIYZZYII (coeff: 0.000357)
+  (0.000197744 + 0i)IIIYZXIIIYZX (coeff: 0.000198)
+Clique 74 (size: 2):
+  (0.000357266 + 0i)YZZYIIXZZXII (coeff: 0.000357)
+  (-0.000197744 + 0i)IIIYZXIIIXZY (coeff: -0.000198)
+Clique 75 (size: 3):
+  (0.000356555 + 0i)XZZZXIXZZZXI (coeff: 0.000357)
+  (-2.4514e-05 + 0i)IIIIXXXZZZXI (coeff: -0.000025)
+  (-2.4514e-05 + 0i)XZZZXIIIIIXX (coeff: -0.000025)
+Clique 76 (size: 3):
+  (0.000356555 + 0i)XZZZXIYZZZYI (coeff: 0.000357)
+  (-2.4514e-05 + 0i)XZZZXIIIIIYY (coeff: -0.000025)
+  (-2.4514e-05 + 0i)IIIIXXYZZZYI (coeff: -0.000025)
+Clique 77 (size: 3):
+  (0.000356555 + 0i)YZZZYIXZZZXI (coeff: 0.000357)
+  (-2.4514e-05 + 0i)YZZZYIIIIIXX (coeff: -0.000025)
+  (-2.4514e-05 + 0i)IIIIYYXZZZXI (coeff: -0.000025)
+Clique 78 (size: 3):
+  (0.000356555 + 0i)YZZZYIYZZZYI (coeff: 0.000357)
+  (-2.4514e-05 + 0i)IIIIYYYZZZYI (coeff: -0.000025)
+  (-2.4514e-05 + 0i)YZZZYIIIIIYY (coeff: -0.000025)
+Clique 79 (size: 4):
+  (-0.000329982 + 0i)YZZZZYIIIIIZ (coeff: -0.000330)
+  (-1.58058e-06 + 0i)YZZZZYZIIIII (coeff: -0.000002)
+  (2e-10 + 0i)YZZZZYIYYIII (coeff: 0.000000)
+  (-2.5e-11 + 0i)YZZZZYIIIYYI (coeff: -0.000000)
+Clique 80 (size: 4):
+  (-0.000329982 + 0i)XZZZZXIIIIIZ (coeff: -0.000330)
+  (-1.58058e-06 + 0i)XZZZZXZIIIII (coeff: -0.000002)
+  (2e-10 + 0i)XZZZZXIXXIII (coeff: 0.000000)
+  (-2.5e-11 + 0i)XZZZZXIIIYYI (coeff: -0.000000)
+Clique 81 (size: 4):
+  (-0.000329982 + 0i)IIIIIZYZZZZY (coeff: -0.000330)
+  (-1.58058e-06 + 0i)ZIIIIIYZZZZY (coeff: -0.000002)
+  (2e-10 + 0i)IYYIIIYZZZZY (coeff: 0.000000)
+  (-2.5e-11 + 0i)IIIYYIYZZZZY (coeff: -0.000000)
+Clique 82 (size: 4):
+  (-0.000329982 + 0i)IIIIIZXZZZZX (coeff: -0.000330)
+  (-1.58058e-06 + 0i)ZIIIIIXZZZZX (coeff: -0.000002)
+  (2e-10 + 0i)IXXIIIXZZZZX (coeff: 0.000000)
+  (-2.5e-11 + 0i)IIIXXIXZZZZX (coeff: -0.000000)
+Clique 83 (size: 4):
+  (0.000315899 + 0i)IIXYIIIIYXII (coeff: 0.000316)
+  (-8.75e-11 + 0i)IIIYZYIIIIXX (coeff: -0.000000)
+  (0 - 5.42101e-20i)IYXIIIIIIXXI (coeff: 0.000000)
+  (0 + 2.58494e-26i)IIIIZIIXYIII (coeff: 0.000000)
+Clique 84 (size: 4):
+  (0.000315899 + 0i)IIYXIIIIXYII (coeff: 0.000316)
+  (-8.75e-11 + 0i)IIIXZXIIIIYY (coeff: -0.000000)
+  (0 + 5.42101e-20i)IXYIIIIIIYYI (coeff: 0.000000)
+  (0 - 2.58494e-26i)IIIIZIIYXIII (coeff: 0.000000)
+Clique 85 (size: 1):
+  (0.000315864 + 0i)IXZZYIIYZZXI (coeff: 0.000316)
+Clique 86 (size: 1):
+  (-0.000315864 + 0i)IXZZYIIXZZYI (coeff: -0.000316)
+Clique 87 (size: 1):
+  (0.000315864 + 0i)IYZZXIIXZZYI (coeff: 0.000316)
+Clique 88 (size: 1):
+  (-0.000315864 + 0i)IYZZXIIYZZXI (coeff: -0.000316)
+Clique 89 (size: 3):
+  (-0.000146603 + 0i)IXZZZYIYZZZX (coeff: -0.000147)
+  (7.2938e-06 + 0i)IXZZZYXYIIII (coeff: 0.000007)
+  (7.2938e-06 + 0i)YXIIIIIYZZZX (coeff: 0.000007)
+Clique 90 (size: 3):
+  (0.000146603 + 0i)IXZZZYIXZZZY (coeff: 0.000147)
+  (-7.2938e-06 + 0i)IXZZZYYXIIII (coeff: -0.000007)
+  (-7.2938e-06 + 0i)YXIIIIIXZZZY (coeff: -0.000007)
+Clique 91 (size: 3):
+  (-0.000146603 + 0i)IYZZZXIXZZZY (coeff: -0.000147)
+  (7.2938e-06 + 0i)XYIIIIIXZZZY (coeff: 0.000007)
+  (7.2938e-06 + 0i)IYZZZXYXIIII (coeff: 0.000007)
+Clique 92 (size: 3):
+  (0.000146603 + 0i)IYZZZXIYZZZX (coeff: 0.000147)
+  (-7.2938e-06 + 0i)XYIIIIIYZZZX (coeff: -0.000007)
+  (-7.2938e-06 + 0i)IYZZZXXYIIII (coeff: -0.000007)
+Clique 93 (size: 12):
+  (9.14813e-05 + 0i)XZZZZYYZZZZX (coeff: 0.000091)
+  (0 + 1.0842e-19i)IIIIIIYZZZZX (coeff: 0.000000)
+  (0 - 1.69407e-21i)IIIIIIYZZZIX (coeff: 0.000000)
+  (0 + 2.5411e-21i)XZZZZYIIIZII (coeff: 0.000000)
+  (0 + 1.69407e-21i)XZZZIYIIIIII (coeff: 0.000000)
+  (0 + 3.38813e-21i)XZZZZYIZIIII (coeff: 0.000000)
+  (0 - 3.38813e-21i)IIZIIIYZZZZX (coeff: 0.000000)
+  (0 + 8.47033e-22i)IIIIZIYZZZZX (coeff: 0.000000)
+  (0 + 3.38813e-21i)XZZZZYIIZIII (coeff: 0.000000)
+  (0 - 8.47033e-22i)XZZZZYIIIIZI (coeff: 0.000000)
+  (0 - 3.38813e-21i)IZIIIIYZZZZX (coeff: 0.000000)
+  (0 - 2.5411e-21i)IIIZIIYZZZZX (coeff: 0.000000)
+Clique 94 (size: 12):
+  (9.14813e-05 + 0i)YZZZZXXZZZZY (coeff: 0.000091)
+  (0 - 8.47033e-22i)IIIIZIXZZZZY (coeff: 0.000000)
+  (0 - 1.69407e-21i)YZZZIXIIIIII (coeff: 0.000000)
+  (0 - 1.0842e-19i)IIIIIIXZZZZY (coeff: 0.000000)
+  (0 + 3.38813e-21i)IIZIIIXZZZZY (coeff: 0.000000)
+  (0 - 3.38813e-21i)YZZZZXIZIIII (coeff: 0.000000)
+  (0 + 8.47033e-22i)YZZZZXIIIIZI (coeff: 0.000000)
+  (0 + 2.5411e-21i)IIIZIIXZZZZY (coeff: 0.000000)
+  (0 - 3.38813e-21i)YZZZZXIIZIII (coeff: 0.000000)
+  (0 - 2.5411e-21i)YZZZZXIIIZII (coeff: 0.000000)
+  (0 + 1.69407e-21i)IIIIIIXZZZIY (coeff: 0.000000)
+  (0 + 3.38813e-21i)IZIIIIXZZZZY (coeff: 0.000000)
+Clique 95 (size: 1):
+  (-9.14813e-05 + 0i)XZZZZYXZZZZY (coeff: -0.000091)
+Clique 96 (size: 1):
+  (-9.14813e-05 + 0i)YZZZZXYZZZZX (coeff: -0.000091)
+Clique 97 (size: 3):
+  (4.96989e-05 + 0i)IIYZZXIIYZZX (coeff: 0.000050)
+  (5.42393e-06 + 0i)IIYZZXXZYIII (coeff: 0.000005)
+  (5.42393e-06 + 0i)XZYIIIIIYZZX (coeff: 0.000005)
+Clique 98 (size: 3):
+  (-4.96989e-05 + 0i)IIYZZXIIXZZY (coeff: -0.000050)
+  (-5.42393e-06 + 0i)IIYZZXYZXIII (coeff: -0.000005)
+  (-5.42393e-06 + 0i)XZYIIIIIXZZY (coeff: -0.000005)
+Clique 99 (size: 3):
+  (4.96989e-05 + 0i)IIXZZYIIXZZY (coeff: 0.000050)
+  (5.42393e-06 + 0i)IIXZZYYZXIII (coeff: 0.000005)
+  (5.42393e-06 + 0i)YZXIIIIIXZZY (coeff: 0.000005)
+Clique 100 (size: 3):
+  (-4.96989e-05 + 0i)IIXZZYIIYZZX (coeff: -0.000050)
+  (-5.42393e-06 + 0i)IIXZZYXZYIII (coeff: -0.000005)
+  (-5.42393e-06 + 0i)YZXIIIIIYZZX (coeff: -0.000005)
+Clique 101 (size: 2):
+  (2.45027e-05 + 0i)IIIYZYXZZXII (coeff: 0.000025)
+  (2.45027e-05 + 0i)YZZYIIIIIXZX (coeff: 0.000025)
+Clique 102 (size: 2):
+  (2.45027e-05 + 0i)IIIXZXYZZYII (coeff: 0.000025)
+  (2.45027e-05 + 0i)XZZXIIIIIYZY (coeff: 0.000025)
+Clique 103 (size: 2):
+  (2.45027e-05 + 0i)YZZYIIIIIYZY (coeff: 0.000025)
+  (2.45027e-05 + 0i)IIIYZYYZZYII (coeff: 0.000025)
+Clique 104 (size: 2):
+  (2.45027e-05 + 0i)XZZXIIIIIXZX (coeff: 0.000025)
+  (2.45027e-05 + 0i)IIIXZXXZZXII (coeff: 0.000025)
+Clique 105 (size: 3):
+  (-1.0927e-05 + 0i)YZZXIIIIIYZX (coeff: -0.000011)
+  (-1.0927e-05 + 0i)IIIXZYXZZYII (coeff: -0.000011)
+  (2.17496e-06 + 0i)YZZXIIXZZYII (coeff: 0.000002)
+Clique 106 (size: 3):
+  (1.0927e-05 + 0i)IIIXZYYZZXII (coeff: 0.000011)
+  (1.0927e-05 + 0i)YZZXIIIIIXZY (coeff: 0.000011)
+  (-2.17496e-06 + 0i)YZZXIIYZZXII (coeff: -0.000002)
+Clique 107 (size: 3):
+  (-1.0927e-05 + 0i)IIIYZXYZZXII (coeff: -0.000011)
+  (-1.0927e-05 + 0i)XZZYIIIIIXZY (coeff: -0.000011)
+  (2.17496e-06 + 0i)XZZYIIYZZXII (coeff: 0.000002)
+Clique 108 (size: 3):
+  (1.0927e-05 + 0i)XZZYIIIIIYZX (coeff: 0.000011)
+  (1.0927e-05 + 0i)IIIYZXXZZYII (coeff: 0.000011)
+  (-2.17496e-06 + 0i)XZZYIIXZZYII (coeff: -0.000002)
+Clique 109 (size: 3):
+  (1.0901e-05 + 0i)IIIIYXYZZZXI (coeff: 0.000011)
+  (1.0901e-05 + 0i)XZZZYIIIIIXY (coeff: 0.000011)
+  (1.46791e-06 + 0i)XZZZYIYZZZXI (coeff: 0.000001)
+Clique 110 (size: 3):
+  (-1.0901e-05 + 0i)IIIIXYYZZZXI (coeff: -0.000011)
+  (-1.0901e-05 + 0i)YZZZXIIIIIXY (coeff: -0.000011)
+  (-1.46791e-06 + 0i)YZZZXIYZZZXI (coeff: -0.000001)
+Clique 111 (size: 3):
+  (1.0901e-05 + 0i)YZZZXIIIIIYX (coeff: 0.000011)
+  (1.0901e-05 + 0i)IIIIXYXZZZYI (coeff: 0.000011)
+  (1.46791e-06 + 0i)YZZZXIXZZZYI (coeff: 0.000001)
+Clique 112 (size: 3):
+  (-1.0901e-05 + 0i)IIIIYXXZZZYI (coeff: -0.000011)
+  (-1.0901e-05 + 0i)XZZZYIIIIIYX (coeff: -0.000011)
+  (-1.46791e-06 + 0i)XZZZYIXZZZYI (coeff: -0.000001)
+Clique 113 (size: 3):
+  (-1.225e-09 + 0i)IIYYIIIIXZXI (coeff: -0.000000)
+  (-1.25e-11 + 0i)IIIYZXIIIIXY (coeff: -0.000000)
+  (0 + 1.0842e-19i)IYYIIIIYXIII (coeff: 0.000000)
+Clique 114 (size: 3):
+  (1.225e-09 + 0i)IXZXIIIIXXII (coeff: 0.000000)
+  (1.25e-11 + 0i)IIIIXYIIIXZY (coeff: 0.000000)
+  (0 - 5.42101e-20i)IIIXXIIYXIII (coeff: 0.000000)
+Clique 115 (size: 2):
+  (1.225e-09 + 0i)IXZXIIIYZZYI (coeff: 0.000000)
+  (-1.25e-11 + 0i)IIIXZYIIIIYX (coeff: -0.000000)
+Clique 116 (size: 2):
+  (1.225e-09 + 0i)IYZYIIIYZZYI (coeff: 0.000000)
+  (0 + 8.07794e-27i)IIIYZYIIIIYX (coeff: 0.000000)
+Clique 117 (size: 1):
+  (-1.225e-09 + 0i)IIYZYIIXZZXI (coeff: -0.000000)
+Clique 118 (size: 1):
+  (-1.225e-09 + 0i)IIXZXIIYZZYI (coeff: -0.000000)
+Clique 119 (size: 3):
+  (-1.225e-09 + 0i)IIYZYIIIXXII (coeff: -0.000000)
+  (0 - 2.58494e-26i)IZIIIIIIIXYI (coeff: 0.000000)
+  (0 + 2.1684e-19i)IIIIIIIXXXYI (coeff: 0.000000)
+Clique 120 (size: 1):
+  (-1.225e-09 + 0i)IYZZYIIIXZXI (coeff: -0.000000)
+Clique 121 (size: 2):
+  (-1.225e-09 + 0i)IIXXIIIIXZXI (coeff: -0.000000)
+  (0 - 2.1684e-19i)IYXXXIIIIIII (coeff: 0.000000)
+Clique 122 (size: 2):
+  (1.225e-09 + 0i)IYZZYIIYZYII (coeff: 0.000000)
+  (-8.75e-11 + 0i)IIIIYYIIIYZY (coeff: -0.000000)
+Clique 123 (size: 3):
+  (-1.225e-09 + 0i)IIXXIIIIYZYI (coeff: -0.000000)
+  (0 + 5.42101e-20i)IIIXYIIYYIII (coeff: 0.000000)
+  (0 + 2.1684e-19i)IXXXYIIIIIII (coeff: 0.000000)
+Clique 124 (size: 3):
+  (-1.225e-09 + 0i)IIYYIIIIYZYI (coeff: -0.000000)
+  (0 - 2.1684e-19i)IYYYXIIIIIII (coeff: 0.000000)
+  (0 - 1.0842e-19i)IYYIIIIXYIII (coeff: 0.000000)
+Clique 125 (size: 2):
+  (1.225e-09 + 0i)IXZXIIIXZZXI (coeff: 0.000000)
+  (0 - 1.61559e-27i)IIIXZYIIIIXX (coeff: 0.000000)
+Clique 126 (size: 3):
+  (1.225e-09 + 0i)IYZYIIIIXXII (coeff: 0.000000)
+  (0 - 1.61559e-27i)IIIIXYIIIXZX (coeff: 0.000000)
+  (0 - 5.42101e-20i)IIIYXIIXXIII (coeff: 0.000000)
+Clique 127 (size: 1):
+  (-1.225e-09 + 0i)IYZZYIIIYZYI (coeff: -0.000000)
+Clique 128 (size: 1):
+  (-1.225e-09 + 0i)IIXZXIIXZZXI (coeff: -0.000000)
+Clique 129 (size: 1):
+  (-1.225e-09 + 0i)IIYZYIIYZZYI (coeff: -0.000000)
+Clique 130 (size: 2):
+  (1.225e-09 + 0i)IYZYIIIXZZXI (coeff: 0.000000)
+  (0 - 8.07794e-27i)IIIYZYIIIIXY (coeff: 0.000000)
+Clique 131 (size: 2):
+  (1.225e-09 + 0i)IYZZYIIXZXII (coeff: 0.000000)
+  (0 + 1.61559e-27i)IIIIYXIIIXZX (coeff: 0.000000)
+Clique 132 (size: 4):
+  (1.225e-09 + 0i)IIYYIIIYZYII (coeff: 0.000000)
+  (1.25e-11 + 0i)IIIIYXIIIYZX (coeff: 0.000000)
+  (0 + 2.1684e-19i)IXYYYIIIIIII (coeff: 0.000000)
+  (0 + 2.58494e-26i)IXYIIIIIIIZI (coeff: 0.000000)
+Clique 133 (size: 3):
+  (1.225e-09 + 0i)IIXXIIIYZYII (coeff: 0.000000)
+  (0 + 1.61559e-27i)IIIIYXIIIYZY (coeff: 0.000000)
+  (0 - 2.58494e-26i)IYXIIIIIIIZI (coeff: 0.000000)
+Clique 134 (size: 2):
+  (1.225e-09 + 0i)IIYYIIIXZXII (coeff: 0.000000)
+  (0 - 8.07794e-27i)IIIIXXIIIXZY (coeff: 0.000000)
+Clique 135 (size: 3):
+  (-1.225e-09 + 0i)IIYZYIIIYYII (coeff: -0.000000)
+  (0 - 5.42101e-20i)IYYIIIIIIYXI (coeff: 0.000000)
+  (0 - 2.1684e-19i)IIIIIIIYYYXI (coeff: 0.000000)
+Clique 136 (size: 1):
+  (-1.225e-09 + 0i)IXZZXIIIYZYI (coeff: -0.000000)
+Clique 137 (size: 2):
+  (1.225e-09 + 0i)IXZZXIIYZYII (coeff: 0.000000)
+  (0 - 1.61559e-27i)IIIIXYIIIYZY (coeff: 0.000000)
+Clique 138 (size: 1):
+  (1.225e-09 + 0i)IXZZXIIXZXII (coeff: 0.000000)
+Clique 139 (size: 1):
+  (-1.225e-09 + 0i)IXZZXIIIXZXI (coeff: -0.000000)
+Clique 140 (size: 3):
+  (1.225e-09 + 0i)IXZXIIIIYYII (coeff: 0.000000)
+  (0 - 2.58494e-26i)IIIXYIIZIIII (coeff: 0.000000)
+  (0 + 8.07794e-27i)IIIIYYIIIYZX (coeff: 0.000000)
+Clique 141 (size: 3):
+  (-1.225e-09 + 0i)IIXZXIIIYYII (coeff: -0.000000)
+  (0 + 2.1684e-19i)IIIIIIIXYYYI (coeff: 0.000000)
+  (0 - 5.42101e-20i)IYXIIIIIIYYI (coeff: 0.000000)
+Clique 142 (size: 3):
+  (1.225e-09 + 0i)IYZYIIIIYYII (coeff: 0.000000)
+  (0 + 2.1684e-19i)IIIYYIIIIYXI (coeff: 0.000000)
+  (0 + 5.42101e-20i)IIIYYIIXYIII (coeff: 0.000000)
+Clique 143 (size: 3):
+  (1.225e-09 + 0i)IIXXIIIXZXII (coeff: 0.000000)
+  (0 - 2.1684e-19i)IIIXXIIIIXYI (coeff: 0.000000)
+  (0 + 5.42101e-20i)IXXIIIIIIXYI (coeff: 0.000000)
+Clique 144 (size: 3):
+  (-1.225e-09 + 0i)IIXZXIIIXXII (coeff: -0.000000)
+  (0 - 2.1684e-19i)IIIIIIIYXXXI (coeff: 0.000000)
+  (0 + 1.0842e-19i)IXXIIIIYXIII (coeff: 0.000000)
+Clique 145 (size: 2):
+  (2.5e-10 + 0i)IIXYIIIYZXII (coeff: 0.000000)
+  (0 + 1.61559e-27i)IIIYZXIIIIXX (coeff: 0.000000)
+Clique 146 (size: 3):
+  (2.5e-10 + 0i)IIYXIIIXZYII (coeff: 0.000000)
+  (0 + 2.1684e-19i)IIIXXIIIIYXI (coeff: 0.000000)
+  (0 + 2.58494e-26i)IZIIIIIIIYXI (coeff: 0.000000)
+Clique 147 (size: 3):
+  (-2.5e-10 + 0i)IIYXIIIYZXII (coeff: -0.000000)
+  (0 - 1.61559e-27i)IIIXZYIIIIYY (coeff: 0.000000)
+  (0 + 5.42101e-20i)IYYIIIIIIXYI (coeff: 0.000000)
+Clique 148 (size: 1):
+  (-2.5e-10 + 0i)IYZZXIIIXZYI (coeff: -0.000000)
+Clique 149 (size: 2):
+  (-2.5e-10 + 0i)IIXYIIIIYZXI (coeff: -0.000000)
+  (0 + 2.58494e-26i)IIIYXIIZIIII (coeff: 0.000000)
+Clique 150 (size: 1):
+  (2.5e-10 + 0i)IXZZYIIIXZYI (coeff: 0.000000)
+Clique 151 (size: 2):
+  (2.5e-10 + 0i)IIYXIIIIYZXI (coeff: 0.000000)
+  (0 + 5.42101e-20i)IIIXXIIXYIII (coeff: 0.000000)
+Clique 152 (size: 2):
+  (2.5e-10 + 0i)IIXYIIIIXZYI (coeff: 0.000000)
+  (0 - 5.42101e-20i)IIIYYIIYXIII (coeff: 0.000000)
+Clique 153 (size: 2):
+  (2.5e-10 + 0i)IXZYIIIIYXII (coeff: 0.000000)
+  (0 - 2.1684e-19i)IIIYYIIIIXYI (coeff: 0.000000)
+Clique 154 (size: 1):
+  (-2.5e-10 + 0i)IYZXIIIYZZXI (coeff: -0.000000)
+Clique 155 (size: 1):
+  (2.5e-10 + 0i)IIYZXIIYZZXI (coeff: 0.000000)
+Clique 156 (size: 1):
+  (-2.5e-10 + 0i)IIXZYIIYZZXI (coeff: -0.000000)
+Clique 157 (size: 1):
+  (-2.5e-10 + 0i)IIYZXIIXZZYI (coeff: -0.000000)
+Clique 158 (size: 1):
+  (2.5e-10 + 0i)IIXZYIIXZZYI (coeff: 0.000000)
+Clique 159 (size: 1):
+  (2.5e-10 + 0i)IYZZXIIIYZXI (coeff: 0.000000)
+Clique 160 (size: 2):
+  (-2.5e-10 + 0i)IIYXIIIIXZYI (coeff: -0.000000)
+  (0 + 5.42101e-20i)IIIXYIIXXIII (coeff: 0.000000)
+Clique 161 (size: 1):
+  (-2.5e-10 + 0i)IIYZXIIIXYII (coeff: -0.000000)
+Clique 162 (size: 1):
+  (-2.5e-10 + 0i)IXZYIIIXZZYI (coeff: -0.000000)
+Clique 163 (size: 2):
+  (2.5e-10 + 0i)IYZXIIIIXYII (coeff: 0.000000)
+  (0 + 8.07794e-27i)IIIXZXIIIIYX (coeff: 0.000000)
+Clique 164 (size: 2):
+  (2.5e-10 + 0i)IIXZYIIIXYII (coeff: 0.000000)
+  (0 - 5.42101e-20i)IXXIIIIIIYXI (coeff: 0.000000)
+Clique 165 (size: 1):
+  (-2.5e-10 + 0i)IYZZXIIYZXII (coeff: -0.000000)
+Clique 166 (size: 1):
+  (2.5e-10 + 0i)IYZXIIIXZZYI (coeff: 0.000000)
+Clique 167 (size: 3):
+  (-2.5e-10 + 0i)IIXZYIIIYXII (coeff: -0.000000)
+  (0 - 8.07794e-27i)IIIIYYIIIXZY (coeff: 0.000000)
+  (0 - 1.0842e-19i)IXXIIIIXYIII (coeff: 0.000000)
+Clique 168 (size: 1):
+  (-2.5e-10 + 0i)IYZXIIIIYXII (coeff: -0.000000)
+Clique 169 (size: 1):
+  (2.5e-10 + 0i)IXZYIIIYZZXI (coeff: 0.000000)
+Clique 170 (size: 2):
+  (2.5e-10 + 0i)IIYZXIIIYXII (coeff: 0.000000)
+  (0 + 5.42101e-20i)IXYIIIIIIXXI (coeff: 0.000000)
+Clique 171 (size: 1):
+  (2.5e-10 + 0i)IYZZXIIXZYII (coeff: 0.000000)
+Clique 172 (size: 1):
+  (-2.5e-10 + 0i)IIXYIIIXZYII (coeff: -0.000000)
+Clique 173 (size: 1):
+  (-2.5e-10 + 0i)IXZYIIIIXYII (coeff: -0.000000)
+Clique 174 (size: 1):
+  (-2.5e-10 + 0i)IXZZYIIIYZXI (coeff: -0.000000)
+Clique 175 (size: 1):
+  (2.5e-10 + 0i)IXZZYIIYZXII (coeff: 0.000000)
+Clique 176 (size: 1):
+  (-2.5e-10 + 0i)IXZZYIIXZYII (coeff: -0.000000)
+Clique 177 (size: 2):
+  (2e-10 + 0i)IXXIIIYZZZZY (coeff: 0.000000)
+  (-7.5e-11 + 0i)XXXZZXIIIIII (coeff: -0.000000)
+Clique 178 (size: 2):
+  (2e-10 + 0i)XZZZZXIYYIII (coeff: 0.000000)
+  (-7.5e-11 + 0i)IIIIIIXYYZZX (coeff: -0.000000)
+Clique 179 (size: 2):
+  (2e-10 + 0i)IYYIIIXZZZZX (coeff: 0.000000)
+  (-7.5e-11 + 0i)YYYZZYIIIIII (coeff: -0.000000)
+Clique 180 (size: 2):
+  (2e-10 + 0i)YZZZZYIXXIII (coeff: 0.000000)
+  (-7.5e-11 + 0i)IIIIIIYXXZZY (coeff: -0.000000)
+Clique 181 (size: 3):
+  (1.25e-10 + 0i)IXZZZXXZXIII (coeff: 0.000000)
+  (1.25e-10 + 0i)XXIIIIIIXZZX (coeff: 0.000000)
+  (2.5e-11 + 0i)IXZZZXIIXZZX (coeff: 0.000000)
+Clique 182 (size: 3):
+  (1.25e-10 + 0i)YYIIIIIIXZZX (coeff: 0.000000)
+  (1.25e-10 + 0i)IIXZZXXXIIII (coeff: 0.000000)
+  (-7.5e-11 + 0i)IIIIIIXXXZZX (coeff: -0.000000)
+Clique 183 (size: 3):
+  (1.25e-10 + 0i)YZYIIIIXZZZX (coeff: 0.000000)
+  (1.25e-10 + 0i)IIYZZYXXIIII (coeff: 0.000000)
+  (2.5e-11 + 0i)IIYZZYIXZZZX (coeff: 0.000000)
+Clique 184 (size: 3):
+  (1.25e-10 + 0i)IIXZZXYYIIII (coeff: 0.000000)
+  (1.25e-10 + 0i)XZXIIIIYZZZY (coeff: 0.000000)
+  (2.5e-11 + 0i)IIXZZXIYZZZY (coeff: 0.000000)
+Clique 185 (size: 3):
+  (1.25e-10 + 0i)IXZZZXYZYIII (coeff: 0.000000)
+  (1.25e-10 + 0i)XXIIIIIIYZZY (coeff: 0.000000)
+  (2.5e-11 + 0i)IXZZZXIIYZZY (coeff: 0.000000)
+Clique 186 (size: 3):
+  (1.25e-10 + 0i)IYZZZYYZYIII (coeff: 0.000000)
+  (1.25e-10 + 0i)YYIIIIIIYZZY (coeff: 0.000000)
+  (2.5e-11 + 0i)IYZZZYIIYZZY (coeff: 0.000000)
+Clique 187 (size: 3):
+  (1.25e-10 + 0i)YZYIIIIYZZZY (coeff: 0.000000)
+  (1.25e-10 + 0i)IIYZZYYYIIII (coeff: 0.000000)
+  (2.5e-11 + 0i)IIYZZYIYZZZY (coeff: 0.000000)
+Clique 188 (size: 3):
+  (1.25e-10 + 0i)IYZZZYXZXIII (coeff: 0.000000)
+  (2.5e-11 + 0i)IYZZZYIIXZZX (coeff: 0.000000)
+  (0 - 3.23117e-27i)XYIIIIIIXZZX (coeff: 0.000000)
+Clique 189 (size: 3):
+  (1.25e-10 + 0i)XZXIIIIXZZZX (coeff: 0.000000)
+  (2.5e-11 + 0i)IIXZZXIXZZZX (coeff: 0.000000)
+  (0 + 9.69352e-27i)IIXZZXYXIIII (coeff: 0.000000)
+Clique 190 (size: 5):
+  (-7.5e-11 + 0i)IIIIIIYYYZZY (coeff: -0.000000)
+  (-7.5e-11 + 0i)YXXZZYIIIIII (coeff: -0.000000)
+  (0 + 3.23117e-27i)YXIIIIIIYZZY (coeff: 0.000000)
+  (0 - 3.23117e-27i)IIXZZYYYIIII (coeff: 0.000000)
+  (0 + 1.35525e-20i)IIXZZYIIYZZY (coeff: 0.000000)
+Clique 191 (size: 2):
+  (-7.5e-11 + 0i)XYYZZXIIIIII (coeff: -0.000000)
+  (2.5e-11 + 0i)IIIIIIYZZYYY (coeff: 0.000000)
+Clique 192 (size: 2):
+  (2.5e-11 + 0i)YZZXXYIIIIII (coeff: 0.000000)
+  (2.5e-11 + 0i)IIIIIIYZZXXY (coeff: 0.000000)
+Clique 193 (size: 2):
+  (-2.5e-11 + 0i)XZZZZXIIIXXI (coeff: -0.000000)
+  (2.5e-11 + 0i)IIIIIIXZZXXX (coeff: 0.000000)
+Clique 194 (size: 2):
+  (2.5e-11 + 0i)XZZXXXIIIIII (coeff: 0.000000)
+  (-2.5e-11 + 0i)IIIXXIYZZZZY (coeff: -0.000000)
+Clique 195 (size: 2):
+  (2.5e-11 + 0i)XZZYYXIIIIII (coeff: 0.000000)
+  (-2.5e-11 + 0i)IIIYYIXZZZZX (coeff: -0.000000)
+Clique 196 (size: 3):
+  (2.5e-11 + 0i)YZZYYYIIIIII (coeff: 0.000000)
+  (2.5e-11 + 0i)IIIIIIXZZYYX (coeff: 0.000000)
+  (0 - 6.77626e-21i)YZZYIIXZZYII (coeff: 0.000000)
+Clique 197 (size: 2):
+  (-2.5e-11 + 0i)YZZZZYIIIXXI (coeff: -0.000000)
+  (0 - 3.23117e-27i)YZZZZYIYXIII (coeff: 0.000000)
+Clique 198 (size: 3):
+  (-3.23117e-27 + 0i)IIXZZYXYIIII (coeff: -0.000000)
+  (-3.23117e-27 + 0i)YZXIIIIYZZZX (coeff: -0.000000)
+  (-4.03897e-28 + 0i)IIXZZYIYZZZX (coeff: -0.000000)
+Clique 199 (size: 3):
+  (-3.23117e-27 + 0i)IXZZZYXZYIII (coeff: -0.000000)
+  (-3.23117e-27 + 0i)YXIIIIIIYZZX (coeff: -0.000000)
+  (-4.03897e-28 + 0i)IXZZZYIIYZZX (coeff: -0.000000)
+Clique 200 (size: 2):
+  (3.23117e-27 + 0i)IIXZZYYXIIII (coeff: 0.000000)
+  (3.23117e-27 + 0i)XYIIIIIIYZZX (coeff: 0.000000)
+Clique 201 (size: 3):
+  (-3.23117e-27 + 0i)IYXIIIXZZZZY (coeff: -0.000000)
+  (4.03897e-28 + 0i)IIIYXIXZZZZY (coeff: 0.000000)
+  (0 + 7.94093e-23i)ZIIIIIXZZZZY (coeff: 0.000000)
+Clique 202 (size: 3):
+  (3.23117e-27 + 0i)IYZZZXXZYIII (coeff: 0.000000)
+  (4.03897e-28 + 0i)IYZZZXIIYZZX (coeff: 0.000000)
+  (0 + 9.69352e-27i)YYIIIIIIYZZX (coeff: 0.000000)
+Clique 203 (size: 3):
+  (3.23117e-27 + 0i)XZYIIIIYZZZX (coeff: 0.000000)
+  (3.23117e-27 + 0i)IIYZZXXYIIII (coeff: 0.000000)
+  (4.03897e-28 + 0i)IIYZZXIYZZZX (coeff: 0.000000)
+Clique 204 (size: 3):
+  (-3.23117e-27 + 0i)IXYIIIYZZZZX (coeff: -0.000000)
+  (4.03897e-28 + 0i)IIIXYIYZZZZX (coeff: 0.000000)
+  (0 - 7.94093e-23i)ZIIIIIYZZZZX (coeff: 0.000000)
+Clique 205 (size: 3):
+  (-3.23117e-27 + 0i)YZZZZXIXYIII (coeff: -0.000000)
+  (-4.03897e-28 + 0i)YZZZZXIIIYXI (coeff: -0.000000)
+  (0 - 7.94093e-23i)YZZZZXZIIIII (coeff: 0.000000)
+Clique 206 (size: 2):
+  (3.23117e-27 + 0i)IXYIIIXZZZZY (coeff: 0.000000)
+  (-4.03897e-28 + 0i)IIIXYIXZZZZY (coeff: -0.000000)
+Clique 207 (size: 3):
+  (3.23117e-27 + 0i)IXZZZYYZXIII (coeff: 0.000000)
+  (3.23117e-27 + 0i)YXIIIIIIXZZY (coeff: 0.000000)
+  (4.03897e-28 + 0i)IXZZZYIIXZZY (coeff: 0.000000)
+Clique 208 (size: 3):
+  (-3.23117e-27 + 0i)IYZZZXYZXIII (coeff: -0.000000)
+  (-3.23117e-27 + 0i)XYIIIIIIXZZY (coeff: -0.000000)
+  (-4.03897e-28 + 0i)IYZZZXIIXZZY (coeff: -0.000000)
+Clique 209 (size: 3):
+  (3.23117e-27 + 0i)XZZZZYIXYIII (coeff: 0.000000)
+  (4.03897e-28 + 0i)XZZZZYIIIYXI (coeff: 0.000000)
+  (0 + 7.94093e-23i)XZZZZYZIIIII (coeff: 0.000000)
+Clique 210 (size: 2):
+  (3.23117e-27 + 0i)IYXIIIYZZZZX (coeff: 0.000000)
+  (-4.03897e-28 + 0i)IIIYXIYZZZZX (coeff: -0.000000)
+Clique 211 (size: 3):
+  (-3.23117e-27 + 0i)XZYIIIIXZZZY (coeff: -0.000000)
+  (-3.23117e-27 + 0i)IIYZZXYXIIII (coeff: -0.000000)
+  (-4.03897e-28 + 0i)IIYZZXIXZZZY (coeff: -0.000000)
+Clique 212 (size: 3):
+  (3.23117e-27 + 0i)YZXIIIIXZZZY (coeff: 0.000000)
+  (4.03897e-28 + 0i)IIXZZYIXZZZY (coeff: 0.000000)
+  (0 - 3.23117e-27i)IIXZZYXXIIII (coeff: 0.000000)
+Clique 213 (size: 2):
+  (-3.23117e-27 + 0i)XZZZZYIYXIII (coeff: -0.000000)
+  (-4.03897e-28 + 0i)XZZZZYIIIXYI (coeff: -0.000000)
+Clique 214 (size: 2):
+  (3.23117e-27 + 0i)YZZZZXIYXIII (coeff: 0.000000)
+  (4.03897e-28 + 0i)YZZZZXIIIXYI (coeff: 0.000000)
+Clique 215 (size: 3):
+  (0 + 1.01644e-20i)YZYIIIIIXZZY (coeff: 0.000000)
+  (0 - 1.01644e-20i)IIYZZYYZXIII (coeff: 0.000000)
+  (0 + 1.35525e-20i)IIYZZYIIXZZY (coeff: 0.000000)
+Clique 216 (size: 2):
+  (0 - 3.38813e-21i)XZYIIIIIXZZX (coeff: 0.000000)
+  (0 - 9.69352e-27i)IIYZZYXYIIII (coeff: 0.000000)
+Clique 217 (size: 2):
+  (0 + 4.03897e-28i)IIIIIIXZZYYY (coeff: 0.000000)
+  (0 + 4.03897e-28i)YZZZZXIIIYYI (coeff: 0.000000)
+Clique 218 (size: 3):
+  (0 + 3.38813e-21i)IIYZZXYZYIII (coeff: 0.000000)
+  (0 - 3.23117e-27i)XYIIIIIIYZZY (coeff: 0.000000)
+  (0 - 1.35525e-20i)IIYZZXIIYZZY (coeff: 0.000000)
+Clique 219 (size: 2):
+  (0 - 3.23117e-27i)IYXIIIXZZZZX (coeff: 0.000000)
+  (0 - 4.03897e-28i)IIIXYIXZZZZX (coeff: 0.000000)
+Clique 220 (size: 2):
+  (0 - 4.03897e-28i)IIIXXIXZZZZY (coeff: 0.000000)
+  (0 + 3.23117e-27i)IXXIIIXZZZZY (coeff: 0.000000)
+Clique 221 (size: 3):
+  (0 + 9.69352e-27i)XZXIIIIYZZZX (coeff: 0.000000)
+  (0 - 4.03897e-28i)IIXZZXIYZZZX (coeff: 0.000000)
+  (0 - 9.69352e-27i)IIXZZXXYIIII (coeff: 0.000000)
+Clique 222 (size: 2):
+  (0 + 3.23117e-27i)IYZZZXYZYIII (coeff: 0.000000)
+  (0 - 4.03897e-28i)IYZZZXIIYZZY (coeff: 0.000000)
+Clique 223 (size: 2):
+  (0 + 3.38813e-21i)YXIIIIIYZZZY (coeff: 0.000000)
+  (0 + 4.03897e-28i)IIXZZYIYZZZY (coeff: 0.000000)
+Clique 224 (size: 2):
+  (0 - 3.23117e-27i)YZZZZXIXXIII (coeff: 0.000000)
+  (0 + 4.03897e-28i)YZZZZXIIIXXI (coeff: 0.000000)
+Clique 225 (size: 1):
+  (0 + 2.1684e-19i)IYZXIIIXZXII (coeff: 0.000000)
+Clique 226 (size: 2):
+  (0 + 3.23117e-27i)YZXIIIIXZZZX (coeff: 0.000000)
+  (0 + 4.03897e-28i)IIXZZYIXZZZX (coeff: 0.000000)
+Clique 227 (size: 2):
+  (0 + 4.03897e-28i)IXZZZYIIYZZY (coeff: 0.000000)
+  (0 - 3.38813e-21i)IXZZZYYYIIII (coeff: 0.000000)
+Clique 228 (size: 1):
+  (0 - 2.1684e-19i)IXZXIIIYZXII (coeff: 0.000000)
+Clique 229 (size: 1):
+  (0 - 2.1684e-19i)IYZYIIIYZXII (coeff: 0.000000)
+Clique 230 (size: 1):
+  (0 + 8.13152e-20i)XZZZZXYZZZZX (coeff: 0.000000)
+Clique 231 (size: 3):
+  (0 - 4.03897e-28i)IIYZZXIXZZZX (coeff: 0.000000)
+  (0 - 3.38813e-21i)XYIIIIIXZZZX (coeff: 0.000000)
+  (0 + 3.23117e-27i)IIYZZXXXIIII (coeff: 0.000000)
+Clique 232 (size: 2):
+  (0 + 4.03897e-28i)IIIIIIYZZXYY (coeff: 0.000000)
+  (0 + 4.03897e-28i)YZZXYYIIIIII (coeff: 0.000000)
+Clique 233 (size: 2):
+  (0 + 9.69352e-27i)YZYIIIIYZZZX (coeff: 0.000000)
+  (0 - 4.03897e-28i)IIYZZYIYZZZX (coeff: 0.000000)
+Clique 234 (size: 1):
+  (0 + 3.23117e-27i)YZXIIIIYZZZY (coeff: 0.000000)
+Clique 235 (size: 3):
+  (0 + 6.77626e-21i)YZZXIIYZZYII (coeff: 0.000000)
+  (0 - 4.03897e-28i)IIIIIIYZZYYX (coeff: 0.000000)
+  (0 - 4.03897e-28i)YZZXXXIIIIII (coeff: 0.000000)
+Clique 236 (size: 2):
+  (0 + 3.23117e-27i)XZZZZYIYYIII (coeff: 0.000000)
+  (0 - 4.03897e-28i)XZZZZYIIIYYI (coeff: 0.000000)
+Clique 237 (size: 2):
+  (0 + 3.23117e-27i)IXYIIIYZZZZY (coeff: 0.000000)
+  (0 + 4.03897e-28i)IIIYXIYZZZZY (coeff: 0.000000)
+Clique 238 (size: 2):
+  (0 + 4.03897e-28i)IIIIIIXZZXYX (coeff: 0.000000)
+  (0 + 6.77626e-21i)YZZXIIXZZXII (coeff: 0.000000)
+Clique 239 (size: 2):
+  (0 + 3.38813e-21i)YXIIIIIXZZZX (coeff: 0.000000)
+  (0 + 9.69352e-27i)IIYZZYYXIIII (coeff: 0.000000)
+Clique 240 (size: 1):
+  (0 + 6.77626e-21i)XZZZYIXZZZXI (coeff: 0.000000)
+Clique 241 (size: 1):
+  (0 - 6.77626e-21i)XZZZXIXZZZYI (coeff: 0.000000)
+Clique 242 (size: 2):
+  (0 + 4.03897e-28i)IIIXXIYZZZZX (coeff: 0.000000)
+  (0 - 3.23117e-27i)IXXIIIYZZZZX (coeff: 0.000000)
+Clique 243 (size: 2):
+  (0 + 3.38813e-21i)YZXIIIIIXZZX (coeff: 0.000000)
+  (0 - 1.01644e-20i)IIXZZXYZXIII (coeff: 0.000000)
+Clique 244 (size: 3):
+  (0 + 1.01644e-20i)IIXZZXXZYIII (coeff: 0.000000)
+  (0 + 9.69352e-27i)XXIIIIIIYZZX (coeff: 0.000000)
+  (0 - 1.35525e-20i)IIXZZXIIYZZX (coeff: 0.000000)
+Clique 245 (size: 2):
+  (0 + 4.03897e-28i)IIYZZYIXZZZY (coeff: 0.000000)
+  (0 - 1.01644e-20i)YYIIIIIXZZZY (coeff: 0.000000)
+Clique 246 (size: 2):
+  (0 + 3.23117e-27i)IXYIIIXZZZZX (coeff: 0.000000)
+  (0 + 4.03897e-28i)IIIYXIXZZZZX (coeff: 0.000000)
+Clique 247 (size: 2):
+  (0 - 3.38813e-21i)XYIIIIIYZZZY (coeff: 0.000000)
+  (0 - 1.01644e-20i)IYZZZYXYIIII (coeff: 0.000000)
+Clique 248 (size: 2):
+  (0 - 6.50521e-19i)IIXYIIIIYYII (coeff: 0.000000)
+  (0 - 5.42101e-20i)IIIYXIIYYIII (coeff: 0.000000)
+Clique 249 (size: 1):
+  (0 - 2.1684e-19i)IIXXIIIIYXII (coeff: 0.000000)
+Clique 250 (size: 1):
+  (0 - 2.1684e-19i)IIYYIIIIYXII (coeff: 0.000000)
+Clique 251 (size: 1):
+  (0 + 6.50521e-19i)IIYXIIIIYYII (coeff: 0.000000)
+Clique 252 (size: 2):
+  (0 - 9.69352e-27i)XXIIIIIIXZZY (coeff: 0.000000)
+  (0 - 3.23117e-27i)IXZZZYXZXIII (coeff: 0.000000)
+Clique 253 (size: 2):
+  (0 - 9.69352e-27i)IYZZZYXZYIII (coeff: 0.000000)
+  (0 - 4.03897e-28i)IYZZZYIIYZZX (coeff: 0.000000)
+Clique 254 (size: 1):
+  (0 + 2.1684e-19i)IYZYIIIXZYII (coeff: 0.000000)
+Clique 255 (size: 2):
+  (0 - 3.23117e-27i)IYXIIIYZZZZY (coeff: 0.000000)
+  (0 - 4.03897e-28i)IIIXYIYZZZZY (coeff: 0.000000)
+Clique 256 (size: 1):
+  (0 - 2.71051e-20i)XZZZZYXZZZZX (coeff: 0.000000)
+Clique 257 (size: 2):
+  (0 - 1.01644e-20i)IXZZZXXYIIII (coeff: 0.000000)
+  (0 + 3.23117e-27i)YXIIIIIIXZZX (coeff: 0.000000)
+Clique 258 (size: 2):
+  (0 + 3.38813e-21i)IYZZZXXXIIII (coeff: 0.000000)
+  (0 - 9.69352e-27i)YYIIIIIIXZZY (coeff: 0.000000)
+Clique 259 (size: 2):
+  (0 + 1.01644e-20i)IXZZZXYXIIII (coeff: 0.000000)
+  (0 - 1.01644e-20i)XXIIIIIXZZZY (coeff: 0.000000)
+Clique 260 (size: 2):
+  (0 + 1.01644e-20i)IYZZZYYXIIII (coeff: 0.000000)
+  (0 + 4.03897e-28i)IYZZZYIIXZZY (coeff: 0.000000)
+Clique 261 (size: 2):
+  (0 + 3.38813e-21i)IYZZZXYYIIII (coeff: 0.000000)
+  (0 + 1.01644e-20i)YYIIIIIYZZZX (coeff: 0.000000)
+Clique 262 (size: 1):
+  (0 - 8.13152e-20i)XZZZZXXZZZZY (coeff: 0.000000)
+Clique 263 (size: 2):
+  (0 + 4.03897e-28i)IIIYYIYZZZZX (coeff: 0.000000)
+  (0 - 4.03897e-28i)YZZYYXIIIIII (coeff: 0.000000)
+Clique 264 (size: 1):
+  (0 + 6.77626e-21i)XZZZYIYZZZYI (coeff: 0.000000)
+Clique 265 (size: 3):
+  (0 - 6.77626e-21i)XZZYIIYZZYII (coeff: 0.000000)
+  (0 - 4.03897e-28i)XZZYXXIIIIII (coeff: 0.000000)
+  (0 - 4.03897e-28i)IIIIIIYZZYXY (coeff: 0.000000)
+Clique 266 (size: 1):
+  (0 - 6.77626e-21i)YZZZXIYZZZYI (coeff: 0.000000)
+Clique 267 (size: 1):
+  (0 - 8.13152e-20i)YZZZZYXZZZZY (coeff: 0.000000)
+Clique 268 (size: 3):
+  (0 + 6.77626e-21i)XZZXIIYZZXII (coeff: 0.000000)
+  (0 - 4.03897e-28i)IIIIIIYZZXXX (coeff: 0.000000)
+  (0 + 4.03897e-28i)XZZXYXIIIIII (coeff: 0.000000)
+Clique 269 (size: 3):
+  (0 - 6.77626e-21i)XZZYIIXZZXII (coeff: 0.000000)
+  (0 + 4.03897e-28i)XZZYYYIIIIII (coeff: 0.000000)
+  (0 + 4.03897e-28i)IIIIIIXZZXXY (coeff: 0.000000)
+Clique 270 (size: 1):
+  (0 + 2.71051e-20i)YZZZZXXZZZZX (coeff: 0.000000)
+Clique 271 (size: 1):
+  (0 + 2.71051e-20i)YZZZZXYZZZZY (coeff: 0.000000)
+Clique 272 (size: 2):
+  (0 - 9.69352e-27i)XZXIIIIXZZZY (coeff: 0.000000)
+  (0 + 4.03897e-28i)IIXZZXIXZZZY (coeff: 0.000000)
+Clique 273 (size: 1):
+  (0 - 2.1684e-19i)IXZYIIIXZXII (coeff: 0.000000)
+Clique 274 (size: 2):
+  (0 - 3.23117e-27i)XZZZZXIYXIII (coeff: 0.000000)
+  (0 + 4.03897e-28i)XZZZZXIIIYXI (coeff: 0.000000)
+Clique 275 (size: 2):
+  (0 - 4.03897e-28i)IIIYYIXZZZZY (coeff: 0.000000)
+  (0 + 3.23117e-27i)IYYIIIXZZZZY (coeff: 0.000000)
+Clique 276 (size: 2):
+  (0 + 1.01644e-20i)IIYZZYXZYIII (coeff: 0.000000)
+  (0 - 3.38813e-21i)XZYIIIIIYZZY (coeff: 0.000000)
+Clique 277 (size: 1):
+  (0 - 3.23117e-27i)YZZZZXIYYIII (coeff: 0.000000)
+Clique 278 (size: 3):
+  (0 - 3.23117e-27i)XZYIIIIYZZZY (coeff: 0.000000)
+  (0 - 4.03897e-28i)IIYZZXIYZZZY (coeff: 0.000000)
+  (0 + 3.23117e-27i)IIYZZXYYIIII (coeff: 0.000000)
+Clique 279 (size: 2):
+  (0 - 3.38813e-21i)IXZZZYXXIIII (coeff: 0.000000)
+  (0 + 4.03897e-28i)IXZZZYIIXZZX (coeff: 0.000000)
+Clique 280 (size: 1):
+  (0 - 3.23117e-27i)IXZZZYYZYIII (coeff: 0.000000)
+Clique 281 (size: 2):
+  (0 - 4.03897e-28i)YZZYXYIIIIII (coeff: 0.000000)
+  (0 + 6.77626e-21i)YZZYIIYZZXII (coeff: 0.000000)
+Clique 282 (size: 2):
+  (0 + 3.23117e-27i)YZZZZYIXYIII (coeff: 0.000000)
+  (0 - 4.03897e-28i)YZZZZYIIIXYI (coeff: 0.000000)
+Clique 283 (size: 1):
+  (0 + 6.77626e-21i)XZZZXIYZZZXI (coeff: 0.000000)
+Clique 284 (size: 2):
+  (0 + 3.23117e-27i)XZZZZXIXYIII (coeff: 0.000000)
+  (0 - 4.03897e-28i)XZZZZXIIIXYI (coeff: 0.000000)
+Clique 285 (size: 2):
+  (0 - 3.38813e-21i)IIXZZYXZXIII (coeff: 0.000000)
+  (0 + 1.01644e-20i)XZXIIIIIXZZY (coeff: 0.000000)
+Clique 286 (size: 1):
+  (0 + 8.13152e-20i)YZZZZYYZZZZX (coeff: 0.000000)
+Clique 287 (size: 1):
+  (0 + 6.50521e-19i)IIYXIIIIXXII (coeff: 0.000000)
+Clique 288 (size: 1):
+  (0 - 2.1684e-19i)IXZYIIIYZYII (coeff: 0.000000)
+Clique 289 (size: 2):
+  (0 + 3.23117e-27i)XZZZZYIXXIII (coeff: 0.000000)
+  (0 - 4.03897e-28i)XZZZZYIIIXXI (coeff: 0.000000)
+Clique 290 (size: 1):
+  (0 + 2.1684e-19i)IXZXIIIXZYII (coeff: 0.000000)
+Clique 291 (size: 2):
+  (0 + 4.03897e-28i)YZZZZYIIIYXI (coeff: 0.000000)
+  (0 - 4.03897e-28i)IIIIIIXZZYXX (coeff: 0.000000)
+Clique 292 (size: 1):
+  (0 + 1.35525e-20i)IIXZZXIIXZZY (coeff: 0.000000)
+Clique 293 (size: 2):
+  (0 - 1.35525e-20i)IIYZZXIIXZZX (coeff: 0.000000)
+  (0 + 3.38813e-21i)IIYZZXXZXIII (coeff: 0.000000)
+Clique 294 (size: 1):
+  (0 + 2.1684e-19i)IYZXIIIYZYII (coeff: 0.000000)
+Clique 295 (size: 2):
+  (0 + 9.69352e-27i)IXZZZXYZXIII (coeff: 0.000000)
+  (0 + 4.03897e-28i)IXZZZXIIXZZY (coeff: 0.000000)
+Clique 296 (size: 1):
+  (0 - 6.77626e-21i)YZZZYIXZZZYI (coeff: 0.000000)
+Clique 297 (size: 2):
+  (0 - 4.03897e-28i)IXZZZXIIYZZX (coeff: 0.000000)
+  (0 - 9.69352e-27i)IXZZZXXZYIII (coeff: 0.000000)
+Clique 298 (size: 1):
+  (0 + 1.01644e-20i)XXIIIIIYZZZX (coeff: 0.000000)
+Clique 299 (size: 1):
+  (0 - 3.23117e-27i)IYYIIIYZZZZX (coeff: 0.000000)
+Clique 300 (size: 1):
+  (0 + 6.77626e-21i)YZZZYIYZZZXI (coeff: 0.000000)
+Clique 301 (size: 2):
+  (0 + 3.38813e-21i)YZXIIIIIYZZY (coeff: 0.000000)
+  (0 - 3.38813e-21i)IIXZZYYZYIII (coeff: 0.000000)
+Clique 302 (size: 2):
+  (0 + 3.23117e-27i)IYZZZXXZXIII (coeff: 0.000000)
+  (0 - 4.03897e-28i)IYZZZXIIXZZX (coeff: 0.000000)
+Clique 303 (size: 1):
+  (0 + 9.69352e-27i)IYZZZYYZXIII (coeff: 0.000000)
+Clique 304 (size: 1):
+  (0 + 2.1684e-19i)IIXXIIIIXYII (coeff: 0.000000)
+Clique 305 (size: 1):
+  (0 - 9.69352e-27i)YZYIIIIXZZZY (coeff: 0.000000)
+Clique 306 (size: 1):
+  (0 - 6.77626e-21i)YZZZXIXZZZXI (coeff: 0.000000)
+Clique 307 (size: 2):
+  (0 + 4.03897e-28i)XZZXXYIIIIII (coeff: 0.000000)
+  (0 - 6.77626e-21i)XZZXIIXZZYII (coeff: 0.000000)
+Clique 308 (size: 1):
+  (0 - 3.23117e-27i)XZYIIIIXZZZX (coeff: 0.000000)
+Clique 309 (size: 1):
+  (0 + 1.35525e-20i)IIXZZYIIXZZX (coeff: 0.000000)
+Clique 310 (size: 1):
+  (0 - 2.71051e-20i)XZZZZYYZZZZY (coeff: 0.000000)
+Clique 311 (size: 1):
+  (0 - 1.01644e-20i)XZXIIIIIYZZX (coeff: 0.000000)
+Clique 312 (size: 1):
+  (0 + 2.1684e-19i)IIYYIIIIXYII (coeff: 0.000000)
+Clique 313 (size: 2):
+  (0 - 1.01644e-20i)YZYIIIIIYZZX (coeff: 0.000000)
+  (0 - 1.35525e-20i)IIYZZYIIYZZX (coeff: 0.000000)
+Clique 314 (size: 1):
+  (0 - 6.50521e-19i)IIXYIIIIXXII (coeff: 0.000000)
+
+Total number of Pauli operators: 905
+Starting with 6 Gates and 0 parameters
+Beginning ADAPT-VQE loop...
+Generated 63 commutators with 91212 (possibly degenerate) Individual Pauli Strings
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:6, sim_gates:6, ncpus:1, comp:0.250 ms, comm:0.000 ms, sim:0.250 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:2950, sim_gates:1399, ncpus:1, comp:13.859 ms, comm:0.000 ms, sim:13.859 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:2982, sim_gates:1413, ncpus:1, comp:13.964 ms, comm:0.000 ms, sim:13.964 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:1072, sim_gates:464, ncpus:1, comp:6.248 ms, comm:0.000 ms, sim:6.248 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:2223, sim_gates:1065, ncpus:1, comp:10.381 ms, comm:0.000 ms, sim:10.381 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:2138, sim_gates:956, ncpus:1, comp:9.551 ms, comm:0.000 ms, sim:9.551 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:2996, sim_gates:1432, ncpus:1, comp:12.690 ms, comm:0.000 ms, sim:12.690 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:2058, sim_gates:965, ncpus:1, comp:9.518 ms, comm:0.000 ms, sim:9.518 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:2075, sim_gates:953, ncpus:1, comp:9.456 ms, comm:0.000 ms, sim:9.456 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:2900, sim_gates:1363, ncpus:1, comp:12.438 ms, comm:0.000 ms, sim:12.438 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17915, sim_gates:7930, ncpus:1, comp:66.997 ms, comm:0.000 ms, sim:66.997 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:16700, sim_gates:7337, ncpus:1, comp:62.490 ms, comm:0.000 ms, sim:62.490 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:18034, sim_gates:7991, ncpus:1, comp:67.449 ms, comm:0.000 ms, sim:67.449 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17138, sim_gates:7585, ncpus:1, comp:63.964 ms, comm:0.000 ms, sim:63.964 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:16793, sim_gates:7347, ncpus:1, comp:64.926 ms, comm:0.000 ms, sim:64.926 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17534, sim_gates:7820, ncpus:1, comp:64.878 ms, comm:0.000 ms, sim:64.878 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:11699, sim_gates:5339, ncpus:1, comp:52.304 ms, comm:0.000 ms, sim:52.304 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17790, sim_gates:7825, ncpus:1, comp:64.288 ms, comm:0.000 ms, sim:64.288 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17625, sim_gates:7780, ncpus:1, comp:66.378 ms, comm:0.000 ms, sim:66.378 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:9481, sim_gates:3981, ncpus:1, comp:33.349 ms, comm:0.000 ms, sim:33.349 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:13274, sim_gates:5913, ncpus:1, comp:51.982 ms, comm:0.000 ms, sim:51.982 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:14604, sim_gates:6328, ncpus:1, comp:51.350 ms, comm:0.000 ms, sim:51.350 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:11863, sim_gates:5002, ncpus:1, comp:46.325 ms, comm:0.000 ms, sim:46.325 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:16583, sim_gates:7199, ncpus:1, comp:65.226 ms, comm:0.000 ms, sim:65.226 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17520, sim_gates:7709, ncpus:1, comp:63.587 ms, comm:0.000 ms, sim:63.587 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:11926, sim_gates:5063, ncpus:1, comp:48.854 ms, comm:0.000 ms, sim:48.854 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:16696, sim_gates:7428, ncpus:1, comp:64.656 ms, comm:0.000 ms, sim:64.656 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17942, sim_gates:8071, ncpus:1, comp:69.632 ms, comm:0.000 ms, sim:69.632 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:9493, sim_gates:3952, ncpus:1, comp:33.349 ms, comm:0.000 ms, sim:33.349 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:14361, sim_gates:6237, ncpus:1, comp:53.203 ms, comm:0.000 ms, sim:53.203 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17601, sim_gates:7677, ncpus:1, comp:65.491 ms, comm:0.000 ms, sim:65.491 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:11965, sim_gates:5208, ncpus:1, comp:50.137 ms, comm:0.000 ms, sim:50.137 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:15852, sim_gates:6868, ncpus:1, comp:59.756 ms, comm:0.000 ms, sim:59.756 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:16557, sim_gates:7270, ncpus:1, comp:65.753 ms, comm:0.000 ms, sim:65.753 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:11939, sim_gates:5153, ncpus:1, comp:46.632 ms, comm:0.000 ms, sim:46.632 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:16561, sim_gates:7274, ncpus:1, comp:64.623 ms, comm:0.000 ms, sim:64.623 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:1901, sim_gates:865, ncpus:1, comp:9.806 ms, comm:0.000 ms, sim:9.806 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17334, sim_gates:7580, ncpus:1, comp:64.674 ms, comm:0.000 ms, sim:64.674 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17345, sim_gates:7499, ncpus:1, comp:66.361 ms, comm:0.000 ms, sim:66.361 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:15129, sim_gates:6617, ncpus:1, comp:52.122 ms, comm:0.000 ms, sim:52.122 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17545, sim_gates:7642, ncpus:1, comp:67.963 ms, comm:0.000 ms, sim:67.963 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:16572, sim_gates:7193, ncpus:1, comp:62.584 ms, comm:0.000 ms, sim:62.584 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:14551, sim_gates:6348, ncpus:1, comp:53.406 ms, comm:0.000 ms, sim:53.406 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:3209, sim_gates:1416, ncpus:1, comp:15.082 ms, comm:0.000 ms, sim:15.082 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:7138, sim_gates:3037, ncpus:1, comp:30.743 ms, comm:0.000 ms, sim:30.743 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:12121, sim_gates:5270, ncpus:1, comp:49.532 ms, comm:0.000 ms, sim:49.532 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:7019, sim_gates:3053, ncpus:1, comp:30.976 ms, comm:0.000 ms, sim:30.976 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:12131, sim_gates:5557, ncpus:1, comp:52.772 ms, comm:0.000 ms, sim:52.772 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:16970, sim_gates:7456, ncpus:1, comp:67.569 ms, comm:0.000 ms, sim:67.569 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:3186, sim_gates:1386, ncpus:1, comp:14.823 ms, comm:0.000 ms, sim:14.823 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:12261, sim_gates:5321, ncpus:1, comp:47.954 ms, comm:0.000 ms, sim:47.954 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:12736, sim_gates:5781, ncpus:1, comp:55.937 ms, comm:0.000 ms, sim:55.937 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:6825, sim_gates:2899, ncpus:1, comp:29.830 ms, comm:0.000 ms, sim:29.830 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17241, sim_gates:7552, ncpus:1, comp:65.641 ms, comm:0.000 ms, sim:65.641 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:9493, sim_gates:4001, ncpus:1, comp:33.151 ms, comm:0.000 ms, sim:33.151 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:16349, sim_gates:7164, ncpus:1, comp:62.550 ms, comm:0.000 ms, sim:62.550 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17405, sim_gates:7618, ncpus:1, comp:68.613 ms, comm:0.000 ms, sim:68.613 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:13242, sim_gates:5842, ncpus:1, comp:49.706 ms, comm:0.000 ms, sim:49.706 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:2980, sim_gates:1228, ncpus:1, comp:14.297 ms, comm:0.000 ms, sim:14.297 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:7777, sim_gates:3306, ncpus:1, comp:34.932 ms, comm:0.000 ms, sim:34.932 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:11592, sim_gates:4901, ncpus:1, comp:45.339 ms, comm:0.000 ms, sim:45.339 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:3423, sim_gates:1511, ncpus:1, comp:15.653 ms, comm:0.000 ms, sim:15.653 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:11747, sim_gates:4950, ncpus:1, comp:49.249 ms, comm:0.000 ms, sim:49.249 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:9481, sim_gates:3960, ncpus:1, comp:32.273 ms, comm:0.000 ms, sim:32.273 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:310, sim_gates:104, ncpus:1, comp:0.916 ms, comm:0.000 ms, sim:0.916 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:5787, sim_gates:2725, ncpus:1, comp:25.620 ms, comm:0.000 ms, sim:25.620 ms, mem:0.125 MB, mem_per_cpu:0.125 MB
+=====================================
+
+----------- Iteration Summary -----------
+ Iter   Objective Value            # Evals  Grad Norm  |  Depth     #1q Gates  #2q Gates  |  Selected Operator                                      
+------------------------------------------------------------------------------------------------------------------------
+ 0      -231.77481424441547        15       2.806e-01  |  84        214        96         |  (4^ 3^ 2 1 ), (10^ 9^ 8 7 ),
+ 1      -231.77736299986023        29       2.047e-01  |  306       422        256        |  (10^ 3^ 8 1 ), (9^ 4^ 7 2 ),
+ 2      -231.78168109439341        28       1.728e-01  |  390       526        304        |  (9^ 3^ 8 2 ),
+ 3      -231.78610293123523        32       1.328e-01  |  531       630        416        |  (10^ 4^ 7 1 ),
+ 4      -231.78689095796241        43       7.033e-02  |  643       734        496        |  (10^ 4^ 8 2 ),
+ 5      -231.78772277068884        53       5.221e-02  |  754       838        576        |  (9^ 3^ 7 1 ),
+ 6      -231.78774232556225        44       1.564e-02  |  959       942        752        |  (11^ 5^ 6 0 ),
+ 7      -231.78776376092904        52       1.238e-02  |  1134      1046       896        |  (10^ 4^ 6 0 ),
+ 8      -231.78777518314342        72       8.390e-03  |  1277      1150       1008       |  (9^ 3^ 6 0 ),
+ 9      -231.78777765823708        71       5.063e-03  |  1502      1358       1168       |  (9^ 4^ 8 1 ), (10^ 3^ 7 2 ),
+ 10     -231.78777948680894        81       3.635e-03  |  1676      1462       1312       |  (11^ 5^ 7 1 ),
+ 11     -231.78778106437323        81       2.521e-03  |  1820      1566       1424       |  (11^ 5^ 8 2 ),
+ 12     -231.78778122447491        71       8.669e-04  |  1995      1670       1568       |  (10^ 4^ 6 0 ),
+ 13     -231.78778124087063        79       2.920e-04  |  2137      1774       1680       |  (11^ 5^ 8 2 ),
+ 14     -231.78778124304696        92       1.392e-04  |  2219      1878       1728       |  (9^ 3^ 8 2 ),
+ 15     -231.78778124415157        100      1.167e-04  |  2329      1982       1808       |  (10^ 4^ 8 2 ),
+ 16     -231.78778124502156        109      1.188e-04  |  2553      2190       1968       |  (9^ 4^ 8 1 ), (10^ 3^ 7 2 ),
+ 17     -231.78778124628039        123      1.083e-04  |  2777      2398       2128       |  (9^ 4^ 8 1 ), (10^ 3^ 7 2 ),
+
+--------- Result Summary ---------
+Method                 : ADAPT-VQE
+Ansatz                 : UCCSD Minimal (Dynamic)
+# Ham. Pauli Strings   : 905 
+# commutators   (ADAPT): 63
+# Pauli Strings (ADAPT): 91212
+Commutator Time (ADAPT): 0 hrs 0 mins 0.2387 secs
+Operator Stats         : 18 operators, 18 parameters, and 4526 Gates
+Circuit Stats          : 2777 depth, 2398 1q gates, 2128 2q gates, 0.200 gate density
+Optimization terminated: Abs. tol. for operator gradient norm is reached
+# ADAPT rounds         : 18
+Evaluation Time        : 0 hrs 1 mins 39.7162 secs
+Final objective value  : -231.7877812462803888
+Final parameters:
+  (4^ 3^ 2 1 ), (10^ 9^ 8 7 ), :: -0.0478432060427099
+  (10^ 3^ 8 1 ), (9^ 4^ 7 2 ), :: -0.0466968889518246
+  (9^ 3^ 8 2 ), :: -0.0787814439272802
+  (10^ 4^ 7 1 ), :: -0.0787553042397562
+  (10^ 4^ 8 2 ), :: -0.0334661455016095
+  (9^ 3^ 7 1 ), :: -0.0334101925886271
+  (11^ 5^ 6 0 ), :: -0.0041019589962180
+  (10^ 4^ 6 0 ), :: -0.0048069221418572
+  (9^ 3^ 6 0 ), :: -0.0034206399362766
+  (9^ 4^ 8 1 ), (10^ 3^ 7 2 ), :: 0.0014197525113575
+  (11^ 5^ 7 1 ), :: -0.0013992850588237
+  (11^ 5^ 8 2 ), :: -0.0013538798248845
+  (10^ 4^ 6 0 ), :: 0.0001077585216004
+  (11^ 5^ 8 2 ), :: -0.0000172303636558
+  (9^ 3^ 8 2 ), :: 0.0000344982929285
+  (10^ 4^ 8 2 ), :: 0.0000694014297858
+  (9^ 4^ 8 1 ), (10^ 3^ 7 2 ), :: -0.0000250858677052
+  (9^ 4^ 8 1 ), (10^ 3^ 7 2 ), :: -0.0000005669839902
