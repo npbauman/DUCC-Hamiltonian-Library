@@ -1,0 +1,110 @@
+
+ExaChem Git Information
+{
+ Branch: main
+ Commit Hash: 207e083 [207e0832d2c1a0f21d964788233dbfee2c661d10]
+ Commit Date: 2025-08-15 18:04:23 +0000
+ Commit Message: fix cholesky warnings
+
+ WARNING: The following ExaChem sources have uncommitted changes at build-time.
+
+ M exachem/cc/ducc/ducc-t_ccsd.hpp
+ M exachem/cc/ducc/qflow-t_ccsd.cpp
+ M exachem/common/context/cc_context.hpp
+
+diff --git a/exachem/cc/ducc/ducc-t_ccsd.hpp b/exachem/cc/ducc/ducc-t_ccsd.hpp
+index 9c93f85..8f0f448 100644
+--- a/exachem/cc/ducc/ducc-t_ccsd.hpp
++++ b/exachem/cc/ducc/ducc-t_ccsd.hpp
+@@ -31,2 +31 @@ template<typename T>
+-std::pair<double, std::vector<std::pair<std::vector<int>, double>>>
+-DUCC_T_QFLOW_Driver(Scheduler& sch, ChemEnv& chem_env, const TiledIndexSpace& MO,
++void DUCC_T_QFLOW_Driver(Scheduler& sch, ChemEnv& chem_env, const TiledIndexSpace& MO,
+diff --git a/exachem/cc/ducc/qflow-t_ccsd.cpp b/exachem/cc/ducc/qflow-t_ccsd.cpp
+index af056e1..c8d6a2e 100644
+--- a/exachem/cc/ducc/qflow-t_ccsd.cpp
++++ b/exachem/cc/ducc/qflow-t_ccsd.cpp
+@@ -315 +315 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
+-  // Combine occ_combinations and occ_combinations in all ways
++  // Combine occ_combinations and virt_combinations in all ways
+@@ -446,7 +446,6 @@ template<typename T>
+-std::pair<double, std::vector<std::pair<std::vector<int>, double>>>
+-DUCC_T_QFLOW_Driver(Scheduler& sch, ChemEnv& chem_env, const TiledIndexSpace& MO,
+-                    const Tensor<T>& ftij, const Tensor<T>& ftia, const Tensor<T>& ftab,
+-                    const Tensor<T>& vtijkl, const Tensor<T>& vtijka, const Tensor<T>& vtaijb,
+-                    const Tensor<T>& vtijab, const Tensor<T>& vtiabc, const Tensor<T>& vtabcd,
+-                    ExecutionHW ex_hw, T shift, IndexVector& occ_int_vec, IndexVector& virt_int_vec,
+-                    string& pos_str) {
++void DUCC_T_QFLOW_Driver(Scheduler& sch, ChemEnv& chem_env, const TiledIndexSpace& MO,
++                          const Tensor<T>& ftij, const Tensor<T>& ftia, const Tensor<T>& ftab,
++                          const Tensor<T>& vtijkl, const Tensor<T>& vtijka, const Tensor<T>& vtaijb,
++                          const Tensor<T>& vtijab, const Tensor<T>& vtiabc, const Tensor<T>& vtabcd,
++                          ExecutionHW ex_hw, T shift, IndexVector& occ_int_vec, IndexVector& virt_int_vec,
++                          string& pos_str) {
+@@ -834 +833,20 @@ DUCC_T_QFLOW_Driver(Scheduler& sch, ChemEnv& chem_env, const TiledIndexSpace& MO
+-    std::cout << "Final Energy: " << results.first << "" << std::endl;
++    // Store results in chem_env.cc_context instead of returning
++    chem_env.cc_context.qflow_results = results;
++
++    // Store results in sys_data.results for use elsewhere in the code
++    sys_data.results["output"]["QFlow"]["results"]["energy"] = results.first;
++    
++    // Store amplitudes in sys_data.results
++    nlohmann::json amplitudes_json = nlohmann::json::array();
++    for(const auto& pair: results.second) {
++      const std::vector<int>& vec = pair.first;
++      double                  val = pair.second;
++      
++      nlohmann::json amp_entry;
++      amp_entry["indices"] = vec;
++      amp_entry["value"] = val;
++      amplitudes_json.push_back(amp_entry);
++    }
++    sys_data.results["output"]["QFlow"]["results"]["amplitudes"] = amplitudes_json;
++
++    std::cout << std::setprecision(10) << "Final Energy: " << results.first << "" << std::endl;
+@@ -853 +870,0 @@ DUCC_T_QFLOW_Driver(Scheduler& sch, ChemEnv& chem_env, const TiledIndexSpace& MO
+-  return results;
+@@ -857,7 +874,6 @@ using T = double;
+-template std::pair<double, std::vector<std::pair<std::vector<int>, double>>>
+-DUCC_T_QFLOW_Driver<T>(Scheduler& sch, ChemEnv& chem_env, const TiledIndexSpace& MO,
+-                       const Tensor<T>& ftij, const Tensor<T>& ftia, const Tensor<T>& ftab,
+-                       const Tensor<T>& vtijkl, const Tensor<T>& vtijka, const Tensor<T>& vtaijb,
+-                       const Tensor<T>& vtijab, const Tensor<T>& vtiabc, const Tensor<T>& vtabcd,
+-                       ExecutionHW ex_hw, T shift, IndexVector& occ_int_vec,
+-                       IndexVector& virt_int_vec, string& pos_str);
++template void DUCC_T_QFLOW_Driver<T>(Scheduler& sch, ChemEnv& chem_env, const TiledIndexSpace& MO,
++                                      const Tensor<T>& ftij, const Tensor<T>& ftia, const Tensor<T>& ftab,
++                                      const Tensor<T>& vtijkl, const Tensor<T>& vtijka, const Tensor<T>& vtaijb,
++                                      const Tensor<T>& vtijab, const Tensor<T>& vtiabc, const Tensor<T>& vtabcd,
++                                      ExecutionHW ex_hw, T shift, IndexVector& occ_int_vec,
++                                      IndexVector& virt_int_vec, string& pos_str);
+
+}
+
+
+TAMM Git Information
+{
+ Branch: main
+ Commit Hash: 13192f90 [13192f9076d2bd36aa0d34433cfe5113c89ba20a]
+ Commit Date: 2025-08-15 10:50:13 -0700
+ Commit Message: Update job_script_alcf_aurora.sh
+}
+
+
+date: Wed Aug 20 14:28:21 2025
+program: "/hpc/home/baum612/code/exachem-dev/build/methods_stage/hpc/home/baum612/code/tamm_install/methods/ExaChem"
+nnodes: 1, nproc_per_node: 8, nproc_total: 8, 
+Memory information
+{
+[Intel(R) Xeon(R) Platinum 8276M CPU @ 2.20GHz] : 
+  CPU memory per node (GiB): 6046
+  Total CPU memory (GiB): 6046
+}
+
+------------------------------------------------------------
+
+Input file provided: /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVTZ/FrozenCoreCCSD_10Elec_8Orbs/1.0_Eq-2.0680au/Bare/N2.json
+
+Error parsing input file ... terminating program.
+

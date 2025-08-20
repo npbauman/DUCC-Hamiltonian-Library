@@ -1,0 +1,502 @@
+
+ExaChem Git Information
+{
+ Branch: main
+ Commit Hash: 207e083 [207e0832d2c1a0f21d964788233dbfee2c661d10]
+ Commit Date: 2025-08-15 18:04:23 +0000
+ Commit Message: fix cholesky warnings
+
+ WARNING: The following ExaChem sources have uncommitted changes at build-time.
+
+ M exachem/cc/ducc/ducc-t_ccsd.hpp
+ M exachem/cc/ducc/qflow-t_ccsd.cpp
+ M exachem/common/context/cc_context.hpp
+
+diff --git a/exachem/cc/ducc/ducc-t_ccsd.hpp b/exachem/cc/ducc/ducc-t_ccsd.hpp
+index 9c93f85..8f0f448 100644
+--- a/exachem/cc/ducc/ducc-t_ccsd.hpp
++++ b/exachem/cc/ducc/ducc-t_ccsd.hpp
+@@ -31,2 +31 @@ template<typename T>
+-std::pair<double, std::vector<std::pair<std::vector<int>, double>>>
+-DUCC_T_QFLOW_Driver(Scheduler& sch, ChemEnv& chem_env, const TiledIndexSpace& MO,
++void DUCC_T_QFLOW_Driver(Scheduler& sch, ChemEnv& chem_env, const TiledIndexSpace& MO,
+diff --git a/exachem/cc/ducc/qflow-t_ccsd.cpp b/exachem/cc/ducc/qflow-t_ccsd.cpp
+index af056e1..c8d6a2e 100644
+--- a/exachem/cc/ducc/qflow-t_ccsd.cpp
++++ b/exachem/cc/ducc/qflow-t_ccsd.cpp
+@@ -315 +315 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
+-  // Combine occ_combinations and occ_combinations in all ways
++  // Combine occ_combinations and virt_combinations in all ways
+@@ -446,7 +446,6 @@ template<typename T>
+-std::pair<double, std::vector<std::pair<std::vector<int>, double>>>
+-DUCC_T_QFLOW_Driver(Scheduler& sch, ChemEnv& chem_env, const TiledIndexSpace& MO,
+-                    const Tensor<T>& ftij, const Tensor<T>& ftia, const Tensor<T>& ftab,
+-                    const Tensor<T>& vtijkl, const Tensor<T>& vtijka, const Tensor<T>& vtaijb,
+-                    const Tensor<T>& vtijab, const Tensor<T>& vtiabc, const Tensor<T>& vtabcd,
+-                    ExecutionHW ex_hw, T shift, IndexVector& occ_int_vec, IndexVector& virt_int_vec,
+-                    string& pos_str) {
++void DUCC_T_QFLOW_Driver(Scheduler& sch, ChemEnv& chem_env, const TiledIndexSpace& MO,
++                          const Tensor<T>& ftij, const Tensor<T>& ftia, const Tensor<T>& ftab,
++                          const Tensor<T>& vtijkl, const Tensor<T>& vtijka, const Tensor<T>& vtaijb,
++                          const Tensor<T>& vtijab, const Tensor<T>& vtiabc, const Tensor<T>& vtabcd,
++                          ExecutionHW ex_hw, T shift, IndexVector& occ_int_vec, IndexVector& virt_int_vec,
++                          string& pos_str) {
+@@ -834 +833,20 @@ DUCC_T_QFLOW_Driver(Scheduler& sch, ChemEnv& chem_env, const TiledIndexSpace& MO
+-    std::cout << "Final Energy: " << results.first << "" << std::endl;
++    // Store results in chem_env.cc_context instead of returning
++    chem_env.cc_context.qflow_results = results;
++
++    // Store results in sys_data.results for use elsewhere in the code
++    sys_data.results["output"]["QFlow"]["results"]["energy"] = results.first;
++    
++    // Store amplitudes in sys_data.results
++    nlohmann::json amplitudes_json = nlohmann::json::array();
++    for(const auto& pair: results.second) {
++      const std::vector<int>& vec = pair.first;
++      double                  val = pair.second;
++      
++      nlohmann::json amp_entry;
++      amp_entry["indices"] = vec;
++      amp_entry["value"] = val;
++      amplitudes_json.push_back(amp_entry);
++    }
++    sys_data.results["output"]["QFlow"]["results"]["amplitudes"] = amplitudes_json;
++
++    std::cout << std::setprecision(10) << "Final Energy: " << results.first << "" << std::endl;
+@@ -853 +870,0 @@ DUCC_T_QFLOW_Driver(Scheduler& sch, ChemEnv& chem_env, const TiledIndexSpace& MO
+-  return results;
+@@ -857,7 +874,6 @@ using T = double;
+-template std::pair<double, std::vector<std::pair<std::vector<int>, double>>>
+-DUCC_T_QFLOW_Driver<T>(Scheduler& sch, ChemEnv& chem_env, const TiledIndexSpace& MO,
+-                       const Tensor<T>& ftij, const Tensor<T>& ftia, const Tensor<T>& ftab,
+-                       const Tensor<T>& vtijkl, const Tensor<T>& vtijka, const Tensor<T>& vtaijb,
+-                       const Tensor<T>& vtijab, const Tensor<T>& vtiabc, const Tensor<T>& vtabcd,
+-                       ExecutionHW ex_hw, T shift, IndexVector& occ_int_vec,
+-                       IndexVector& virt_int_vec, string& pos_str);
++template void DUCC_T_QFLOW_Driver<T>(Scheduler& sch, ChemEnv& chem_env, const TiledIndexSpace& MO,
++                                      const Tensor<T>& ftij, const Tensor<T>& ftia, const Tensor<T>& ftab,
++                                      const Tensor<T>& vtijkl, const Tensor<T>& vtijka, const Tensor<T>& vtaijb,
++                                      const Tensor<T>& vtijab, const Tensor<T>& vtiabc, const Tensor<T>& vtabcd,
++                                      ExecutionHW ex_hw, T shift, IndexVector& occ_int_vec,
++                                      IndexVector& virt_int_vec, string& pos_str);
+
+}
+
+
+TAMM Git Information
+{
+ Branch: main
+ Commit Hash: 13192f90 [13192f9076d2bd36aa0d34433cfe5113c89ba20a]
+ Commit Date: 2025-08-15 10:50:13 -0700
+ Commit Message: Update job_script_alcf_aurora.sh
+}
+
+
+date: Wed Aug 20 14:28:55 2025
+program: "/hpc/home/baum612/code/exachem-dev/build/methods_stage/hpc/home/baum612/code/tamm_install/methods/ExaChem"
+nnodes: 1, nproc_per_node: 8, nproc_total: 8, 
+Memory information
+{
+[Intel(R) Xeon(R) Platinum 8276M CPU @ 2.20GHz] : 
+  CPU memory per node (GiB): 6046
+  Total CPU memory (GiB): 6046
+}
+
+------------------------------------------------------------
+
+Input file provided: /hpc/home/baum612/TESTS/DUCC-Hamiltonian-Library/N2/cc-pVTZ/FrozenCoreCCSD_10Elec_8Orbs/1.5_Eq-3.1020au/Bare/N2.json
+
+{
+  "geometry": {
+    "coordinates": [
+      "N  0.000000  0.000000  0.000000",
+      "N  0.000000  0.000000  3.1020"
+    ],
+    "units": "bohr"
+  },
+  "basis": {
+    "basisset": "cc-pvtz"
+  },
+  "common": {
+    "file_prefix": "N2",
+    "maxiter": 100
+  },
+  "SCF": {
+    "tol_int": 1e-16,
+    "tol_lindep": 1e-09,
+    "conve": 1e-10,
+    "convd": 1e-09,
+    "diis_hist": 10,
+    "charge": 0,
+    "multiplicity": 1,
+    "restart": false,
+    "scf_type": "restricted",
+    "writem": 10
+  },
+  "CD": {
+    "diagtol": 1e-14,
+    "max_cvecs": 1000
+  },
+  "CC": {
+    "threshold": 1e-08,
+    "ndiis": 5,
+    "writet": false,
+    "ccsd_maxiter": 100,
+    "lshift": 0.1,
+    "freeze": {
+      "atomic": true
+    },
+    "nactive_oa": 5,
+    "nactive_ob": 5,
+    "nactive_va": 3,
+    "nactive_vb": 3,
+    "ducc_lvl": 0
+  },
+  "TASK": {
+    "ducc": [
+      true,
+      "default"
+    ]
+  }
+}
+
+Output folder & files prefix: N2.cc-pvtz
+
+  N (nitrogen)
+  ------------
+          Exponent        Coefficients
+      ----------------  --------------------
+  1 S  1.14200000E+04      0.421209
+  1 S  1.71200000E+03      0.784862
+  1 S  3.89300000E+02      1.327398
+  1 S  1.10000000E+02      1.998987
+  1 S  3.55700000E+01      2.474876
+  1 S  1.25400000E+01      2.106008
+  1 S  4.64400000E+00      0.801375
+  1 S  5.11800000E-01     -0.003753
+
+  2 S  1.14200000E+04     -0.156504
+  2 S  1.71200000E+03     -0.293447
+  2 S  3.89300000E+02     -0.499240
+  2 S  1.10000000E+02     -0.775267
+  2 S  3.55700000E+01     -1.028825
+  2 S  1.25400000E+01     -1.084240
+  2 S  4.64400000E+00     -0.672298
+  2 S  5.11800000E-01      0.447213
+
+  3 S  1.29300000E+00      0.864190
+
+  4 S  1.78700000E-01      0.195886
+
+  5 P  2.66300000E+01      3.432542
+  5 P  5.94800000E+00      3.296915
+  5 P  1.74200000E+00      2.312025
+
+  6 P  5.55000000E-01      0.682820
+
+  7 P  1.72500000E-01      0.158462
+
+  8 D  1.65400000E+00      3.970513
+
+  9 D  4.69000000E-01      0.437484
+
+  10 F  1.09300000E+00      1.798249
+
+
+
+Printing Internal Coordinates
+
+------------------------------------------------------------
+                Bond Lengths
+
+i      j        Length (Angstroms)     Length (Bohr)
+0      1          1.6415077071         3.1020000000
+
+Number of Angles: 0
+Number of Torsional Angles: 0
+
+
+----------------------------------------------------------------------
+                          Center of Mass
+
+         x               y               z              Unit
+               0               0    0.8207538536      Angstrom
+               0               0           1.551          Bohr
+
+----------------------------------------------------------------------
+                Moment of Inertia Tensor
+
+           67.3716                 0                 0
+                 0           67.3716                 0
+                 0                 0                 0
+
+----------------------------------------------------------------------
+                      Principal Moments of Inertia
+
+           x                 y                 z                Unit
+                 0         18.865969         18.865969       amu * ang^2
+                 0       67.37159839       67.37159839      amu * bohr^2
+  0.0000000000e+00  3.1327699933e-39  3.1327699933e-39          g * cm^2
+
+ - Molecule is diatomic.
+
+----------------------------------------------------------------------
+
+         Rotational constants (MHz)
+
+    A = inf        B = 2.6788e+04        C = 2.6788e+04
+
+----------------------------------------------------------------------
+
+        Rotational constants (cm-1)
+
+    A = inf        B = 8.9355e-01        C = 8.9355e-01
+
+----------------------------------------------------------------------
+
+                                Z-Matrix
+N   
+N        1           3.102
+
+----------------------------------------------------------------------
+
+             Converted back to Cartesian
+
+N        0.000000      0.000000      0.000000
+N        0.000000      0.000000      3.102000
+
+----------------------------------------------------------------------
+                       Geometry in bohr 
+
+1     N       0.0000000000    0.0000000000    0.0000000000
+2     N       0.0000000000    0.0000000000    3.1020000000
+
+ Number of nodes, processes per node used for SCF calculation: 1, 8
+
+Common Options
+{
+  maxiter       = 100
+  basis         = cc-pvtz spherical
+  geom_units    = bohr
+  ang2au factor = 1.889726126
+  debug         = false
+  file_prefix   = N2
+}
+
+SCF Options
+{
+  charge            = 0
+  multiplicity      = 1
+  level shift       = 0
+  tol_int           = 1e-16
+  tol_sch           = 1e-12
+  tol_lindep        = 1e-09
+  conve             = 1e-10
+  convd             = 1e-09
+  diis_hist         = 10
+  AO_tilesize       = 30
+  writem            = 10
+  damp              = 100
+  n_lindep          = 0
+  scf_type          = restricted
+  direct_df         = false
+  restart_size      = 2000
+  restart           = false
+  debug             = false
+}
+
+Number of basis functions = 60
+
+Total number of shells = 20
+
+Total number of electrons = 14
+  # of alpha electrons    = 7
+  # of beta electons      = 7
+
+Nuclear repulsion energy  = 15.7962604771115
+
+# of {all,non-negligible} shell-pairs = {210,210}
+Number of AO tiles = 20
+
+Time for initial setup: 0.00 secs
+HF exch = 1.00
+
+Time for computing 1-e integrals T, V, S: 0.00 secs
+Time for computing orthogonalizer: 0.00 secs
+
+Superposition of Atomic Density Guess ...
+Time taken for SAD: 0.06 secs
+Total Time to compute initial guess: 0.06 secs
+
+
+ SCF iterations
+-----------------------------------------------------------------------------
+ Iter     Energy            E-Diff       RMSD        |[F,P]|^2       Time(s)
+-----------------------------------------------------------------------------
+   1  -108.0895820786    -1.08e+02     1.89e-02     9.63e+00         0.0 
+   2  -108.5796545128    -4.90e-01     2.10e-03     1.77e-01         0.0 
+   3  -108.5888966623    -9.24e-03     6.68e-04     1.33e-02         0.0 
+   4  -108.5899724495    -1.08e-03     3.58e-04     2.46e-03         0.0 
+   5  -108.5901525718    -1.80e-04     1.56e-05     7.45e-06         0.0 
+   6  -108.5901529819    -4.10e-07     3.09e-06     1.36e-07         0.0 
+   7  -108.5901529936    -1.16e-08     5.66e-07     2.71e-09         0.0 
+   8  -108.5901529938    -2.71e-10     9.47e-08     4.63e-11         0.0 
+   9  -108.5901529938    -5.49e-12     4.17e-09     3.85e-13         0.0 
+  10  -108.5901529938     0.00e+00     3.27e-10     4.62e-15         0.0 
+
+** Total SCF energy = -108.5901529938367
+
+Nuclear repulsion energy = 15.796260477111542
+#electrons        = 14
+1e energy kinetic = 107.3568922885809371
+1e energy N-e     = -285.7699623944753284
+1e energy         = -178.4130701058944908
+2e energy         = 54.0266566349462920
+writing orbitals and density to disk ... done.
+
+Total Time taken for Hartree-Fock: 0.44 secs
+
+CD Options
+{
+  debug             = false
+  skip_cd           = [false, 100]
+  write_cv          = [false, 5000]
+  diagtol           = 1e-14
+  itilesize         = 1000
+  max_cvecs_factor  = 1000
+}
+
+- #occupied, #virtual = 14, 106
+
+- Tilesize for the MSO space: 40
+
+-----------------------------------------------------
+Begin 2-index transformation ... 
+
+nAO, nMO, nelectrons = 60, 120, 14
+n_occ_alpha, n_vir_alpha, n_occ_beta, n_vir_beta = 7,53,7,53
+
+Time taken for Fao->Fmo transform: 0.00 secs
+
+-----------------------------------------------------
+Number of AO tiles = 20
+# of {all,non-negligible} shell-pairs = {210,210}
+
+    Begin Cholesky Decomposition
+---------------------------------------------
+Total # of mpi ranks used for Cholesky decomposition: 8
+  --> Number of nodes, mpi ranks per node: 1, 8
+- CPU memory required for computing cholesky vectors: 0.05 GiB
+
+- Time for computing the diagonal: 0.00 secs
+
+- Total number of cholesky vectors = 1680
+
+- Time to compute cholesky vectors: 2.05 secs
+
+- CPU memory required for resizing the ao cholesky tensor: 0.09 GiB
+- CPU memory required for ao2mo transformation: 0.13 GiB
+- CPU memory required for the 2-step contraction: 0.17 GiB
+
+- Time for ao to mo transform: 0.26 secs
+
+   End Cholesky Decomposition
+---------------------------------------------
+
+Total Time taken for Cholesky Decomposition: 2.38 secs
+
+scf_type = restricted
+Closed-Shell SCF
+nbf = 58
+nbf_orig = 60
+n_lindep = 0
+focc = 1
+nmo = 116
+nocc = 10
+nvir = 106
+n_occ_alpha = 5
+n_vir_alpha = 53
+n_occ_beta = 5
+n_vir_beta = 53
+nelectrons = 14
+nelectrons_alpha = 7
+nelectrons_beta = 7
+freeze atomic = true
+n_frozen_core = 2
+n_frozen_virtual = 0
+----------------------------
+
+Total CPU memory required for Closed Shell Cholesky CCSD calculation: 0.26 GiB
+
+
+ CCSD iterations
+------------------------------------------------------------
+  Iter     Residuum          Correlation          Time(s)
+------------------------------------------------------------
+   1     0.5556196539741    0.0000000000000         0.50
+   2     0.1537475481869   -0.5497428080681         0.48
+   3     0.0997521390971   -0.4153344071828         0.47
+   4     0.0452096982873   -0.5159958477107         0.47
+   5     0.0341085973216   -0.4692072463130         0.47
+ MICROCYCLE DIIS UPDATE:                    6
+   6     0.0095573152656   -0.4952780544783         0.47
+   7     0.0066083588395   -0.4937536380799         0.47
+   8     0.0044996149253   -0.4958290271203         0.47
+   9     0.0037194001190   -0.4957670694196         0.47
+  10     0.0027194457788   -0.4967446400481         0.47
+ MICROCYCLE DIIS UPDATE:                   11
+  11     0.0004070742455   -0.4984950145993         0.48
+  12     0.0001666897760   -0.4985820388734         0.47
+  13     0.0000914940438   -0.4985910403567         0.47
+  14     0.0000537924087   -0.4986037953996         0.47
+  15     0.0000352456982   -0.4986055806126         0.47
+ MICROCYCLE DIIS UPDATE:                   16
+  16     0.0000145626060   -0.4986087942888         0.47
+  17     0.0000084667138   -0.4986154657563         0.47
+  18     0.0000070110624   -0.4986135374792         0.47
+  19     0.0000048011587   -0.4986161523595         0.47
+  20     0.0000040130319   -0.4986159004214         0.50
+ MICROCYCLE DIIS UPDATE:                   21
+  21     0.0000005948697   -0.4986187825535         0.54
+  22     0.0000002420993   -0.4986189228134         0.53
+  23     0.0000001355299   -0.4986189306613         0.54
+  24     0.0000000764478   -0.4986189597350         0.54
+  25     0.0000000492954   -0.4986189643316         0.54
+ MICROCYCLE DIIS UPDATE:                   26
+  26     0.0000000194188   -0.4986189787896         0.55
+  27     0.0000000114428   -0.4986189850749         0.55
+  28     0.0000000088270   -0.4986189844790         0.55
+------------------------------------------------------------------
+ Iterations converged
+ CCSD correlation energy / hartree =        -0.498618984479047
+ CCSD total energy / hartree       =      -109.088771978315719
+
+Time taken for Closed Shell Cholesky CCSD: 14.09 secs
+
+Executing DUCC routine
+======================
+Number of active occupied alpha = 5
+Number of active occupied beta  = 5
+Number of active virtual alpha  = 3
+Number of active virtual beta   = 3
+ducc_lvl = 0
+
+Full SCF Energy: -108.590152993837
+Bare SCF Energy: -11.386038549064
+Frozen Core Energy: -97.204114444772
+
+DUCC: Time taken to compute Bare Hamiltonian: 0.00 secs
+Bare Active Space SCF Energy: -11.386038549064
+Fully Contracted Scalar: -0.000000000000
+
+DUCC: Total compute time: 0.00 secs
+
+DUCC: Time to write results: 0.01 secs
+DUCC Memory Stats
+-----------------
+allocation count: 335
+deallocation count: 334
+total memory allocated: 0.879985 GiB
+total memory deallocated: 0.879985 GiB
+maximum memory in single allocation: 0.352732 GiB
+maximum memory consumption: 0.480544 GiB
