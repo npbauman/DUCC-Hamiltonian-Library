@@ -15,6 +15,7 @@ This utility processes calculation results and generates Hamiltonian representat
 - Python 3.6+
 - NumPy
 - PyYAML or ruamel.yaml (for YAML format output)
+- PySCF (for FCI calculations)
 
 ## Installation
 
@@ -50,6 +51,18 @@ python extract_hamiltonian.py <output_file> <integral_path> [options]
    python extract_hamiltonian.py h2o_ducc.out h2o_ducc.cc-pvdz_files/restricted/ducc/h2o_ducc.cc-pvdz.ducc.results.txt --output-prefix my_hamiltonian --threshold 1e-10
    ```
 
+5. **Run FCI calculation:**
+   ```bash
+   # Calculate ground state
+   python extract_hamiltonian.py h2o_ducc.out h2o_ducc.cc-pvdz_files/restricted/ducc/h2o_ducc.cc-pvdz.ducc.results.txt --fci
+
+   # Calculate multiple states
+   python extract_hamiltonian.py h2o_ducc.out h2o_ducc.cc-pvdz_files/restricted/ducc/h2o_ducc.cc-pvdz.ducc.results.txt --fci --n-roots 3
+
+   # Adjust CI vector printing threshold
+   python extract_hamiltonian.py h2o_ducc.out h2o_ducc.cc-pvdz_files/restricted/ducc/h2o_ducc.cc-pvdz.ducc.results.txt --fci --fci-threshold 0.01
+   ```
+
 ### Command-line Options
 
 - `output_file`: Path to the DUCC output file
@@ -58,6 +71,9 @@ python extract_hamiltonian.py <output_file> <integral_path> [options]
 - `--output-prefix`: Prefix for output files (default: use input output_file name)
 - `--threshold`: Threshold for printing integrals (default: 5e-11)
 - `--verbose`: Enable verbose output
+- `--fci`: Perform Full Configuration Interaction (FCI) calculation
+- `--n-roots`: Number of FCI roots to compute (default: 1)
+- `--fci-threshold`: Threshold for printing CI vector components (default: 0.001)
 
 ### Output Files
 
@@ -90,6 +106,7 @@ hamiltonian_extractor/
 ├── fcidump_writer.py           # FCIDUMP format writer
 ├── yaml_writer.py              # YAML format writer
 ├── xacc_writer.py              # XACC format writer
+├── fci_solver.py              # Full Configuration Interaction solver
 └── README.md                   # This file
 ```
 
@@ -98,6 +115,10 @@ hamiltonian_extractor/
 - **`HamiltonianData`**: Container class for extracted data and analysis results
 - **`FormatWriter`**: Abstract base class for format writers
 - **Format Writers**: Specific implementations for each output format
+- **`FCISolver`**: Full Configuration Interaction solver with support for:
+  - Ground state and excited states calculation
+  - Spin multiplicity analysis
+  - CI vector analysis with configurable threshold
 - **`extract_hamiltonian_data()`**: Main extraction function
 
 ## Adding New Formats

@@ -42,7 +42,7 @@ class HamiltonianData:
             self.scf_energy += 2 * self.one_body[x, x]
             for y in range(self.n_occ_alpha):
                 self.scf_energy += 2 * self.two_body[x, x, y, y] - self.two_body[x, y, y, x]
-        
+
 
     def compute_fock_matrix(self):
         """Form the Fock operator matrix."""

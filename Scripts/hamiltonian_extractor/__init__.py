@@ -22,7 +22,7 @@ For detailed usage information, run:
 """
 
 # __version__ = "1.0.0"
-# __author__ = "ExaChem Development Team"
+# __author__ = "ExaChem Development Team - Nicholas Bauman"
 
 from .grab_data import extract_hamiltonian_data
 from .hamiltonian_data import HamiltonianData

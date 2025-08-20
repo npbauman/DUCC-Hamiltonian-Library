@@ -23,6 +23,7 @@ try:
     from fcidump_writer import FCIDUMPWriter
     from yaml_writer import YAMLWriter
     from xacc_writer import XACCWriter
+    from fci_solver import solve_fci
 except ImportError:
     # Try relative imports if absolute imports fail
     from .grab_data import extract_hamiltonian_data
@@ -30,6 +31,7 @@ except ImportError:
     from .fcidump_writer import FCIDUMPWriter
     from .yaml_writer import YAMLWriter
     from .xacc_writer import XACCWriter
+    from .fci_solver import solve_fci
 
 
 def create_argument_parser():
@@ -92,6 +94,26 @@ Available formats:
         help='Enable verbose output'
     )
     
+    parser.add_argument(
+        '--fci',
+        action='store_true',
+        help='Perform Full Configuration Interaction (FCI) calculation'
+    )
+    
+    parser.add_argument(
+        '--n-roots',
+        type=int,
+        default=1,
+        help='Number of FCI roots to compute (default: 1)'
+    )
+    
+    parser.add_argument(
+        '--fci-threshold',
+        type=float,
+        default=0.001,
+        help='Threshold for printing CI vector components (default: 0.001)'
+    )
+    
     return parser
 
 
@@ -145,6 +167,29 @@ def main():
     if args.verbose:
         print("Writing info file...")
     write_info_file(data, output_prefix)
+    
+    # Run FCI if requested
+    if args.fci:
+        if args.verbose:
+            print(f"\nPerforming FCI calculation with {args.n_roots} root(s)...")
+        
+        # Run FCI
+        fci_results = solve_fci(
+            data,
+            n_roots=args.n_roots,
+            threshold=args.fci_threshold
+        )
+        
+        # Print FCI results
+        for i, result in enumerate(fci_results):
+            print(f"\nRoot {i}:")
+            print(f"FCI Energy = {result['energy']:.12f}")
+            print(f"2S+1 = {result['multiplicity']:.7f}")
+            print(f"\nCI vector components (|coef| > {args.fci_threshold}):")
+            for occ_str, coef in sorted(result['ci_vector'].items(), 
+                                      key=lambda x: (abs(x[1]), x[0]),
+                                      reverse=True):
+                print(f"{occ_str}: {coef:10.5f}")
     
     # Determine which formats to write
     formats_to_write = args.format

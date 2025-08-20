@@ -37,6 +37,8 @@ def extract_hamiltonian_data(output_file, integral_path):
 def _extract_output_data(output_file, data):
     """Extract data from the output file."""
     reader_mode = ""
+    full_scf = None
+    bare_scf = None
     
     with open(output_file, 'r') as f:
         for line in f:
@@ -76,6 +78,10 @@ def _extract_output_data(output_file, data):
                     data.note = "Full CCSD energy = " + ln_segments[6]
                 elif ln_segments[:3] == ['Total', 'Energy', 'Shift:']:
                     data.energy_shift = float(ln_segments[3])
+                elif ln_segments[:3] == ['Full', 'SCF', 'Energy:']:
+                    full_scf = float(ln_segments[3])
+                elif ln_segments[:3] == ['Bare', 'SCF', 'Energy:']:
+                    bare_scf = float(ln_segments[3])
                 elif ln_segments[:1] == ['ducc_lvl']:
                     data.n_orbitals = data.n_occ_alpha + data.n_virt_alpha
                     data.one_body = np.zeros((data.n_orbitals, data.n_orbitals))
@@ -92,6 +98,11 @@ def _extract_output_data(output_file, data):
                         "coords": [float(ln_segments[1]), float(ln_segments[2]), 
                                  float(ln_segments[3].replace('"', '').replace(',', ''))]
                     })
+
+        # After reading file, check if we need to calculate energy shift
+        if not hasattr(data, 'energy_shift') or data.energy_shift is None:
+            if full_scf is not None and bare_scf is not None:
+                data.energy_shift = full_scf - bare_scf
 
 
 def _extract_integral_data(integral_path, data):
