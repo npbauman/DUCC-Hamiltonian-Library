@@ -43,6 +43,6 @@
     "ducc_lvl": 0
   },
   "TASK": {
-    "ducc": [true, "default"]   \
+    "ducc": [true, "default"]   
   }  
 }
