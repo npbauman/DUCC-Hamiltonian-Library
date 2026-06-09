@@ -1,0 +1,19 @@
+davidson 0 1  |r|= 0.14  e= [-4.31987583]  max|de|= -4.32  lindep=    1
+davidson 1 2  |r|= 0.0371  e= [-4.34203557]  max|de|= -0.0222  lindep=    1
+davidson 2 3  |r|= 0.00953  e= [-4.34320774]  max|de|= -0.00117  lindep= 0.988
+davidson 3 4  |r|= 0.00274  e= [-4.34329942]  max|de|= -9.17e-05  lindep= 0.993
+davidson 4 5  |r|= 0.000732  e= [-4.34330747]  max|de|= -8.05e-06  lindep= 0.941
+davidson 5 6  |r|= 9.46e-05  e= [-4.34330789]  max|de|= -4.23e-07  lindep= 0.961
+davidson 6 7  |r|= 7.41e-06  e= [-4.3433079]  max|de|= -6.53e-09  lindep= 0.87
+root 0 converged  |r|= 3.49e-07  e= -4.343307898639484  max|de|= -4.76e-11
+converged 7 8  |r|= 3.49e-07  e= [-4.3433079]  max|de|= -4.76e-11
+
+Root 0:
+FCI Energy = -2.176641231992
+2S+1 = 1.0000000
+
+CI vector components (|coef| > 0.001):
+2200:    0.98387
+0022:    0.03083
+2002:   -0.01880
+0220:    0.00793

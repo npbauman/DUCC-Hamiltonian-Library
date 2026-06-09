@@ -1,0 +1,23 @@
+**************************************************************
+File = H4
+
+Nuclear Repulsion E = 2.166666666666667
+Energy Shift = 0.000323283631
+Total Energy Shift = 2.166989950297667
+# Active Orbitals = 4
+# Occupied Alpha Orbitals = 2
+# Occupied Beta Orbitals = 2
+# Virtual Alpha Orbitals = 2
+# Virtual Beta Orbitals = 2
+
+Original SCF Energy = -2.2166197739023334
+New Repulsion Energy (Repulsion + Shift) = 2.166989950297667
+
+Fock Matrix Elements (i <= j)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Fock[1,1] = -0.660082
+Fock[1,3] = 0.003839
+Fock[2,2] = -0.460763
+Fock[2,4] = -0.007165
+Fock[3,3] = 0.089386
+Fock[4,4] = 0.300932
