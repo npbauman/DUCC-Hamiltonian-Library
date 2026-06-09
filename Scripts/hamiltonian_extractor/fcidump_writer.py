@@ -25,7 +25,8 @@ class FCIDUMPWriter(FormatWriter):
             f.write("&FCI NORB=%3d,NELEC=%3d,MS2=0,\n" % 
                    (data.n_orbitals, 2 * data.n_occ_alpha))
             f.write(" ORBSYM=1" + ",1" * (data.n_orbitals - 1))
-            f.write("\n ISYM=1,\n")
+            f.write("\n ISYM=1,")
+            f.write("\n IUHF=1,\n")
             f.write("&END\n")
             
             # Write two-electron integrals

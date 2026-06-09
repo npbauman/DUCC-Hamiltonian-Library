@@ -12,6 +12,8 @@ Main Components:
 - fcidump_writer: FCIDUMP format writer
 - yaml_writer: YAML format writer (Broombridge schema)
 - xacc_writer: XACC format writer
+- fci_solver: Full CI solver (requires PySCF)
+- miniccpy_solver: Correlated methods via miniccpy (MP2, CCSD, CCSDT, …)
 - extract_hamiltonian: Main command-line utility
 
 Usage:
@@ -30,6 +32,7 @@ from .format_writer import FormatWriter, write_info_file
 from .fcidump_writer import FCIDUMPWriter
 from .yaml_writer import YAMLWriter
 from .xacc_writer import XACCWriter
+from .miniccpy_solver import build_spinorb_integrals, solve_miniccpy
 
 __all__ = [
     'extract_hamiltonian_data',
@@ -38,5 +41,7 @@ __all__ = [
     'write_info_file',
     'FCIDUMPWriter',
     'YAMLWriter',
-    'XACCWriter'
+    'XACCWriter',
+    'build_spinorb_integrals',
+    'solve_miniccpy',
 ]
