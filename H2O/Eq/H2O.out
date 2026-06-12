@@ -1,0 +1,1230 @@
+
+ExaChem Git Information
+{
+ Branch: main
+ Commit Hash: 946ace0 [946ace037539db7dc81f0a7ed61cbb2ffe4ba5cd]
+ Commit Date: 2026-06-06 14:04:15 -0700
+ Commit Message: Add i-PI and ASE integrations
+
+ WARNING: The following ExaChem sources have uncommitted changes at build-time.
+
+ M exachem/cc/ccsd/canonical/ccsd_os.cpp
+ M exachem/cc/ducc/ducc-t_ccsd.cpp
+ M exachem/cc/ducc/ducc-t_ccsd.hpp
+ M exachem/cc/ducc/ducc.cmake
+ M exachem/cc/scripts/hamiltonian_extractor/__init__.py
+ M exachem/cc/scripts/hamiltonian_extractor/extract_hamiltonian.py
+ M exachem/cc/scripts/hamiltonian_extractor/fcidump_writer.py
+ M exachem/cc/scripts/hamiltonian_extractor/hamiltonian_data.py
+
+diff --git a/exachem/cc/ccsd/canonical/ccsd_os.cpp b/exachem/cc/ccsd/canonical/ccsd_os.cpp
+index ea3acc2..48e782a 100644
+--- a/exachem/cc/ccsd/canonical/ccsd_os.cpp
++++ b/exachem/cc/ccsd/canonical/ccsd_os.cpp
+@@ -2634,0 +2635,251 @@ extract_spin_blocks(Scheduler& sch, ChemEnv& chem_env, const Tensor<T>& d_f1,
++// template<typename T>
++// void arnoldi(ChemEnv& chem_env, ExecutionContext& ec, const TiledIndexSpace& MO, TensorMap<T>& t1,
++//                TensorMap<T>& t2, TensorMap<T>& r1, TensorMap<T>& r2, Tensor<T>& d_r1, Tensor<T>& d_r2, std::vector<Tensor<T>>& Q_1s, std::vector<Tensor<T>>& Q_2s, TensorMap<T>& f, TensorMap<T>& eri, int& m, double& pert) {
++
++//   Tensor<T> d_e{};
++//   Tensor<T>::allocate(&ec, d_e);
++//   Scheduler sch{ec};
++
++//   for(int k = 0; k < m; k++) {
++//     if(ec.pg().rank() == 0) std::cout << "Arnoldi iteration: " << k << std::endl;
++//     for(int j = 0; j < k; j++) {
++//       ccsd_os::residuals<T>(sch, chem_env, MO, f, eri, t1, t2, d_e, r1, r2); // need to change t to Q
++//       if(ec.pg().rank() == 0)  std::cout << "Residuals computed" << std::endl;
++//     }
++//   }
++
++// }
++
++// template<typename T>
++// void gmres(ChemEnv& chem_env, ExecutionContext& ec, const TiledIndexSpace& MO, TensorMap<T>& t1,
++//                TensorMap<T>& t2, TensorMap<T>& r1, TensorMap<T>& r2, Tensor<T>& d_r1, Tensor<T>& d_r2, TensorMap<T>& f, TensorMap<T>& eri, int& m, double& pert){
++
++//   Tensor<T> d_e{};
++//   Tensor<T>::allocate(&ec, d_e);
++//   Scheduler sch{ec};
++
++//   const TiledIndexSpace& O       = MO("occ");
++//   const TiledIndexSpace& V       = MO("virt");
++
++//   std::vector<Tensor<T>> Q_1s, Q_2s;
++//   for(int i = 0; i < m+1; i++) {
++//     Q_1s.push_back(Tensor<T>{{V, O}, {1, 1}});
++//     Q_2s.push_back(Tensor<T>{{V, V, O, O}, {2, 2}});
++//     Tensor<T>::allocate(&ec, Q_1s[i], Q_2s[i]);
++//   }
++
++//   arnoldi(chem_env, ec, MO, t1, t2, r1, r2, d_r1, d_r2, Q_1s, Q_2s, f, eri, m, pert);
++
++// }
++
++template<typename T>
++std::vector<Tensor<T>>& ccsd_residuals(Scheduler& sch, ChemEnv& chem_env,
++                                       const TiledIndexSpace& MO, const TensorMap<T>& f,
++                                       const TensorMap<T>& eri, TensorMap<T>& t1,
++                                       TensorMap<T>& t2, Tensor<T>& energy, TensorMap<T>& r1,
++                                       TensorMap<T>& r2, const std::vector<Tensor<T>>& d_t,
++                                       std::vector<Tensor<T>>& d_r) {
++  const auto& d_t1 = d_t.at(0);
++  const auto& d_t2 = d_t.at(1);
++  auto&       d_r1 = d_r.at(0);
++  auto&       d_r2 = d_r.at(1);
++
++  const int otiles  = MO("occ").num_tiles();
++  const int vtiles  = MO("virt").num_tiles();
++  const int oatiles = MO("occ_alpha").num_tiles();
++  const int vatiles = MO("virt_alpha").num_tiles();
++
++  const TiledIndexSpace Oa = {MO("occ"), range(oatiles)};
++  const TiledIndexSpace Va = {MO("virt"), range(vatiles)};
++  const TiledIndexSpace Ob = {MO("occ"), range(oatiles, otiles)};
++  const TiledIndexSpace Vb = {MO("virt"), range(vatiles, vtiles)};
++
++  TiledIndexLabel aa, ba;
++  TiledIndexLabel ia, ja;
++  TiledIndexLabel ab, bb;
++  TiledIndexLabel ib, jb;
++
++  std::tie(aa, ba) = Va.labels<2>("all");
++  std::tie(ab, bb) = Vb.labels<2>("all");
++  std::tie(ia, ja) = Oa.labels<2>("all");
++  std::tie(ib, jb) = Ob.labels<2>("all");
++
++  // clang-format off
++  sch
++    (   t1.at("aa")(aa,ia)          = d_t1(aa,ia))
++    (   t1.at("bb")(ab,ib)          = d_t1(ab,ib))
++    (   t2.at("aaaa")(aa,ba,ia,ja)  = d_t2(aa,ba,ia,ja))
++    (   t2.at("abab")(aa,bb,ia,jb)  = d_t2(aa,bb,ia,jb))
++    (   t2.at("bbbb")(ab,bb,ib,jb)  = d_t2(ab,bb,ib,jb))
++    .execute();
++  // clang-format on
++
++  ccsd_os::residuals<T>(sch, chem_env, MO, f, eri, t1, t2, energy, r1, r2);
++
++  // clang-format off
++  sch
++    (   d_r1(aa,ia)          = r1.at("aa")(aa,ia))
++    (   d_r1(ab,ib)          = r1.at("bb")(ab,ib))
++    (   d_r2(aa,ba,ia,ja)    = r2.at("aaaa")(aa,ba,ia,ja))
++    (   d_r2(aa,bb,ia,jb)    = r2.at("abab")(aa,bb,ia,jb))
++    (   d_r2(ab,bb,ib,jb)    = r2.at("bbbb")(ab,bb,ib,jb))
++    .execute();
++  // clang-format on
++
++  return d_r;
++}
++
++
++template<typename T>
++double NK_norm(const std::vector<Tensor<T>>& v) {
++  double norm_tensor  = 0.0;
++  double norm_squared = 0.0;
++
++  for(const auto& tensor: v) {
++    norm_tensor = norm(tensor);
++    norm_squared += norm_tensor * norm_tensor;
++  }
++  
++  return std::sqrt(norm_squared);
++}
++
++template<typename T>
++void NK_scale(std::vector<Tensor<T>>& v, double c) {
++  for(auto& tensor: v) {
++    scale(tensor, c);
++  }
++}
++
++template<typename T>
++void NK_accumulate(Scheduler& sch, std::vector<Tensor<T>>& v, const std::vector<Tensor<T>>& w,
++                   double c) {
++  for(size_t i = 0; i < v.size(); ++i) {
++    sch(v[i]() += c * w[i]());
++  }
++  sch.execute();
++}
++
++template<typename T>
++double NK_dotprod(ExecutionContext& ec, const std::vector<Tensor<T>>& v,
++                  const std::vector<Tensor<T>>& w) {
++  double dot_product = 0.0;
++  
++  for(size_t i = 0; i < v.size(); ++i) {
++    Tensor<T> d_s{};
++    Tensor<T>::allocate(&ec, d_s);
++    Scheduler{ec}(d_s() = v[i]() * w[i]()).execute();
++    dot_product += get_scalar(d_s);
++    Tensor<T>::deallocate(d_s);
++  }
++  
++  return dot_product;
++}
++
++template<typename MVPFn, typename T>
++auto arnoldi(ExecutionContext& ec, MVPFn&& mvp, const std::vector<Tensor<T>>& b, int m)
++  -> std::pair<std::vector<std::vector<Tensor<T>>>,
++               Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>> {
++
++  using Matrix = Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
++
++  // Q is a matrix if size (size(b), m+1), so using b, I created m+1 columns for Q.
++  std::vector<std::vector<Tensor<T>>> Q;
++  for(int j = 0; j <= m; ++j) {
++    Q.push_back(b);
++    NK_scale(Q.back(), 0.0);
++  }
++
++  Matrix H = Matrix::Zero(m + 1, m);
++
++  auto norm_b = NK_norm(b);
++  // If norm_b is < 1e-14, b is effectively zero
++  if(norm_b < 1e-14) {
++    return {Q, H};
++  }
++
++  auto b0 = b;
++  NK_scale(b0, 1.0 / norm_b);
++  Q[0] = b0;
++
++  for(int k = 0; k < m; ++k) {
++    auto v = mvp(Q[k]);
++
++    for(int j = 0; j <= k; ++j) {
++      H(j, k) = NK_dotprod(ec, Q[j], v); // H[j,k] = dot(Q[:,j], v)
++  //     NK_accumulate(v, Q[j], -H(j, k)); // v .-= H[j,k] .* Q[:,j]
++    }
++
++  //   H(k + 1, k) = NK_norm(v); // H[k+1,k] = norm(v)
++
++  //   // if(H(k + 1, k) < 1e-14) {
++  //   //   break;  TODO:
++  //   // }
++
++  //   NK_scale(v, 1.0 / H(k + 1, k));
++  //   Q[k + 1] = v; // Q[:,k+1] .= v ./ H[k+1,k]
++  }
++
++  return {std::move(Q), std::move(H)};
++}
++
++template<typename MVPFn, typename T>
++std::vector<Tensor<T>> gmres(ExecutionContext& ec, MVPFn&& mvp, const std::vector<Tensor<T>>& b,
++                             int m) {
++  auto [Q, H] = arnoldi(ec, std::forward<MVPFn>(mvp), b, m);
++
++ // TODO: Deallocate Q tensors when done.
++
++  return b; //CHANGE THIS LATER!!!
++}
++
++
++template<typename ResidualFn, typename T>
++void newton_krylov(ExecutionContext& ec, ResidualFn&& F, std::vector<Tensor<T>>& b, double thresh,
++                   int m, int maxiter,
++                   double pert) {
++  auto sch = Scheduler{ec};
++
++  auto& x = b; // x = b
++  
++  if(ec.pg().rank() == 0) {
++    std::cout << "Starting Newton-Krylov iterations with m = " << m << ", maxiter = " << maxiter
++              << ", pert = " << pert << std::endl;
++  }
++
++  for(int iter = 0; iter < maxiter; ++iter) {
++    auto& f_x = F(x);
++
++    auto  f_x_norm = NK_norm(f_x);
++    if(ec.pg().rank() == 0) {
++      std::cout << "NK: " << iter << ", ||F(x)||: " << f_x_norm << std::endl;
++    }
++
++    if(f_x_norm < thresh) {
++      if(ec.pg().rank() == 0) {
++        std::cout << "Converged!" << std::endl;
++      }
++      break;
++    }
++
++    auto Jv = [&](const std::vector<Tensor<T>>& v) {
++      auto v_pert = v;
++      NK_scale(v_pert, pert); // pert .* v
++
++      auto x_pert = x;
++      NK_accumulate(sch, x_pert, v_pert, 1.0); // x + pert .* v
++
++      auto  delta_f_x = F(x_pert);         // F(x + pert*v)
++      NK_accumulate(sch, delta_f_x, f_x, -1.0); // F(x + pert*v) - F(x)
++      NK_scale(delta_f_x, 1.0 / pert);     // ./ pert
++      return delta_f_x;
++    };
++
++    auto neg_f_x = f_x;
++    NK_scale(neg_f_x, -1.0); // -F(x)
++    auto delta_x = gmres(ec, Jv, neg_f_x, m);
++
++    NK_accumulate(sch, x, delta_x, 1.0); // x += delta_x
++
++  }
++}
++
+@@ -2721,0 +2973,85 @@ ccsd_v2_driver(ChemEnv& chem_env, ExecutionContext& ec, const TiledIndexSpace& M
++  // *************************************************
++  if(ec.pg().rank() == 0) {std::cout << "STARTING CCSD ITERATIONS - Nick" << std::endl;}
++  
++  double pert = 1e-8;
++  int m = 5;
++
++  //Build MP2 initial guess
++  sch
++    (d_r2(aa,ba,ia,ja) = eri.at("aaaa_vvoo")(aa,ba,ia,ja))
++    (d_r2(aa,bb,ia,jb) = eri.at("abab_vvoo")(aa,bb,ia,jb))
++    (d_r2(ab,bb,ib,jb) = eri.at("bbbb_vvoo")(ab,bb,ib,jb))
++  .execute();
++
++  jacobi(ec, d_r2, d_t2, 0.0, false, p_evl_sorted, n_occ_alpha, n_occ_beta);
++
++  std::vector<Tensor<T>> d_t;
++  d_t.push_back(d_t1);
++  d_t.push_back(d_t2);
++
++  std::vector<Tensor<T>> d_r;
++  d_r.push_back(d_r1);
++  d_r.push_back(d_r2);
++
++  // `F` follows the generic Newton-Krylov callback form F(x) that returns
++  // the packed residual vector for a packed iterate vector x.
++  auto F = [&](const std::vector<Tensor<T>>& x) -> std::vector<Tensor<T>>& {
++    return ccsd_residuals<T>(sch, chem_env, MO, f, eri, t1, t2, d_e, r1, r2, x, d_r);
++  };
++
++  newton_krylov(ec, F, d_t, thresh, m, maxiter, pert);
++
++  // sch
++  // (   t1.at("aa")(aa,ia)            = d_t1(aa,ia))
++  // (   t1.at("bb")(ab, ib)           = d_t1(ab,ib))
++  // (   t2.at("aaaa")(aa,ba,ia,ja)    = d_t2(aa,ba,ia,ja))
++  // (   t2.at("abab")(aa,bb,ia,jb)    = d_t2(aa,bb,ia,jb))
++  // (   t2.at("bbbb")(ab,bb,ib,jb)    = d_t2(ab,bb,ib,jb))
++  // .execute();
++
++  // for(int iter = 0; iter < maxiter; iter++){
++
++  //   ccsd_os::residuals<T>(sch, chem_env, MO, f, eri, t1, t2, d_e, r1, r2);
++  //   sch.execute(ec.exhw(), profile);
++    
++  //   sch
++  //   (   d_r1(aa,ia)          = r1.at("aa")(aa,ia))
++  //   (   d_r1(ab,ib)          = r1.at("bb")(ab,ib))
++  //   (   d_r2(aa,ba,ia,ja)    = r2.at("aaaa")(aa,ba,ia,ja))
++  //   (   d_r2(aa,bb,ia,jb)    = r2.at("abab")(aa,bb,ia,jb))
++  //   (   d_r2(ab,bb,ib,jb)    = r2.at("bbbb")(ab,bb,ib,jb))
++  //   .execute(ec.exhw(), profile);
++  //   // can get rid of d_r1/2 but would need to rewrite jacobi and something to work on the individual blocks.
++    
++  //   auto r1_norm = norm(d_r1);
++  //   auto r2_norm = norm(d_r2);
++  //   // DEBUG:
++  //   // print_tensor_all(d_r1);
++  //   // print_tensor_all(d_r2);
++    
++  //   auto total_norm = std::sqrt(r1_norm*r1_norm + r2_norm*r2_norm);
++    
++  //   if(ec.pg().rank() == 0){
++  //     std::cout << "Norm of r1, r2 " << r1_norm << ", " << r2_norm << std::endl;
++  //     std::cout << "Newton iteration = " << (iter + 1) << ", ||F|| = " << total_norm << std::endl;
++  //   }
++
++  //   if(total_norm < thresh) {
++  //     std::cout << "Converged at iteration " << iter << std::endl;
++  //     //Make sure to add the energy expresion here to get the final energy
++  //     break;
++  //   }
++
++  //   tamm::scale_ip(r1.at("aa"), -1.0);
++  //   tamm::scale_ip(r1.at("bb"), -1.0);
++  //   tamm::scale_ip(r2.at("aaaa"), -1.0);
++  //   tamm::scale_ip(r2.at("abab"), -1.0);
++  //   tamm::scale_ip(r2.at("bbbb"), -1.0);
++
++  
++  // }
++
++
++  
++  // *************************************************
++
+@@ -2948,0 +3285,6 @@ template void residuals<double>(Scheduler& sch, ChemEnv& chem_env, const TiledIn
++// template void arnoldi<double>(ChemEnv& chem_env, ExecutionContext& ec, const TiledIndexSpace& MO, TensorMap<double>& t1,
++//                TensorMap<double>& t2, TensorMap<double>& r1, TensorMap<double>& r2, Tensor<double>& d_r1, Tensor<double>& d_r2,std::vector<Tensor<double>>& Q_1s, std::vector<Tensor<double>>& Q_2s, TensorMap<double>& f, TensorMap<double>& eri, int& m, double& pert);
++
++// template void gmres<double>(ChemEnv& chem_env, ExecutionContext& ec, const TiledIndexSpace& MO, TensorMap<double>& t1,
++//                TensorMap<double>& t2, TensorMap<double>& r1, TensorMap<double>& r2, Tensor<double>& d_r1, Tensor<double>& d_r2, TensorMap<double>& f, TensorMap<double>& eri, int& m, double& pert);
++
+diff --git a/exachem/cc/ducc/ducc-t_ccsd.cpp b/exachem/cc/ducc/ducc-t_ccsd.cpp
+index 4b468c1..f34989e 100644
+--- a/exachem/cc/ducc/ducc-t_ccsd.cpp
++++ b/exachem/cc/ducc/ducc-t_ccsd.cpp
+@@ -154,0 +155,9 @@ void DUCCInternal<T>::DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec
++  // Print norms of original T1/T2 operators 
++  const auto t1_full_norm   = tamm::norm(t1);
++  const auto t2_full_norm   = tamm::norm(t2);
++
++  if(ducc_print) {
++    std::cout << "Norm of T1 (Full): " << t1_full_norm << std::endl;
++    std::cout << "Norm of T2 (Full): " << t2_full_norm << std::endl;
++  }
++
+@@ -161,0 +171,21 @@ void DUCCInternal<T>::DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec
++  const auto t1_ext_norm   = tamm::norm(t1);
++  const auto t2_ext_norm   = tamm::norm(t2);
++
++  auto [maxt1ext, maxblockid1, maxcoord1] = tamm::max_element(t1);
++  auto [mint1ext, minblockid1, mincoord1] = tamm::min_element(t1);
++  auto [maxt2ext, maxblockid2, maxcoord2] = tamm::max_element(t2);
++  auto [mint2ext, minblockid2, mincoord2] = tamm::min_element(t2);
++  
++  if(ducc_print) {
++    std::cout << "Norm of T1 (Ext): " << t1_ext_norm << std::endl;
++    std::cout << "Norm of T2 (Ext): " << t2_ext_norm << std::endl;
++    std::cout << std::endl;
++    std::cout << "Max abs of T1 (Ext): " << maxt1ext << std::endl;
++    std::cout << "Min abs of T1 (Ext): " << mint1ext << std::endl;
++    std::cout << "Max abs of T2 (Ext): " << maxt2ext << std::endl;
++    std::cout << "Min abs of T2 (Ext): " << mint2ext << std::endl;
++    std::cout << std::endl;
++    std::cout << "Norm of T1 (Int): " << sqrt(t1_full_norm * t1_full_norm - t1_ext_norm * t1_ext_norm) << std::endl;
++    std::cout << "Norm of T2 (Int): " << sqrt(t2_full_norm * t2_full_norm - t2_ext_norm * t2_ext_norm) << std::endl;  
++  }
++  
+@@ -333,0 +364,41 @@ void DUCCInternal<T>::DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec
++  // Level 3
++  if(ducc_lvl > 2) {
++    cc_t1 = std::chrono::high_resolution_clock::now();
++    // if(drestart && dtensors_exist && is_l2_done) {
++    //   ducc_tensors_io(ec, chem_env, ducc_tensors, dt_files, 2, drestart, true);
++    //   sch(total_shift() = chem_env.run_context["ducc"]["total_shift"]).execute();
++    // }
++    // else {
++      sch(adj_scalar() = 0.0).execute();
++      V_3(sch, chem_env, MO, ftij, ftia, ftab, vtijkl, vtijka, vtaijb, vtijab, vtiabc, vtabcd,
++          v2tensors, t1, t2, adj_scalar, ex_hw);
++      sch(total_shift() += adj_scalar()).execute();
++
++      // energy = get_scalar(adj_scalar);
++      // if(ducc_print)std::cout << "FC V2: " << std::setprecision(12) << energy << std::endl;
++
++      // TODO: Enable when we want to do partial restarts within this level
++      // ducc_tensors_io(ec, chem_env, ducc_tensors, dt_files, 2, drestart);
++
++      sch(adj_scalar() = 0.0).execute();
++      F_4(sch, chem_env, MO, ftij, ftia, ftab, vtijkl, vtijka, vtaijb, vtijab, vtiabc, vtabcd, f1,
++          t1, t2, adj_scalar, ex_hw);
++      sch(total_shift() += adj_scalar()).execute();
++
++      // energy = get_scalar(adj_scalar);
++      // if(ducc_print)std::cout << "FC F3: " << std::setprecision(12) << energy << std::endl;
++
++      // ducc_tensors_io(ec, chem_env, ducc_tensors, dt_files, 2, drestart);
++      // chem_env.run_context["ducc"]["level2"]      = true;
++      chem_env.run_context["ducc"]["total_shift"] = get_scalar(total_shift);
++      if(ducc_print) chem_env.write_run_context();
++    // }
++    cc_t2     = std::chrono::high_resolution_clock::now();
++    ducc_time = std::chrono::duration_cast<std::chrono::duration<double>>((cc_t2 - cc_t1)).count();
++    ducc_total_time += ducc_time;
++    if(ducc_print)
++      std::cout << std::endl
++                << "DUCC: Time taken to compute triple commutator of V and quadruple commutator of F: "
++                << std::fixed << std::setprecision(2) << ducc_time << " secs" << std::endl;
++  }
++
+diff --git a/exachem/cc/ducc/ducc-t_ccsd.hpp b/exachem/cc/ducc/ducc-t_ccsd.hpp
+index 9c97030..4a720b0 100644
+--- a/exachem/cc/ducc/ducc-t_ccsd.hpp
++++ b/exachem/cc/ducc/ducc-t_ccsd.hpp
+@@ -53,0 +54,2 @@ class DUCCInternal {
++#include "ducc-t_ccsd_V3.hpp"
++#include "ducc-t_ccsd_F4.hpp"
+diff --git a/exachem/cc/ducc/ducc.cmake b/exachem/cc/ducc/ducc.cmake
+index 7e54b08..fc4dfdb 100644
+--- a/exachem/cc/ducc/ducc.cmake
++++ b/exachem/cc/ducc/ducc.cmake
+@@ -14 +14,5 @@ endif()
+-set(DUCC_INCLUDES ${DUCC_SRCDIR}/ducc-t_ccsd.hpp)
++set(DUCC_INCLUDES
++    ${DUCC_SRCDIR}/ducc-t_ccsd.hpp
++    ${DUCC_SRCDIR}/ducc-t_ccsd_V3.hpp
++    ${DUCC_SRCDIR}/ducc-t_ccsd_F4.hpp
++)
+diff --git a/exachem/cc/scripts/hamiltonian_extractor/__init__.py b/exachem/cc/scripts/hamiltonian_extractor/__init__.py
+index 71f0338..98edc8c 100644
+--- a/exachem/cc/scripts/hamiltonian_extractor/__init__.py
++++ b/exachem/cc/scripts/hamiltonian_extractor/__init__.py
+@@ -14,0 +15,2 @@ Main Components:
++- fci_solver: Full CI solver (requires PySCF)
++- miniccpy_solver: Correlated methods via miniccpy (MP2, CCSD, CCSDT, …)
+@@ -32,0 +35 @@ from .xacc_writer import XACCWriter
++from .miniccpy_solver import build_spinorb_integrals, solve_miniccpy
+@@ -41 +44,3 @@ __all__ = [
+-    'XACCWriter'
++    'XACCWriter',
++    'build_spinorb_integrals',
++    'solve_miniccpy',
+diff --git a/exachem/cc/scripts/hamiltonian_extractor/extract_hamiltonian.py b/exachem/cc/scripts/hamiltonian_extractor/extract_hamiltonian.py
+index 4c01a50..18e9502 100755
+--- a/exachem/cc/scripts/hamiltonian_extractor/extract_hamiltonian.py
++++ b/exachem/cc/scripts/hamiltonian_extractor/extract_hamiltonian.py
+@@ -26,0 +27,2 @@ try:
++    from miniccpy_solver import solve_miniccpy
++    from ccsd_solver import solve_ccsd
+@@ -34,0 +37,2 @@ except ImportError:
++    from .miniccpy_solver import solve_miniccpy
++    from .ccsd_solver import solve_ccsd
+@@ -116 +120,71 @@ Available formats:
+-    
++
++    # ── MP2 (built-in, no extra dependency) ──────────────────────────────────
++    parser.add_argument(
++        '--mp2',
++        action='store_true',
++        help='Compute MP2 energy using built-in spin-orbital implementation'
++    )
++
++    # ── miniccpy correlated methods ───────────────────────────────────────────
++    parser.add_argument(
++        '--cc-method',
++        metavar='METHOD',
++        help=(
++            'Run a correlated calculation via miniccpy using the extracted '
++            'Fock and two-electron integrals. '
++            'Examples: ccsd, ccsdt, ccsdtq, mp2, cc3, lrccsd. '
++            'Requires miniccpy to be installed.'
++        )
++    )
++
++    parser.add_argument(
++        '--miniccpy-path',
++        metavar='PATH',
++        default=None,
++        help='Path to prepend to sys.path so that miniccpy can be imported '
++             '(e.g. /path/to/miniccpy). Optional if miniccpy is already installed.'
++    )
++
++    parser.add_argument(
++        '--cc-maxit',
++        type=int,
++        default=80,
++        help='Maximum CC iterations for miniccpy solver (default: 80)'
++    )
++
++    parser.add_argument(
++        '--cc-convergence',
++        type=float,
++        default=1.0e-7,
++        help='Convergence threshold for miniccpy CC solver (default: 1e-7)'
++    )
++
++    parser.add_argument(
++        '--cc-level-shift',
++        type=float,
++        default=0.0,
++        help='Amplitude denominator level shift for miniccpy convergence '
++             '(default: 0.0, distinct from the DUCC energy shift)'
++    )
++
++    parser.add_argument(
++        '--cc-diis-size',
++        type=int,
++        default=6,
++        help='DIIS subspace size for miniccpy CC solver (default: 6)'
++    )
++
++    # ── PySCF CCSD ───────────────────────────────────────────────────────────
++    parser.add_argument(
++        '--pyscf-ccsd',
++        action='store_true',
++        help='Perform CCSD calculation using PySCF'
++    )
++
++    parser.add_argument(
++        '--pyscf-ccsd-threshold',
++        type=float,
++        default=0.001,
++        help='Threshold for printing T1/T2 amplitudes (default: 0.001)'
++    )
++
+@@ -171 +245,9 @@ def main():
+-    # Run FCI if requested
++    # ── Built-in MP2 ──────────────────────────────────────────────────────────
++    if args.mp2:
++        if args.verbose:
++            print("\nComputing MP2 energy (built-in spin-orbital implementation)...")
++        mp2_corr = data.compute_MP2_energy()
++        mp2_total = data.scf_energy + mp2_corr
++        print(f"MP2 Total Energy = {mp2_total:.12f}")
++
++    # ── Run FCI if requested ──────────────────────────────────────────────────
+@@ -193 +275,43 @@ def main():
+-    
++
++    # ── miniccpy correlated calculation ──────────────────────────────────────
++    if args.cc_method:
++        if args.verbose:
++            print(f"\nRunning {args.cc_method.upper()} via miniccpy...")
++        try:
++            result = solve_miniccpy(
++                data,
++                method=args.cc_method,
++                maxit=args.cc_maxit,
++                convergence=args.cc_convergence,
++                level_shift=args.cc_level_shift,
++                diis_size=args.cc_diis_size,
++                miniccpy_path=args.miniccpy_path,
++            )
++        except ImportError as e:
++            print(f"Error: {e}")
++            print("  Hint: install miniccpy or pass --miniccpy-path <path>")
++            sys.exit(1)
++        except NotImplementedError:
++            print(f"Error: method '{args.cc_method}' is not implemented in miniccpy.")
++            sys.exit(1)
++        except Exception as e:
++            print(f"Error during {args.cc_method.upper()} calculation: {e}")
++            sys.exit(1)
++
++    # ── PySCF CCSD ───────────────────────────────────────────────────────────
++    if args.pyscf_ccsd:
++        if args.verbose:
++            print("\nRunning CCSD via PySCF...")
++        try:
++            data.compute_fock_matrix()
++            result = solve_ccsd(data, threshold=args.pyscf_ccsd_threshold)
++            print(f"\nCCSD Correlation Energy = {result['e_corr']:.12f}")
++            print(f"CCSD Total Energy       = {result['energy']:.12f}")
++        except ImportError as e:
++            print(f"Error: {e}")
++            print("  Hint: install pyscf with 'pip install pyscf'")
++            sys.exit(1)
++        except Exception as e:
++            print(f"Error during PySCF CCSD calculation: {e}")
++            sys.exit(1)
++
+diff --git a/exachem/cc/scripts/hamiltonian_extractor/fcidump_writer.py b/exachem/cc/scripts/hamiltonian_extractor/fcidump_writer.py
+index 13a7a0e..f11ffc4 100644
+--- a/exachem/cc/scripts/hamiltonian_extractor/fcidump_writer.py
++++ b/exachem/cc/scripts/hamiltonian_extractor/fcidump_writer.py
+@@ -28 +28,2 @@ class FCIDUMPWriter(FormatWriter):
+-            f.write("\n ISYM=1,\n")
++            f.write("\n ISYM=1,")
++            f.write("\n IUHF=1,\n")
+diff --git a/exachem/cc/scripts/hamiltonian_extractor/hamiltonian_data.py b/exachem/cc/scripts/hamiltonian_extractor/hamiltonian_data.py
+index 2dcddc8..522a6d7 100644
+--- a/exachem/cc/scripts/hamiltonian_extractor/hamiltonian_data.py
++++ b/exachem/cc/scripts/hamiltonian_extractor/hamiltonian_data.py
+@@ -28,0 +29 @@ class HamiltonianData:
++        self.fockso = None  # Spin-orbital Fock matrix
+@@ -38,0 +40,3 @@ class HamiltonianData:
++        # Safety guard: treat missing energy shift as zero
++        if self.energy_shift is None:
++            self.energy_shift = 0.0
+@@ -48 +52 @@ class HamiltonianData:
+-        """Form the Fock operator matrix."""
++        """Form the Fock operator matrix (spatial and spin-orbital)."""
+@@ -55,3 +59,99 @@ class HamiltonianData:
+-        
+-        # # Compute orbital energies
+-        # self.orbital_energies, _ = LA.eig(self.fock)
++
++        # Populate spin-orbital Fock matrix (block diagonal: alpha == beta)
++        self.fockso = np.zeros((2 * self.n_orbitals, 2 * self.n_orbitals))
++        self.fockso[0::2, 0::2] = self.fock
++        self.fockso[1::2, 1::2] = self.fock
++
++    def compute_MP2_energy(self):
++        """Compute MP2 energy with verification of Hartree-Fock energy."""
++        num_spin_orbs = 2 * self.n_orbitals
++        num_electrons = self.n_occ_alpha + self.n_occ_beta
++
++        # Build spin-orbital integrals
++        soei, stei = self._build_spin_orbital_integrals(num_spin_orbs)
++
++        # Verify HF energy with spin-orbital formulation
++        self._verify_hf_energy_spin_orbitals(soei, stei, num_electrons)
++
++        # Build antisymmetrized two-electron integrals
++        atei = self._build_antisymmetrized_integrals(stei, num_spin_orbs)
++
++        # Verify HF energy with antisymmetrized integrals
++        self._verify_hf_energy_antisymmetrized(soei, atei, num_electrons)
++
++        # Compute MP2 energy
++        mp2_energy = self._compute_mp2_correlation(atei, num_electrons, num_spin_orbs)
++
++        print(f"MP2 Correction = {mp2_energy:.8f}")
++        return mp2_energy
++
++    def _build_spin_orbital_integrals(self, num_spin_orbs):
++        """Build spin-orbital one- and two-electron integrals."""
++        soei = np.zeros((num_spin_orbs, num_spin_orbs))
++        stei = np.zeros((num_spin_orbs, num_spin_orbs, num_spin_orbs, num_spin_orbs))
++
++        for p in range(self.n_orbitals):
++            for q in range(self.n_orbitals):
++                # Populate 1-body coefficients (same spin only)
++                soei[2 * p, 2 * q] = self.one_body[p, q]
++                soei[2 * p + 1, 2 * q + 1] = self.one_body[p, q]
++
++                # Populate 2-body coefficients
++                for r in range(self.n_orbitals):
++                    for s in range(self.n_orbitals):
++                        # [ij|kl] format - same spin terms
++                        stei[2 * p, 2 * q, 2 * r, 2 * s] = self.two_body[p, q, r, s]
++                        stei[2 * p + 1, 2 * q + 1, 2 * r + 1, 2 * s + 1] = self.two_body[p, q, r, s]
++                        # Mixed spin terms
++                        stei[2 * p, 2 * q, 2 * r + 1, 2 * s + 1] = self.two_body[p, q, r, s]
++                        stei[2 * p + 1, 2 * q + 1, 2 * r, 2 * s] = self.two_body[p, q, r, s]
++
++        return soei, stei
++
++    def _verify_hf_energy_spin_orbitals(self, soei, stei, num_electrons):
++        """Verify Hartree-Fock energy using spin-orbital formulation."""
++        print("\nRe-computing Hartree-Fock energy (Spin-Orbitals)...")
++        hf_energy = self.coulomb_repulsion['value'] + self.energy_shift
++
++        for p in range(num_electrons):
++            hf_energy += soei[p, p]
++            for q in range(num_electrons):
++                hf_energy += 0.5 * stei[p, p, q, q] - 0.5 * stei[p, q, q, p]
++
++        print(f"Hartree-Fock energy = {hf_energy:.8f}")
++
++    def _build_antisymmetrized_integrals(self, stei, num_spin_orbs):
++        """Build antisymmetrized two-electron integrals <pq||rs> = <pq|rs> - <pq|sr>."""
++        print("\nRe-computing Hartree-Fock energy (Antisymmetrized Spin-Orbitals)...")
++        atei = np.zeros((num_spin_orbs, num_spin_orbs, num_spin_orbs, num_spin_orbs))
++        for p in range(num_spin_orbs):
++            for q in range(num_spin_orbs):
++                for r in range(num_spin_orbs):
++                    for s in range(num_spin_orbs):
++                        atei[p, q, r, s] = stei[p, r, q, s] - stei[p, s, q, r]
++        return atei
++
++    def _verify_hf_energy_antisymmetrized(self, soei, atei, num_electrons):
++        """Verify Hartree-Fock energy using antisymmetrized integrals."""
++        hf_energy = self.coulomb_repulsion['value'] + self.energy_shift
++
++        for p in range(num_electrons):
++            hf_energy += soei[p, p]
++            for q in range(num_electrons):
++                hf_energy += 0.5 * atei[p, q, p, q]
++
++        print(f"Hartree-Fock energy (antisymmetrized) = {hf_energy:.8f}")
++
++    def _compute_mp2_correlation(self, atei, num_electrons, num_spin_orbs):
++        """Compute MP2 correlation energy."""
++        mp2_energy = 0.0
++
++        for i in range(num_electrons):
++            for j in range(num_electrons):
++                for a in range(num_electrons, num_spin_orbs):
++                    for b in range(num_electrons, num_spin_orbs):
++                        denominator = (self.fockso[i, i] + self.fockso[j, j] -
++                                       self.fockso[a, a] - self.fockso[b, b])
++                        mp2_energy += (atei[i, j, a, b] ** 2) / denominator
++
++        return mp2_energy / 4
+
+}
+
+
+TAMM Git Information
+{
+ Branch: main
+ Commit Hash: 6c6680da [6c6680da4de2e03f996e82317c53055044750d87]
+ Commit Date: 2026-05-22 19:22:45 -0700
+ Commit Message: optional pybind11 dep
+}
+
+
+date: Fri Jun 12 10:29:29 2026
+program: "/ravenfs/scratch/baum612/code/exachem-dev/build_cpu/methods_stage/ravenfs/scratch/baum612/code/install/TAMM_cpu/methods/ExaChem"
+nnodes: 1, nproc_per_node: 1, nproc_total: 1, 
+Memory information
+{
+[AMD EPYC 9124 16-Core Processor                ] : 
+  CPU memory per node (GiB): 250
+  Total CPU memory (GiB): 250
+}
+
+------------------------------------------------------------
+
+Input file provided: /ravenfs/scratch/baum612/Runs/DUCC-Hamiltonian-Library/H2O/Eq/H2O.json
+
+{
+  "geometry": {
+    "coordinates": [
+      "O 0.0000  0.0000  0.1173",
+      "H 0.0000  0.7572 -0.4692",
+      "H 0.0000 -0.7572 -0.4692"
+    ],
+    "units": "angstrom"
+  },
+  "common": {
+    "maxiter": 200
+  },
+  "basis": {
+    "basisset": "cc-pVTZ"
+  },
+  "SCF": {
+    "tol_int": 1e-18,
+    "tol_sch": 1e-12,
+    "tol_lindep": 1e-05,
+    "conve": 1e-09,
+    "convd": 1e-08,
+    "scf_type": "restricted"
+  },
+  "CD": {
+    "debug": false,
+    "diagtol": 1e-12
+  },
+  "CC": {
+    "threshold": 1e-08,
+    "nactive_oa": 5,
+    "nactive_ob": 5,
+    "nactive_va": 5,
+    "nactive_vb": 5,
+    "PRINT": {
+      "tamplitudes": [
+        true,
+        0.01
+      ]
+    },
+    "ducc_lvl": 2
+  },
+  "TASK": {
+    "ducc": [
+      true,
+      "default"
+    ]
+  }
+}
+
+Output folder & files prefix: H2O.cc-pvtz
+
+  O (oxygen)
+  ----------
+          Exponent        Coefficients
+      ----------------  --------------------
+  1 S  1.53300000E+04      0.510782
+  1 S  2.29900000E+03      0.952032
+  1 S  5.22400000E+02      1.614331
+  1 S  1.47300000E+02      2.443365
+  1 S  4.75500000E+01      3.048606
+  1 S  1.67600000E+01      2.618346
+  1 S  6.20700000E+00      1.005234
+  1 S  6.88200000E-01     -0.004496
+
+  2 S  1.53300000E+04     -0.193666
+  2 S  2.29900000E+03     -0.363225
+  2 S  5.22400000E+02     -0.619219
+  2 S  1.47300000E+02     -0.967719
+  2 S  4.75500000E+01     -1.294024
+  2 S  1.67600000E+01     -1.381716
+  2 S  6.20700000E+00     -0.844754
+  2 S  6.88200000E-01      0.557318
+
+  3 S  1.75200000E+00      1.085327
+
+  4 S  2.38400000E-01      0.243159
+
+  5 P  3.44600000E+01      4.898875
+  5 P  7.74900000E+00      4.750261
+  5 P  2.28000000E+00      3.204498
+
+  6 P  7.15600000E-01      0.938162
+
+  7 P  2.14000000E-01      0.207471
+
+  8 D  2.31400000E+00      7.145709
+
+  9 D  6.45000000E-01      0.764080
+
+  10 F  1.42800000E+00      3.281655
+
+
+  H (hydrogen)
+  ------------
+          Exponent        Coefficients
+      ----------------  --------------------
+  1 S  3.38700000E+01      0.255108
+  1 S  5.09500000E+00      0.460098
+  1 S  1.15900000E+00      0.678414
+
+  2 S  3.25800000E-01      0.307343
+
+  3 S  1.02700000E-01      0.129297
+
+  4 P  1.40700000E+00      2.184277
+
+  5 P  3.88000000E-01      0.436495
+
+  6 D  1.05700000E+00      1.813597
+
+
+
+Printing Internal Coordinates
+
+------------------------------------------------------------
+                Bond Lengths
+
+i      j        Length (Angstroms)     Length (Bohr)
+0      1          0.9577755948         1.8099335643
+0      2          0.9577755948         1.8099335643
+
+Number of Bonds: 2
+
+------------------------------------------------------------
+           Bond Angles
+
+i      j      k      Angle (degrees)
+1      0      2        104.4798 
+
+Number of Angles: 1
+Number of Torsional Angles: 0
+
+
+----------------------------------------------------------------------
+                          Center of Mass
+
+         x               y               z              Unit
+               0  8.35621435e-19   0.05166191185      Angstrom
+               0 1.579095657e-18   0.09762686453          Bohr
+
+----------------------------------------------------------------------
+                Moment of Inertia Tensor
+
+           6.32589                 0                 0
+                 0           2.19889      -9.55356e-17
+                 0      -9.55356e-17             4.127
+
+----------------------------------------------------------------------
+                      Principal Moments of Inertia
+
+           x                 y                 z                Unit
+      0.6157518708       1.155676636       1.771428507       amu * ang^2
+       2.198889851       4.126996192       6.325886042      amu * bohr^2
+  1.0224807348e-40  1.9190475128e-40  2.9415282475e-40          g * cm^2
+
+ - Molecule is an asymmetric top.
+
+----------------------------------------------------------------------
+
+         Rotational constants (MHz)
+
+    A = 8.2075e+05        B = 4.3730e+05        C = 2.8529e+05
+
+----------------------------------------------------------------------
+
+        Rotational constants (cm-1)
+
+    A = 2.7377e+01        B = 1.4587e+01        C = 9.5164e+00
+
+----------------------------------------------------------------------
+
+                                Z-Matrix
+O   
+H        1       1.8099336
+H        2       2.8618012     1       37.760081
+
+----------------------------------------------------------------------
+
+             Converted back to Cartesian
+
+O        0.000000      0.000000      0.000000
+H        0.000000      0.000000      1.809934
+H        0.000000      0.032917     -1.051678
+
+----------------------------------------------------------------------
+                            Geometry in angstrom
+
+1     O       0.0000000000    0.0000000000    0.1173000000
+2     H       0.0000000000    0.7572000000   -0.4692000000
+3     H       0.0000000000   -0.7572000000   -0.4692000000
+
+ Number of nodes, processes per node used for SCF calculation: 1, 1
+
+Common Options
+{
+  maxiter       = 200
+  basis         = cc-pvtz spherical
+  geom_units    = angstrom
+  ang2au factor = 1.889726126
+  debug         = false
+  file_prefix   = H2O
+}
+
+SCF Options
+{
+  charge            = 0
+  multiplicity      = 1
+  level shift       = 0
+  tol_int           = 1e-18
+  tol_sch           = 1e-12
+  tol_lindep        = 1e-05
+  conve             = 1e-09
+  convd             = 1e-08
+  diis_hist         = 10
+  AO_tilesize       = 30
+  writem            = 1
+  damp              = 100
+  n_lindep          = 0
+  scf_type          = restricted
+  cuscf             = false
+  direct_df         = false
+  restart_size      = 2000
+  restart           = false
+  debug             = false
+}
+
+Number of basis functions = 58
+
+Total number of shells = 22
+
+Total number of electrons = 10
+  # of alpha electrons    = 5
+  # of beta electons      = 5
+
+Nuclear repulsion energy  = 9.1895337564054
+
+Maximum angular momentum = 3
+# of {all,non-negligible} shell-pairs = {253,253}
+Number of AO tiles = 22
+
+Time for initial setup: 0.00 secs
+HF exch = 1.00
+
+Time for computing 1-e integrals T, V, S: 0.00 secs
+Time for computing orthogonalizer: 0.00 secs
+
+Superposition of Atomic Density Guess ...
+Time taken for SAD: 0.08 secs
+Total Time to compute initial guess: 0.08 secs
+
+
+ SCF iterations
+-----------------------------------------------------------------------------
+ Iter     Energy            E-Diff       RMSD        |[F,P]|^2       Time(s)
+-----------------------------------------------------------------------------
+   1  -75.9463201856    -7.59e+01     1.74e-02     9.93e+01         0.0 
+   2  -75.9937872032    -4.75e-02     6.63e-03     2.86e+00         0.1 
+   3  -76.0397762441    -4.60e-02     2.19e-03     7.89e-01         0.1 
+   4  -76.0568571987    -1.71e-02     4.72e-04     7.99e-03         0.1 
+   5  -76.0571120283    -2.55e-04     1.30e-04     3.31e-04         0.1 
+   6  -76.0571265158    -1.45e-05     2.85e-05     1.39e-05         0.1 
+   7  -76.0571273912    -8.75e-07     5.47e-06     4.31e-07         0.1 
+   8  -76.0571274199    -2.87e-08     8.52e-07     6.21e-09         0.1 
+   9  -76.0571274202    -3.43e-10     1.18e-07     8.75e-11         0.1 
+  10  -76.0571274202    -5.77e-12     3.02e-08     5.70e-12         0.1 
+  11  -76.0571274202    -4.83e-13     3.88e-09     2.19e-13         0.1 
+
+** Total SCF energy = -76.0571274202271
+
+Nuclear repulsion energy = 9.189533756405398
+#electrons        = 10
+1e energy kinetic = 76.0036041267311049
+1e energy N-e     = -199.1133173776168803
+1e energy         = -123.1097132508858181
+2e energy         = 37.8630520742532042
+
+
+                      Electron        Nuclear        Total  
+                  ------------------------------------------
+    Monopole         -10.000000     10.000000      0.000000
+
+      Dipole   X      -0.000000      0.000000     -0.000000
+      Dipole   Y      -0.000000      0.000000     -0.000000
+      Dipole   Z      -0.797087      0.000000     -0.797087
+
+  Quadrupole  XX      -5.424358      0.000000     -5.424358
+  Quadrupole  XY       0.000000      0.000000      0.000000
+  Quadrupole  XZ       0.000000      0.000000      0.000000
+  Quadrupole  YY      -7.186392      4.094953     -3.091439
+  Quadrupole  YZ       0.000000      0.000000      0.000000
+  Quadrupole  ZZ      -6.466663      1.965413     -4.501251
+
+    Octupole XXX      -0.000000      0.000000     -0.000000
+    Octupole XXY      -0.000000      0.000000     -0.000000
+    Octupole XXZ      -0.401323      0.000000     -0.401323
+    Octupole XYY      -0.000000      0.000000     -0.000000
+    Octupole XYZ       0.000000      0.000000      0.000000
+    Octupole XZZ      -0.000000      0.000000     -0.000000
+    Octupole YYY      -0.000000      0.000000     -0.000000
+    Octupole YYZ       1.687299     -3.630829     -1.943530
+    Octupole YZZ      -0.000000      0.000000     -0.000000
+    Octupole ZZZ      -0.392493     -1.306989     -1.699482
+
+
+writing orbitals and density to disk ... done.
+
+Total Time taken for Hartree-Fock: 0.75 secs
+
+CD Options
+{
+  debug             = false
+  skip_cd           = [false, 100]
+  write_cv          = [false, 5000]
+  diagtol           = 1e-12
+  itilesize         = 1000
+  max_cvecs_factor  = 12
+}
+
+- #occupied, #virtual = 10, 106
+
+- Tilesize for the MSO space: 40
+
+-----------------------------------------------------
+Begin 2-index transformation ... 
+
+nAO, nMO, nelectrons = 58, 116, 10
+n_occ_alpha, n_vir_alpha, n_occ_beta, n_vir_beta = 5,53,5,53
+
+Time taken for Fao->Fmo transform: 0.00 secs
+
+-----------------------------------------------------
+Number of AO tiles = 22
+# of {all,non-negligible} shell-pairs = {253,253}
+
+    Begin Cholesky Decomposition
+---------------------------------------------
+Total # of mpi ranks used for Cholesky decomposition: 1
+  --> Number of nodes, mpi ranks per node: 1, 1
+- CPU memory required for computing cholesky vectors: 0.07 GiB
+
+- Time for computing the diagonal: 0.00 secs
+
+- Total number of cholesky vectors = 1108
+
+- Time to compute cholesky vectors: 1.86 secs
+
+- CPU memory required for resizing the ao cholesky tensor: 0.06 GiB
+- CPU memory required for ao2mo transformation: 0.08 GiB
+- CPU memory required for the 2-step contraction: 0.11 GiB
+
+- Time for ao to mo transform: 0.22 secs
+
+   End Cholesky Decomposition
+---------------------------------------------
+
+Total Time taken for Cholesky Decomposition: 2.14 secs
+
+scf_type = restricted
+Closed-Shell SCF
+nbf = 58
+nbf_orig = 58
+n_lindep = 0
+focc = 1
+nmo = 116
+nocc = 10
+nvir = 106
+n_occ_alpha = 5
+n_vir_alpha = 53
+n_occ_beta = 5
+n_vir_beta = 53
+nelectrons = 10
+nelectrons_alpha = 5
+nelectrons_beta = 5
+n_frozen_core = 0
+n_frozen_virtual = 0
+----------------------------
+
+Total CPU memory required for Closed Shell Cholesky CCSD calculation: 0.17 GiB
+
+
+ CCSD iterations
+------------------------------------------------------------
+  Iter     Residuum          Correlation          Time(s)
+------------------------------------------------------------
+   1     0.6552648608832   -0.2751169845308         0.55
+   2     0.0651675371273   -0.2752615885603         0.52
+   3     0.0169944983435   -0.2800752189553         0.52
+   4     0.0050228247132   -0.2804233696461         0.52
+   5     0.0020903348228   -0.2807283689236         0.52
+ MICROCYCLE DIIS UPDATE:                    6
+   6     0.0007521198123   -0.2808501176883         0.52
+   7     0.0002409719947   -0.2808585516393         0.52
+   8     0.0001129383095   -0.2808621252297         0.52
+   9     0.0000493829825   -0.2808639941361         0.52
+  10     0.0000263906570   -0.2808651366267         0.52
+ MICROCYCLE DIIS UPDATE:                   11
+  11     0.0000053498845   -0.2808663910155         0.52
+  12     0.0000026064239   -0.2808661790189         0.52
+  13     0.0000013549735   -0.2808661483188         0.52
+  14     0.0000007502895   -0.2808661300347         0.52
+  15     0.0000004242664   -0.2808661240125         0.52
+ MICROCYCLE DIIS UPDATE:                   16
+  16     0.0000000469732   -0.2808661195015         0.52
+  17     0.0000000147817   -0.2808661203929         0.52
+  18     0.0000000063411   -0.2808661205635         0.52
+------------------------------------------------------------------
+ Iterations converged
+ CCSD correlation energy / hartree =        -0.280866120563469
+ CCSD total energy / hartree       =       -76.337993540790620
+
+Time taken for Closed Shell Cholesky CCSD: 9.45 secs
+
+Threshold for printing amplitudes set to: 0.01
+T1, T2 amplitudes written to files: H2O.cc-pvtz_files/restricted/H2O.cc-pvtz.print_t1amp.txt, H2O.cc-pvtz_files/restricted/H2O.cc-pvtz.print_t2amp.txt
+
+
+Executing DUCC routine
+======================
+Number of active occupied alpha = 5
+Number of active occupied beta  = 5
+Number of active virtual alpha  = 5
+Number of active virtual beta   = 5
+ducc_lvl = 2
+
+Full SCF Energy: -76.057127420227
+Bare SCF Energy: -76.057127375046
+Frozen Core Energy: -0.000000045181
+Norm of T1 (Full): 0.025834778545
+Norm of T2 (Full): 0.507672858526
+Norm of T1 (Ext): 0.023016945170
+Norm of T2 (Ext): 0.464758564734
+
+Max abs of T1 (Ext): 0.007053547214
+Min abs of T1 (Ext): -0.004879422971
+Max abs of T2 (Ext): 0.047598469927
+Min abs of T2 (Ext): -0.047598469927
+
+Norm of T1 (Int): 0.011732690123
+Norm of T2 (Int): 0.204282176880
+
+DUCC: Time taken to compute Bare Hamiltonian: 0.00 secs
+Bare Active Space SCF Energy: -76.057127375046
+
+DUCC: Time taken to compute single commutator of F and V and double commutator of F: 0.25 secs
+
+DUCC: Time taken to compute double commutator of V and triple commutator of F: 5.18 secs
+Fully Contracted Scalar: -0.264351125079
+
+DUCC SCF energy: -76.328463966299
+Total Energy Shift: 0.006985420992
+
+DUCC: Total compute time: 5.44 secs
+
+DUCC: Time to write results: 0.01 secs
+DUCC Memory Stats
+-----------------
+allocation count: 3608
+deallocation count: 3608
+total memory allocated: 1.493427 GiB
+total memory deallocated: 1.493427 GiB
+maximum memory in single allocation: 0.352732 GiB
+maximum memory consumption: 0.524779 GiB

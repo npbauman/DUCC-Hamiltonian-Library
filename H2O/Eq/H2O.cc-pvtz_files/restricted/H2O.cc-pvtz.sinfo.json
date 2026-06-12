@@ -1,0 +1,36 @@
+{
+  "output": {
+    "machine_info": {
+      "date": "Fri Jun 12 10:29:29 2026",
+      "nnodes": 1,
+      "nproc_per_node": 1,
+      "nproc_total": 1,
+      "cpu": {
+        "name": "AMD EPYC 9124 16-Core Processor                ",
+        "cpu_memory_per_node_gib": 250,
+        "total_cpu_memory_gib": 250
+      }
+    },
+    "system_info": {
+      "nbf": 58,
+      "nshells": 22,
+      "nelectrons_total": 10,
+      "nelectrons_alpha": 5,
+      "nelectrons_beta": 5
+    },
+    "SCF": {
+      "nucl_rep_energy": 9.189533756405398
+    }
+  },
+  "molecule": {
+    "name": "H2O",
+    "basis": {
+      "basisset": "cc-pVTZ"
+    },
+    "nbf": 58,
+    "nshells": 22,
+    "nelectrons": 10,
+    "nelectrons_alpha": 5,
+    "nelectrons_beta": 5
+  }
+}

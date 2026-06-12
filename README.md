@@ -8,7 +8,6 @@ Each molecule has various file formats with various information. For further det
 - *.out-FCIDUMP - FCIDUMP-like format of the Hamiltonian.
 - *.out-xacc - Fermionic representation of the Hamiltonian for the XACC software.
 - *.out-info - Some information about the active-space effective Hamiltonian. 
-- *.FCI - output of the FCI calculation for the Hamiltonian. 
 - *_files/ - Directory with raw data from the calculation.
 
 **Hamiltonian Symmetries**
@@ -53,6 +52,4 @@ This is a unique nonstandard FCIDUMP format. The file is separated into five sec
 
 **Scripts**
 
-Compute_FCI_Energy.py - Computed the FCI energy using the *.yaml file.
-
-ExtractDUCC.py - Script used to transform the raw Hamiltonian data into the various file formats.
+hamiltonian_extractor/Eextract_hamiltonian.py - Script used to transform the raw Hamiltonian data into the various file formats. There is a readme for the script in the hamiltonian_extractor directory
