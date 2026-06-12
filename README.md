@@ -1,55 +1,77 @@
-Welcome to the Double Unitary Coupled Cluster (DUCC) Hamiltonian Library. This repo also contains bare active-space Hamiltonians.
+# DUCC Hamiltonian Library
 
-Each molecule has various file formats with various information. For further details about the files, please see below.
+Welcome to the Double Unitary Coupled Cluster (DUCC) Hamiltonian Library. This repository contains DUCC effective Hamiltonians and bare active-space Hamiltonians.
 
-- *.json - Input for the ExaChem calculations that generates the Hamiltonians.
-- *.out - Output of the ExaChem calculation. 
-- *.yaml - YAML format of the Hamiltonian based on the Broombridge Schema.
-- *.out-FCIDUMP - FCIDUMP-like format of the Hamiltonian.
-- *.out-xacc - Fermionic representation of the Hamiltonian for the XACC software.
-- *.out-info - Some information about the active-space effective Hamiltonian. 
-- *_files/ - Directory with raw data from the calculation.
+## Repository Contents
 
-**Hamiltonian Symmetries**
-Hamiltonians are Hermitian. While effective Hamiltonians can contain higher-body terms, we only consider up to two-body interactions:
+Each molecular system may include several file types:
 
-H = *scalar* + h(i, j) + v(i, j, k, l)
+- `*.json`: Input file for the ExaChem calculation that generates the Hamiltonian
+- `*.out`: Main ExaChem output file
+- `*.yaml`: Hamiltonian in YAML format based on the Broombridge schema
+- `*.out-FCIDUMP`: FCIDUMP-like Hamiltonian format
+- `*.out-xacc`: Fermionic Hamiltonian format for XACC workflows
+- `*.out-info`: Summary and validation information for the active-space/effective Hamiltonian
+- `*_files/`: Directory with raw calculation artifacts
 
-Scalar terms refer to a collective scalar for the nuclear repulsion energy, dropped core energy, and, in the case of DUCC Hamiltonians, fully contracted terms from the theory.
+## Tutorials
 
-Since the one-electron integrals are Hermitian,
+- H2O DUCC extraction walkthrough: `Tutorial/H2O_Tutorial.md`
 
+## Hamiltonian Symmetries
+
+Hamiltonians in this repository are Hermitian. While effective Hamiltonians can contain higher-body terms, this repository currently provides up to two-body interactions:
+
+$$
+H = \text{scalar} + h(i, j) + v(i, j, k, l)
+$$
+
+The scalar term contains nuclear repulsion, dropped-core contributions, and for DUCC Hamiltonians, fully contracted DUCC terms.
+
+Because the one-electron integrals are Hermitian:
+
+$$
 h(i, j) = h(j, i)
+$$
 
-For two-electron integrals, consider the following format:
+For two-electron integrals, index ordering is written as:
 
-v(electron 1, electron 1, electron 2, electron 2)
+$$
+v(\text{electron 1}, \text{electron 1}, \text{electron 2}, \text{electron 2})
+$$
 
-Bare Hamiltonians have the standard 8-fold symmetry:
+Bare Hamiltonians have standard 8-fold symmetry:
 
+$$
 v(i, j, k, l) = v(k, l, i, j) = v(j, i, l, k) = v(l, k, j, i) = v(j, i, k, l) = v(i, j, l, k) = v(k, l, j, i) = v(l, k, i, j)
+$$
 
-where i, j, k, l are orbital indices (as opposed to spin-orbital indices)
+where $i, j, k, l$ are orbital indices (not spin-orbital indices).
 
-The DUCC effective Hamiltonians have a lower 4-fold symmetry:
+DUCC effective Hamiltonians have 4-fold symmetry:
 
+$$
 v(i, j, k, l) = v(k, l, i, j) = v(j, i, l, k) = v(l, k, j, i)
+$$
 
-**File Formats**
+## File Format Notes
 
-*.yaml*
+### `*.out-FCIDUMP`
 
-*out-FCIDUMP*
+This is a nonstandard FCIDUMP-style format. The file is separated into five orbital-integral sections (each section separated by a `0.0 0 0 0 0` line), followed by a scalar value:
 
-This is a unique nonstandard FCIDUMP format. The file is separated into five sections of 'orbital' integrals (separated by a "0.0 0 0 0 0" line) and a scalar value.
+- Section 1: alpha-alpha two-electron integrals (antisymmetrized, orbital indices)
+- Section 2: beta-beta two-electron integrals (antisymmetrized, orbital indices)
+- Section 3: alpha-beta two-electron integrals (orbital indices)
+- Section 4: alpha one-electron integrals (orbital indices)
+- Section 5: beta one-electron integrals (orbital indices)
+- Final scalar line: nuclear repulsion + dropped-core + DUCC contracted terms
 
-- The first section is the alpha-alpha terms of the two-electron integrals. They are antisymmetrized and labeled with orbital (not spin-orbital) indices.
-- The second section is the beta-beta terms of the two-electron integrals. They are antisymmetrized and labeled with orbital indices.
-- The third section is the alpha-beta terms of the two-electron integrals, labeled with orbital indices.
-- The fourth section is the alpha terms of the one-electron integrals labeled with orbital indices.
-- The fifth section is the beta terms of the one-electron integrals labeled with orbital indices.
-- Then the last line is the scalar term, which accounts for the nuclear repulsion, dropped core, and the fully contracted terms from the DUCC method.
+### `*.yaml`
 
-**Scripts**
+The YAML output follows the Broombridge-style schema used by the extraction scripts.
 
-hamiltonian_extractor/Eextract_hamiltonian.py - Script used to transform the raw Hamiltonian data into the various file formats. There is a readme for the script in the hamiltonian_extractor directory
+## Scripts
+
+- `Scripts/hamiltonian_extractor/extract_hamiltonian.py`: Converts raw DUCC data into FCIDUMP, YAML, XACC, and info outputs
+- `Scripts/hamiltonian_extractor/README.md`: Detailed script usage and command-line options
