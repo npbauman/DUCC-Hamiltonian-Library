@@ -52,4 +52,4 @@ This is a unique nonstandard FCIDUMP format. The file is separated into five sec
 
 **Scripts**
 
-hamiltonian_extractor/Eextract_hamiltonian.py - Script used to transform the raw Hamiltonian data into the various file formats. There is a readme for the script in the hamiltonian_extractor directory
+hamiltonian_extractor/extract_hamiltonian.py - Script used to transform the raw Hamiltonian data into the various file formats. There is a readme for the script in the hamiltonian_extractor directory
