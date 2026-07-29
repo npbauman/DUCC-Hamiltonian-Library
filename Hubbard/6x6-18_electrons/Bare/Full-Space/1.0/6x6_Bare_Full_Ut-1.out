@@ -1,0 +1,562 @@
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+
+ExaChem Git Information
+{
+ Branch: main
+ Commit Hash: 794cab1 [794cab19fe2444da5b7170dc4e6f291fbc1ab75c]
+ Commit Date: 2026-07-04 08:31:04 -0700
+ Commit Message: fix ci result compare script, update cr2 reference outputs
+
+ WARNING: The following ExaChem sources have uncommitted changes at build-time.
+
+ M exachem/cc/ducc/ducc-t_ccsd.cpp
+ M exachem/cc/ducc/qflow-t_ccsd.cpp
+
+diff --git a/exachem/cc/ducc/ducc-t_ccsd.cpp b/exachem/cc/ducc/ducc-t_ccsd.cpp
+index 4b468c1..1ff0e5b 100644
+--- a/exachem/cc/ducc/ducc-t_ccsd.cpp
++++ b/exachem/cc/ducc/ducc-t_ccsd.cpp
+@@ -10,0 +11 @@
++#include "tamm/eigen_utils.hpp"
+@@ -154,0 +156,12 @@ void DUCCInternal<T>::DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec
++  // Dense execution context used both for the norm verification below and for
++  // the dense-tensor result printing further down in this function.
++  ExecutionContext ec_dense{ec.pg(), DistributionKind::dense,
++                            MemoryManagerKind::ga}; // create ec_dense once
++
++  // Print norms of original T1/T2 operators
++  const auto t1_full_norm   = tamm::norm(t1);
++  const auto t2_full_norm   = tamm::norm(t2);
++
++  qfstr << "Norm of T1 (Full): " << t1_full_norm << std::endl;
++  qfstr <<  "Norm of T2 (Full): " << t2_full_norm << std::endl;
++
+@@ -161,0 +175,60 @@ void DUCCInternal<T>::DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec
++  const auto t1_ext_norm   = tamm::norm(t1);
++  const auto t2_ext_norm   = tamm::norm(t2);
++
++  auto [maxt1ext, maxblockid1, maxcoord1] = tamm::max_element(t1);
++  auto [mint1ext, minblockid1, mincoord1] = tamm::min_element(t1);
++  auto [maxt2ext, maxblockid2, maxcoord2] = tamm::max_element(t2);
++  auto [mint2ext, minblockid2, mincoord2] = tamm::min_element(t2);
++  
++  qfstr << "Norm of T1 (Ext): " << t1_ext_norm << std::endl;
++  qfstr << "Norm of T2 (Ext): " << t2_ext_norm << std::endl;
++  // qfstr << std::endl;
++  qfstr << "Max abs of T1 (Ext): " << maxt1ext << std::endl;
++  qfstr << "Min abs of T1 (Ext): " << mint1ext << std::endl;
++  qfstr << "Max abs of T2 (Ext): " << maxt2ext << std::endl;
++  qfstr << "Min abs of T2 (Ext): " << mint2ext << std::endl;
++  // qfstr << std::endl;
++  qfstr << "Norm of T1 (Int): " << sqrt(t1_full_norm * t1_full_norm - t1_ext_norm * t1_ext_norm) << std::endl;
++  qfstr << "Norm of T2 (Int): " << sqrt(t2_full_norm * t2_full_norm - t2_ext_norm * t2_ext_norm) << std::endl;
++
++  // --- Verification: recompute norm of T1 (Ext) / T2 (Ext) two independent ways ---
++
++  // (1) Explicit self-contraction into a scalar tensor.
++  // At this point T1/T2 have already had their T_int blocks zeroed out, so
++  // contracting the full p1/h1 (p1,p2/h1,h2) ranges against themselves only
++  // picks up the surviving T_ext values.
++  Tensor<T> t1_dot{};
++  Tensor<T> t2_dot{};
++  sch.allocate(t1_dot, t2_dot).execute();
++  // clang-format off
++  sch(t1_dot() = t1(p1, h1) * t1(p1, h1))
++     (t2_dot() = t2(p1, p2, h1, h2) * t2(p1, p2, h1, h2))
++     .execute(ex_hw);
++  // clang-format on
++  const auto t1_ext_norm_contract = std::sqrt(get_scalar(t1_dot));
++  const auto t2_ext_norm_contract = std::sqrt(get_scalar(t2_dot));
++  free_tensors(t1_dot, t2_dot);
++
++  // (2) Gather T1/T2 into local, dense Eigen tensors and manually loop over
++  // every element to accumulate the sum of squares.
++  const auto t1_eigen = tamm_to_eigen_tensor<T, 2>(t1);
++  T          t1_sumsq = 0;
++  for(Eigen::Index i = 0; i < t1_eigen.dimension(0); i++)
++    for(Eigen::Index j = 0; j < t1_eigen.dimension(1); j++)
++      t1_sumsq += t1_eigen(i, j) * t1_eigen(i, j);
++  const auto t1_ext_norm_eigen = std::sqrt(t1_sumsq);
++
++  const auto t2_eigen = tamm_to_eigen_tensor<T, 4>(t2);
++  T          t2_sumsq = 0;
++  for(Eigen::Index i = 0; i < t2_eigen.dimension(0); i++)
++    for(Eigen::Index j = 0; j < t2_eigen.dimension(1); j++)
++      for(Eigen::Index k = 0; k < t2_eigen.dimension(2); k++)
++        for(Eigen::Index l = 0; l < t2_eigen.dimension(3); l++)
++          t2_sumsq += t2_eigen(i, j, k, l) * t2_eigen(i, j, k, l);
++  const auto t2_ext_norm_eigen = std::sqrt(t2_sumsq);
++
++  qfstr << "Norm of T1 (Ext, Contraction): " << t1_ext_norm_contract << std::endl;
++  qfstr << "Norm of T2 (Ext, Contraction): " << t2_ext_norm_contract << std::endl;
++  qfstr << "Norm of T1 (Ext, Eigen Loop): " << t1_ext_norm_eigen << std::endl;
++  qfstr << "Norm of T2 (Ext, Eigen Loop): " << t2_ext_norm_eigen << std::endl;
++
+@@ -398,2 +471 @@ void DUCCInternal<T>::DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec
+-  ExecutionContext ec_dense{ec.pg(), DistributionKind::dense,
+-                            MemoryManagerKind::ga}; // create ec_dense once
++  // ec_dense was created earlier, alongside the T1/T2 norm verification above.
+diff --git a/exachem/cc/ducc/qflow-t_ccsd.cpp b/exachem/cc/ducc/qflow-t_ccsd.cpp
+index a037583..7ee6773 100644
+--- a/exachem/cc/ducc/qflow-t_ccsd.cpp
++++ b/exachem/cc/ducc/qflow-t_ccsd.cpp
+@@ -598,42 +597,0 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
+-  // std::vector<std::vector<int>> occ_combinations;
+-  // std::vector<std::vector<int>> virt_combinations;
+-  // generate_combinations(occ_list, occ_alpha_int, occ_combinations);
+-  // generate_combinations(virt_list, vir_alpha_int, virt_combinations);
+-
+-  // for(const auto& occ_set: occ_combinations) {
+-  //   for(const auto& virt_set: virt_combinations) {
+-  //     std::vector<int> combined;
+-
+-  //     // First nao: original occ_set
+-  //     combined.insert(combined.end(), occ_set.begin(), occ_set.end());
+-
+-  //     // Next nao: occ_set + nocc_orb
+-  //     for(int val: occ_set) combined.push_back(val + nocc_orb);
+-
+-  //     // Next nav: virt_set + nocc_orb
+-  //     for(int val: virt_set) combined.push_back(val + nocc_orb);
+-
+-  //     // Final nav: virt_set + nocc_orb + nvirt_orb
+-  //     for(int val: virt_set) combined.push_back(val + nocc_orb + nvirt_orb);
+-
+-  //     double occ_sum = 0.0, virt_sum = 0.0;
+-  //     for(int j: occ_set) occ_sum += p_evl_sorted[j];
+-  //     for(int i: virt_set) virt_sum += p_evl_sorted[i + nocc_orb];
+-
+-  //     double orb_e_diff = virt_sum - occ_sum;
+-  //     combinations_with_energy.emplace_back(combined, orb_e_diff);
+-
+-  //     // if(rank == 0) {
+-  //     //   std::cout << "occ_set: [ ";
+-  //     //   for(int val: occ_set) { std::cout << val << " "; }
+-  //     //   std::cout << "] virt_set: [ ";
+-  //     //   for(int val: virt_set) { std::cout << val << " "; }
+-  //     //   std::cout << "] | spin orbital combination: [ ";
+-  //     //   for(int val: combined) { std::cout << val << " "; }
+-  //     //   std::cout << "] | associated energy: " << occ_sum << " " << virt_sum << " " <<
+-  //     orb_e_diff
+-  //     //   << std::endl;
+-  //     // }
+-  //   }
+-  // }
+-
+@@ -757 +715 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
+-  for(int cycle = cycle_start; cycle < cycles; ++cycle) {
++  for(int cycle = cycle_start; cycle < cycles+1; ++cycle) {
+@@ -898,0 +857,5 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
++        // Trick last cycles to give final active-space statisitcs
++        if(cycle == cycles){
++          chem_env.ioptions.ccsd_options.ducc_lvl = 0;
++        }
++
+@@ -905,0 +869,3 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
++        // Skip the work for the last cycle, since we don't need to update the amplitudes for the last cycle.
++        if(cycle < cycles){
++
+@@ -1041,0 +1008,2 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
++        
++        } // end if cycle < cycles
+
+}
+
+
+TAMM Git Information
+{
+ Branch: main
+ Commit Hash: e485b7a6 [e485b7a6e79f495b0ffb2c18c6a830b45c7ddbcb]
+ Commit Date: 2026-07-06 06:28:40 -0500
+ Commit Message: refactor: replace gsl::span with std::span (C++20) (#143)
+}
+
+
+date: Wed Jul 29 13:42:09 2026
+program: "/ravenfs/scratch/baum612/code/exachem-dev/build_cpu/methods_stage/ravenfs/scratch/baum612/code/install/TAMM_cpu/methods/ExaChem"
+nnodes: 1, nproc_per_node: 2, nproc_total: 2, 
+Memory information
+{
+[AMD EPYC 9124 16-Core Processor                ] : 
+  CPU memory per node (GiB): 1007
+  Total CPU memory (GiB): 1007
+}
+
+------------------------------------------------------------
+
+Input file provided: /ravenfs/scratch/baum612/Runs/DUCC-Hamiltonian-Library/Hubbard/6x6-18_electrons/6x6.json
+
+{
+  "geometry": {
+    "coordinates": [
+      "H    0  0   0",
+      "H    0  0   0.1",
+      "H    0  0   0.2",
+      "H    0  0   0.3",
+      "H    0  0   0.4",
+      "H    0  0   0.5",
+      "H    0  0   0.6",
+      "H    0  0   0.7",
+      "H    0  0   0.8",
+      "H    0  0   0.9",
+      "H    0  0   1",
+      "H    0  0   1.1",
+      "H    0  0   1.2",
+      "H    0  0   1.3",
+      "H    0  0   1.4",
+      "H    0  0   1.5",
+      "H    0  0   1.6",
+      "H    0  0   1.7",
+      "H    0  0   1.8",
+      "H    0  0   1.9",
+      "H    0  0   2",
+      "H    0  0   2.1",
+      "H    0  0   2.2",
+      "H    0  0   2.3",
+      "H    0  0   2.4",
+      "H    0  0   2.5",
+      "H    0  0   2.6",
+      "H    0  0   2.7",
+      "H    0  0   2.8",
+      "H    0  0   2.9",
+      "H    0  0   3",
+      "H    0  0   3.1",
+      "H    0  0   3.2",
+      "H    0  0   3.3",
+      "H    0  0   3.4",
+      "H    0  0   3.5"
+    ],
+    "units": "angstrom"
+  },
+  "basis": {
+    "basisset": "sto-3g"
+  },
+  "common": {
+    "maxiter": 100
+  },
+  "SCF": {
+    "tol_lindep": 1e-06,
+    "conve": 1e-09,
+    "convd": 1e-08,
+    "diis_hist": 10,
+    "charge": 0,
+    "multiplicity": 1,
+    "scf_type": "restricted",
+    "hubbard": {
+      "do_hubbard": true,
+      "t_val": 1.0,
+      "U_val": 1.0,
+      "nelectrons": 18,
+      "is_periodic": [
+        true,
+        true
+      ],
+      "lattice": [
+        6,
+        6
+      ]
+    },
+    "restart": false
+  },
+  "CD": {
+    "diagtol": 1e-12,
+    "max_cvecs": 40
+  },
+  "CC": {
+    "threshold": 1e-06,
+    "ndiis": 5,
+    "writet": false,
+    "ccsd_maxiter": 100,
+    "nactive_oa": 9,
+    "nactive_ob": 9,
+    "nactive_va": 27,
+    "nactive_vb": 27,
+    "PRINT": {
+      "tamplitudes": [
+        true,
+        1e-10
+      ]
+    },
+    "ducc_lvl": 0
+  },
+  "TASK": {
+    "scf": false,
+    "ccsd": false,
+    "ducc": [
+      true,
+      "default"
+    ]
+  }
+}
+
+Output folder & files prefix: 6x6.sto-3g
+
+  H (hydrogen)
+  ------------
+          Exponent        Coefficients
+      ----------------  --------------------
+  1 S  3.42525091E+00      0.276934
+  1 S  6.23913730E-01      0.267839
+  1 S  1.68855400E-01      0.083474
+
+
+
+
+----------------------------------------------------------------------
+                            Geometry in angstrom
+
+1     H       0.0000000000    0.0000000000    0.0000000000
+2     H       0.0000000000    0.0000000000    0.1000000000
+3     H       0.0000000000    0.0000000000    0.2000000000
+4     H       0.0000000000    0.0000000000    0.3000000000
+5     H       0.0000000000    0.0000000000    0.4000000000
+6     H       0.0000000000    0.0000000000    0.5000000000
+7     H       0.0000000000    0.0000000000    0.6000000000
+8     H       0.0000000000    0.0000000000    0.7000000000
+9     H       0.0000000000    0.0000000000    0.8000000000
+10    H       0.0000000000    0.0000000000    0.9000000000
+11    H       0.0000000000    0.0000000000    1.0000000000
+12    H       0.0000000000    0.0000000000    1.1000000000
+13    H       0.0000000000    0.0000000000    1.2000000000
+14    H       0.0000000000    0.0000000000    1.3000000000
+15    H       0.0000000000    0.0000000000    1.4000000000
+16    H       0.0000000000    0.0000000000    1.5000000000
+17    H       0.0000000000    0.0000000000    1.6000000000
+18    H       0.0000000000    0.0000000000    1.7000000000
+19    H       0.0000000000    0.0000000000    1.8000000000
+20    H       0.0000000000    0.0000000000    1.9000000000
+21    H       0.0000000000    0.0000000000    2.0000000000
+22    H       0.0000000000    0.0000000000    2.1000000000
+23    H       0.0000000000    0.0000000000    2.2000000000
+24    H       0.0000000000    0.0000000000    2.3000000000
+25    H       0.0000000000    0.0000000000    2.4000000000
+26    H       0.0000000000    0.0000000000    2.5000000000
+27    H       0.0000000000    0.0000000000    2.6000000000
+28    H       0.0000000000    0.0000000000    2.7000000000
+29    H       0.0000000000    0.0000000000    2.8000000000
+30    H       0.0000000000    0.0000000000    2.9000000000
+31    H       0.0000000000    0.0000000000    3.0000000000
+32    H       0.0000000000    0.0000000000    3.1000000000
+33    H       0.0000000000    0.0000000000    3.2000000000
+34    H       0.0000000000    0.0000000000    3.3000000000
+35    H       0.0000000000    0.0000000000    3.4000000000
+36    H       0.0000000000    0.0000000000    3.5000000000
+
+ Number of nodes, processes per node used for SCF calculation: 1, 2
+
+Common Options
+{
+  maxiter       = 100
+  basis         = sto-3g spherical
+  geom_units    = angstrom
+  ang2au factor = 1.889726126
+  debug         = false
+  file_prefix   = 6x6
+}
+
+SCF Options
+{
+  charge            = 0
+  multiplicity      = 1
+  level shift       = 0
+  tol_int           = 1E-22
+  tol_sch           = 1E-12
+  tol_lindep        = 1E-06
+  conve             = 1E-09
+  convd             = 1E-08
+  diis_hist         = 10
+  AO_tilesize       = 30
+  writem            = 1
+  damp              = 100
+  n_lindep          = 0
+  scf_type          = restricted
+  cuscf             = false
+ Hubbard options {
+  t_val               = 1
+  U_val               = 1
+  nelectrons          = 18
+  is_periodic         = [1,1,]
+  lattice             = [6,6,]
+ }
+  direct_df         = false
+  restart_size      = 2000
+  restart           = false
+  debug             = false
+}
+
+Number of basis functions = 36
+
+Total number of shells = 36
+
+Total number of electrons = 18
+  # of alpha electrons    = 9
+  # of beta electons      = 9
+
+Nuclear repulsion energy  = 0
+
+Maximum angular momentum = 0
+# of {all,non-negligible} shell-pairs = {666,666}
+Number of AO tiles = 36
+
+Time for initial setup: 0.02 secs
+HF exch = 1.00
+Time for computing orthogonalizer: 0.05 secs
+
+HCore Guess ...
+Total Time to compute initial guess: 0.00 secs
+
+
+ SCF iterations
+-----------------------------------------------------------------------------
+ Iter     Energy            E-Diff       RMSD        |[F,P]|^2       Time(s)
+-----------------------------------------------------------------------------
+   1  -23.4375000000    -2.34E+01     8.33E-02     8.28E-29         0.0 
+<DIIS> Singularity in Pulay matrix detected.
+   2  -45.7500000000    -2.23E+01     2.86E-16     2.12E-28         0.0 
+<DIIS> Singularity in Pulay matrix detected.
+   3  -45.7500000000     2.13E-14     2.63E-16     3.88E-28         0.0 
+
+** Total SCF energy = -45.7500000000000
+
+Nuclear repulsion energy = 0.000000000000000
+#electrons        = 18
+1e energy kinetic = 0.0000000000000000
+1e energy N-e     = 0.0000000000000000
+1e energy         = -48.0000000000000142
+2e energy         = 2.2500000000000000
+
+
+                      Electron        Nuclear        Total  
+                  ------------------------------------------
+    Monopole         -63.619995     36.000000    -27.619995
+
+      Dipole   X       0.000000      0.000000      0.000000
+      Dipole   Y       0.000000      0.000000      0.000000
+      Dipole   Z    -210.392642    119.052746    -91.339896
+
+  Quadrupole  XX     -42.809364      0.000000    -42.809364
+  Quadrupole  XY       0.000000      0.000000      0.000000
+  Quadrupole  XZ       0.000000      0.000000      0.000000
+  Quadrupole  YY     -42.809364      0.000000    -42.809364
+  Quadrupole  YZ       0.000000      0.000000      0.000000
+  Quadrupole  ZZ    -953.797735    532.445766   -421.351969
+
+    Octupole XXX       0.000000      0.000000      0.000000
+    Octupole XXY       0.000000      0.000000      0.000000
+    Octupole XXZ    -141.571453      0.000000   -141.571453
+    Octupole XYY       0.000000      0.000000      0.000000
+    Octupole XYZ       0.000000      0.000000      0.000000
+    Octupole XZZ       0.000000      0.000000      0.000000
+    Octupole YYY       0.000000      0.000000      0.000000
+    Octupole YYZ    -141.571453      0.000000   -141.571453
+    Octupole YZZ       0.000000      0.000000      0.000000
+    Octupole ZZZ   -4860.816309   2678.413966  -2182.402342
+
+
+writing orbitals and density to disk ... done.
+
+Total Time taken for Hartree-Fock: 0.18 secs
+
+CD Options
+{
+  debug             = false
+  skip_cd           = [false, 100]
+  write_cv          = [false, 5000]
+  diagtol           = 1E-12
+  itilesize         = 1000
+  max_cvecs_factor  = 40
+}
+
+- #occupied, #virtual = 18, 54
+
+- Tilesize for the MSO space: 40
+
+-----------------------------------------------------
+Begin 2-index transformation ... 
+
+nAO, nMO, nelectrons = 36, 72, 18
+n_occ_alpha, n_vir_alpha, n_occ_beta, n_vir_beta = 9,27,9,27
+
+Time taken for Fao->Fmo transform: 0.00 secs
+
+-----------------------------------------------------
+scf_type = restricted
+Hubbard Model enabled
+Closed-Shell SCF
+nbf = 36
+nbf_orig = 36
+n_lindep = 0
+focc = 1
+nmo = 72
+nocc = 18
+nvir = 54
+n_occ_alpha = 9
+n_vir_alpha = 27
+n_occ_beta = 9
+n_vir_beta = 27
+nelectrons = 18
+nelectrons_alpha = 9
+nelectrons_beta = 9
+n_frozen_core = 0
+n_frozen_virtual = 0
+----------------------------
+
+Hubbard Setup Time: 0.09 secs
+
+
+ CCSD iterations
+------------------------------------------------------------
+  Iter     Residuum          Correlation          Time(s)
+------------------------------------------------------------
+   1     1.1847148951187   -0.2194829272665         0.08
+   2     0.0812297473711   -0.2061756670041         0.08
+   3     0.0101476060068   -0.2074590077217         0.08
+   4     0.0018686657719   -0.2073075846845         0.07
+   5     0.0003807219699   -0.2073314432533         0.08
+ MICROCYCLE DIIS UPDATE:                    6
+   6     0.0000146667281   -0.2073278671526         0.07
+   7     0.0000011235008   -0.2073278588386         0.07
+   8     0.0000001444072   -0.2073278591434         0.07
+------------------------------------------------------------------
+ Iterations converged
+ CCSD correlation energy / hartree =        -0.207327859143360
+ CCSD total energy / hartree       =       -45.957327859143369
+
+Time taken for Canonical CCSD: 0.71 secs
+
+Threshold for printing amplitudes set to: 0.00
+T1, T2 amplitudes written to files: 6x6.sto-3g_files/restricted/6x6.sto-3g.print_t1amp.txt, 6x6.sto-3g_files/restricted/6x6.sto-3g.print_t2amp.txt
+
+
+Executing DUCC routine
+======================
+Number of active occupied alpha = 9
+Number of active occupied beta  = 9
+Number of active virtual alpha  = 27
+Number of active virtual beta   = 27
+ducc_lvl = 0
+
+Full SCF Energy: -45.750000000000
+Bare SCF Energy: -45.750000000000
+Frozen Core Energy: -0.000000000000
+
+DUCC: Time taken to compute Bare Hamiltonian: 0.00 secs
+Bare Active Space SCF Energy: -45.750000000000
+Fully Contracted Scalar: 0.000000000000
+
+DUCC: Total compute time: 0.00 secs
+
+DUCC: Time to write results: 0.54 secs
+DUCC Memory Stats
+-----------------
+allocation count: 330
+deallocation count: 329
+total memory allocated: 0.677358 GiB
+total memory deallocated: 0.677358 GiB
+maximum memory in single allocation: 0.100113 GiB
+maximum memory consumption: 0.294555 GiB
