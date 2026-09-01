@@ -1,0 +1,21 @@
+**************************************************************
+File = LiH
+
+Nuclear Repulsion E = 0.995317637386834
+Energy Shift = -7.898360339989
+Total Energy Shift = -6.903042702602166
+# Active Orbitals = 4
+# Occupied Alpha Orbitals = 1
+# Occupied Beta Orbitals = 1
+# Virtual Alpha Orbitals = 3
+# Virtual Beta Orbitals = 3
+
+Original SCF Energy = -7.986632674002166
+New Repulsion Energy (Repulsion + Shift) = -6.903042702602166
+
+Fock Matrix Elements (i <= j)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Fock[1,1] = -0.301325
+Fock[2,2] = -0.000043
+Fock[3,3] = 0.035019
+Fock[4,4] = 0.035019
