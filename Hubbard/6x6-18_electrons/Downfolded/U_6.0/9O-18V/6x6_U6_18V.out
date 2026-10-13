@@ -1,0 +1,640 @@
+==========================================
+Job ID: 12760
+Job Name: exachem
+Nodes: raven16
+Number of nodes: 1
+Number of tasks: 29
+Tasks per node: 
+CPUs per task: 1
+==========================================
++ ml
+++ /usr/share/lmod/lmod/libexec/ml_cmd
++ eval 'module  list'
+++ module list
+++ '[' -z '' ']'
+++ case "$-" in
+++ __lmod_sh_dbg=x
+++ '[' -n x ']'
+++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for Lmod's output
+
+Currently Loaded Modules:
+  1) glibc/2.34-ppxsf4c                   (H)
+  2) gcc/14.3.0
+  3) gcc-runtime/14.3.0-234ptmr           (H)
+  4) libiconv/1.18-ygm3enq                (H)
+  5) xz/5.6.3-fu2n3ua                     (H)
+  6) zlib-ng/2.3.3-tiqgdh3                (H)
+  7) libxml2/2.13.9-mxyu5gq               (H)
+  8) cuda/12.9.1
+  9) libpciaccess/0.17-iobe4jw            (H)
+ 10) ncurses/6.6-nyt3pv7                  (H)
+ 11) hwloc/2.4.1-cuda12.9.1-qbqq3vv       (H)
+ 12) libevent/2.1.12-prvc5cg              (H)
+ 13) numactl/2.0.18-uge4ock               (H)
+ 14) openssh/8.7p1-2af6vx3                (H)
+ 15) pmix/5.0.7-23nsh4y                   (H)
+ 16) slurm/25.05.5-lzoq5k2                (H)
+ 17) prrte/3.0.13-cuda12.9.1-khbsrxk      (H)
+ 18) gdrcopy/2.5.2-ib2zk2y                (H)
+ 19) knem/master-r2qfrbz                  (H)
+ 20) rdma-core/51.0-w7ceu32               (H)
+ 21) ucx/1.20.0-cuda12.9.1
+ 22) openmpi/5.0.10-cuda12.9.1
+ 23) nghttp2/1.67.1-xigcsl5               (H)
+ 24) openssl/3.6.0-kubxruc                (H)
+ 25) curl/8.18.0-5iw4khc                  (H)
+ 26) gmake/4.4.1-auqxkub                  (H)
+ 27) cmake/3.31.11
+ 28) bzip2/1.0.8-osev6nb                  (H)
+ 29) libmd/1.1.0-dkb3qpm                  (H)
+ 30) libbsd/0.12.2-jdwugv4                (H)
+ 31) expat/2.7.5-ez3hmln                  (H)
+ 32) readline/8.3-zpq4e4b                 (H)
+ 33) gdbm/1.26-jy4zyqm                    (H)
+ 34) gettext/0.23.1-fklvnm6               (H)
+ 35) libffi/3.5.2-cllmhov                 (H)
+ 36) sqlite/3.51.2-2l7s57y                (H)
+ 37) util-linux-uuid/2.41-cim5psq         (H)
+ 38) zstd/1.5.7-7x3nrpz                   (H)
+ 39) python/3.14.3
+ 40) intel-oneapi-mkl/2026.0.0-cuda12.9.1
+
+  Where:
+   H:  Hidden Module
+
+ 
+
+Shell debugging restarted
+++ unset __lmod_sh_dbg
+++ return 0
++ cd /ravenfs/scratch/jaye143/hubbard/2D_model/6x6_18_elec/U_6.0/ducc_2/9O-18V
++ EC=/ravenfs/scratch/baum612/code/EXACHEM/exachem-dev
++ EXE=/ravenfs/scratch/baum612/code/EXACHEM/exachem-dev/build_cpu/methods_stage/ravenfs/scratch/baum612/code/install/TAMM_cpu/methods/ExaChem
++ srun --mpi=pmix -n 29 /ravenfs/scratch/baum612/code/EXACHEM/exachem-dev/build_cpu/methods_stage/ravenfs/scratch/baum612/code/install/TAMM_cpu/methods/ExaChem hub_2s_36s_ducc.json
+
+ExaChem Git Information
+{
+ Branch: main
+ Commit Hash: 4b4fce7 [4b4fce7ddd2b658a032a64635d68e0c770e67697]
+ Commit Date: 2026-09-30 15:30:22 -0700
+ Commit Message: Change EOM write history
+
+ WARNING: The following ExaChem sources have uncommitted changes at build-time.
+
+ M exachem/cc/ducc/qflow-t_ccsd.cpp
+ M exachem/cholesky/cholesky_2e.cpp
+
+diff --git a/exachem/cc/ducc/qflow-t_ccsd.cpp b/exachem/cc/ducc/qflow-t_ccsd.cpp
+index 3eb9c67..2fe17f2 100644
+--- a/exachem/cc/ducc/qflow-t_ccsd.cpp
++++ b/exachem/cc/ducc/qflow-t_ccsd.cpp
+@@ -757,4 +756,0 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
+-  // Running totals across cycles, for reporting cumulative compute time / estimating an ETA.
+-  double cumulative_ducc_time = 0.0;
+-  double cumulative_vqe_time  = 0.0;
+-
+@@ -1125 +1121 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
+-    double total_combos_skipped = ec.pg().reduce(&combos_skipped, ReduceOp::sum, 0) / subranks;
++    int total_combos_skipped = ec.pg().reduce(&combos_skipped, ReduceOp::sum, 0) / subranks;
+@@ -1132,5 +1127,0 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
+-      const double aggregate_ducc_time = avg_ducc_time * num_pg;
+-      const double aggregate_vqe_time  = avg_vqe_solve_time * num_pg;
+-      cumulative_ducc_time += aggregate_ducc_time;
+-      cumulative_vqe_time += aggregate_vqe_time;
+-
+@@ -1140,7 +1130,0 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
+-      std::cout << " --> Avg DUCC time / process group: " << avg_ducc_time << " secs" << std::endl;
+-      std::cout << " --> Avg VQE time / process group: " << avg_vqe_solve_time << " secs"
+-                << std::endl;
+-      std::cout << " --> Aggregate DUCC compute (all groups): " << aggregate_ducc_time << " secs"
+-                << std::endl;
+-      std::cout << " --> Aggregate VQE compute (all groups): " << aggregate_vqe_time << " secs"
+-                << std::endl;
+@@ -1156 +1140 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
+-      std::cout << " --> Per-combination time: DUCC " << (avg_ducc_time / avg_combos_pg)
++      std::cout << " --> Average per-combination time: DUCC " << (avg_ducc_time / avg_combos_pg)
+@@ -1158,5 +1141,0 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
+-      std::cout << " --> Cumulative DUCC time (all cycles so far): " << cumulative_ducc_time
+-                << " secs" << std::endl;
+-      std::cout << " --> Cumulative VQE time (all cycles so far): " << cumulative_vqe_time
+-                << " secs" << std::endl
+-                << std::endl;
+diff --git a/exachem/cholesky/cholesky_2e.cpp b/exachem/cholesky/cholesky_2e.cpp
+index 044a0c0..5a242d0 100644
+--- a/exachem/cholesky/cholesky_2e.cpp
++++ b/exachem/cholesky/cholesky_2e.cpp
+@@ -133,0 +134 @@ Cholesky_2E_Util::setupMOIS(ExecutionContext& ec, ChemEnv& chem_env, bool triple
++  const bool  is_unrestricted = chem_env.sys_data.is_unrestricted;
+@@ -161,2 +161,0 @@ Cholesky_2E_Util::setupMOIS(ExecutionContext& ec, ChemEnv& chem_env, bool triple
+-    if(n_occ_alpha != n_occ_beta)
+-      tamm_terminate("[DUCC ERROR]: DUCC is only for closed-shell calculations");
+@@ -168,3 +167,7 @@ Cholesky_2E_Util::setupMOIS(ExecutionContext& ec, ChemEnv& chem_env, bool triple
+-      tamm_terminate("[DUCC ERROR]: nactive_oa/nactive_ob cannot be 0");
+-    if(occ_alpha_int != occ_beta_int) tamm_terminate("[DUCC ERROR]: nactive_oa != nactive_ob");
+-    if(vir_alpha_int != vir_beta_int) tamm_terminate("[DUCC ERROR]: nactive_va != nactive_vb");
++    tamm_terminate("[DUCC ERROR]: nactive_oa/nactive_ob cannot be 0");
++    if(!is_unrestricted){
++      if(n_occ_alpha != n_occ_beta)
++        tamm_terminate("[DUCC ERROR]: DUCC is only for closed-shell calculations");
++      if(occ_alpha_int != occ_beta_int) tamm_terminate("[DUCC ERROR]: nactive_oa != nactive_ob");
++      if(vir_alpha_int != vir_beta_int) tamm_terminate("[DUCC ERROR]: nactive_va != nactive_vb");
++    }
+
+}
+
+
+TAMM Git Information
+{
+ Branch: main
+ Commit Hash: 4271585b [4271585b02f821486a071843e056503178e814a1]
+ Commit Date: 2026-09-30 18:25:37 +0000
+ Commit Message: Committing clang-format changes
+}
+
+
+program: "/ravenfs/scratch/baum612/code/EXACHEM/exachem-dev/build_cpu/methods_stage/ravenfs/scratch/baum612/code/install/TAMM_cpu/methods/ExaChem"
+
+Execution environment
+---------------------
+Date:                     2026-10-12T15:27:00-0700
+Nodes:                    1
+MPI ranks:
+  Per node:               28
+  Total:                  28
+
+CPU:
+  Model:                  AMD EPYC 9124 16-Core Processor
+  Memory per node:        1007 GiB
+  Memory total:           1007 GiB
+
+Build configuration
+-------------------
+Build type:               Release
+Compilers:                GNU 14.3.0 (C, C++, Fortran)
+Shared libraries:         disabled
+Install prefix:           /ravenfs/scratch/baum612/code/install/TAMM_cpu
+
+MPI library:
+Open MPI v5.0.10, package: Open MPI root@raven Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026
+
+Parallelism:
+  OpenMP:                 disabled
+  Global Arrays:
+    Runtime:              MPI_PROGRESS_RANK
+
+Memory:
+  libnuma:                disabled
+
+GPU support:              disabled
+
+Linear algebra:
+  BLAS:                   IntelMKL
+  BLAS integers:          32-bit
+  ScaLAPACK:              disabled
+  ELPA:                   disabled
+
+Language bindings:
+  Python:                 disabled
+
+Modules:
+  CC:                     enabled
+  GauXC GPU:              disabled
+  NWQSim:                 enabled
+
+Versions:
+  Global Arrays:          843923e (commit)
+  NJSON:                  3.12.0
+  DOCTEST:                2.4.11
+  SPDLOG:                 v1.15.2
+  Eigen3:                 e50fac9 (commit)
+  HDF5:                   hdf5_1.14.4.3
+  LibInt2:                2.13.1
+  GauXC:                  162e456 (commit)
+  EcpInt:                 95203c6 (commit)
+  NWQSim:                 202f5ca (commit)
+
+
+------------------------------------------------------------
+
+Input file provided: /ravenfs/scratch/jaye143/hubbard/2D_model/6x6_18_elec/U_6.0/ducc_2/9O-18V/hub_2s_36s_ducc.json
+
+{
+  "geometry": {
+    "coordinates": [
+      "H    0  0   0",
+      "H    0  0   0.1",
+      "H    0  0   0.2",
+      "H    0  0   0.3",
+      "H    0  0   0.4",
+      "H    0  0   0.5",
+      "H    0  0   0.6",
+      "H    0  0   0.7",
+      "H    0  0   0.8",
+      "H    0  0   0.9",
+      "H    0  0   1",
+      "H    0  0   1.1",
+      "H    0  0   1.2",
+      "H    0  0   1.3",
+      "H    0  0   1.4",
+      "H    0  0   1.5",
+      "H    0  0   1.6",
+      "H    0  0   1.7",
+      "H    0  0   1.8",
+      "H    0  0   1.9",
+      "H    0  0   2",
+      "H    0  0   2.1",
+      "H    0  0   2.2",
+      "H    0  0   2.3",
+      "H    0  0   2.4",
+      "H    0  0   2.5",
+      "H    0  0   2.6",
+      "H    0  0   2.7",
+      "H    0  0   2.8",
+      "H    0  0   2.9",
+      "H    0  0   3",
+      "H    0  0   3.1",
+      "H    0  0   3.2",
+      "H    0  0   3.3",
+      "H    0  0   3.4",
+      "H    0  0   3.5"
+    ],
+    "units": "angstrom"
+  },
+  "basis": {
+    "basisset": "sto-3g"
+  },
+  "common": {
+    "maxiter": 100
+  },
+  "SCF": {
+    "tol_lindep": 1e-06,
+    "conve": 1e-09,
+    "convd": 1e-08,
+    "diis_hist": 10,
+    "charge": 0,
+    "multiplicity": 1,
+    "scf_type": "restricted",
+    "hubbard": {
+      "do_hubbard": true,
+      "t_val": 1.0,
+      "U_val": 6.0,
+      "nelectrons": 18,
+      "is_periodic": [
+        true,
+        true
+      ],
+      "lattice": [
+        6,
+        6
+      ]
+    },
+    "PRINT": {
+      "mos_txt": false,
+      "mulliken": false,
+      "mo_vectors": [
+        false,
+        -100.0
+      ]
+    },
+    "restart": false
+  },
+  "CD": {
+    "diagtol": 1e-12,
+    "max_cvecs": 40
+  },
+  "CC": {
+    "threshold": 1e-06,
+    "ndiis": 5,
+    "writet": false,
+    "ccsd_maxiter": 100,
+    "nactive_va": 18,
+    "nactive_vb": 18,
+    "nactive_oa": 9,
+    "nactive_ob": 9,
+    "ducc_lvl": 2,
+    "CCSD(T)": {
+      "ccsdt_tilesize": 28
+    },
+    "debug": false
+  },
+  "TASK": {
+    "scf": false,
+    "ccsd": false,
+    "ducc": [
+      true,
+      "default"
+    ]
+  }
+}
+
+Output folder & files prefix: hub_2s_36s_ducc.sto-3g
+
+  H (hydrogen)
+  ------------
+          Exponent        Coefficients
+      ----------------  --------------------
+  1 S  3.42525091E+00      0.276934
+  1 S  6.23913730E-01      0.267839
+  1 S  1.68855404E-01      0.083474
+
+
+
+
+----------------------------------------------------------------------
+                            Geometry in angstrom
+
+1     H       0.0000000000    0.0000000000    0.0000000000
+2     H       0.0000000000    0.0000000000    0.1000000000
+3     H       0.0000000000    0.0000000000    0.2000000000
+4     H       0.0000000000    0.0000000000    0.3000000000
+5     H       0.0000000000    0.0000000000    0.4000000000
+6     H       0.0000000000    0.0000000000    0.5000000000
+7     H       0.0000000000    0.0000000000    0.6000000000
+8     H       0.0000000000    0.0000000000    0.7000000000
+9     H       0.0000000000    0.0000000000    0.8000000000
+10    H       0.0000000000    0.0000000000    0.9000000000
+11    H       0.0000000000    0.0000000000    1.0000000000
+12    H       0.0000000000    0.0000000000    1.1000000000
+13    H       0.0000000000    0.0000000000    1.2000000000
+14    H       0.0000000000    0.0000000000    1.3000000000
+15    H       0.0000000000    0.0000000000    1.4000000000
+16    H       0.0000000000    0.0000000000    1.5000000000
+17    H       0.0000000000    0.0000000000    1.6000000000
+18    H       0.0000000000    0.0000000000    1.7000000000
+19    H       0.0000000000    0.0000000000    1.8000000000
+20    H       0.0000000000    0.0000000000    1.9000000000
+21    H       0.0000000000    0.0000000000    2.0000000000
+22    H       0.0000000000    0.0000000000    2.1000000000
+23    H       0.0000000000    0.0000000000    2.2000000000
+24    H       0.0000000000    0.0000000000    2.3000000000
+25    H       0.0000000000    0.0000000000    2.4000000000
+26    H       0.0000000000    0.0000000000    2.5000000000
+27    H       0.0000000000    0.0000000000    2.6000000000
+28    H       0.0000000000    0.0000000000    2.7000000000
+29    H       0.0000000000    0.0000000000    2.8000000000
+30    H       0.0000000000    0.0000000000    2.9000000000
+31    H       0.0000000000    0.0000000000    3.0000000000
+32    H       0.0000000000    0.0000000000    3.1000000000
+33    H       0.0000000000    0.0000000000    3.2000000000
+34    H       0.0000000000    0.0000000000    3.3000000000
+35    H       0.0000000000    0.0000000000    3.4000000000
+36    H       0.0000000000    0.0000000000    3.5000000000
+
+ Number of nodes, processes per node used for SCF calculation: 1, 28
+
+Common Options
+{
+  maxiter       = 100
+  basis         = sto-3g spherical
+  geom_units    = angstrom
+  ang2au factor = 1.889726126
+  debug         = false
+  profile       = false
+  file_prefix   = hub_2s_36s_ducc
+}
+
+SCF Options
+{
+  charge            = 0
+  multiplicity      = 1
+  level shift       = 0
+  tol_int           = 1E-22
+  tol_sch           = 1E-12
+  tol_lindep        = 1E-06
+  conve             = 1E-09
+  convd             = 1E-08
+  diis_hist         = 10
+  AO_tilesize       = 30
+  writem            = 1
+  damp              = 100
+  n_lindep          = 0
+  scf_type          = restricted
+  cuscf             = false
+ Hubbard options {
+  t_val               = 1
+  U_val               = 6
+  nelectrons          = 18
+  is_periodic         = [1,1,]
+  lattice             = [6,6,]
+ }
+  direct_df         = false
+  restart_size      = 2000
+  restart           = false
+  debug             = false
+  profile           = false
+}
+
+Number of basis functions = 36
+
+Total number of shells = 36
+
+Total number of electrons = 18
+  # of alpha electrons    = 9
+  # of beta electons      = 9
+
+Nuclear repulsion energy  = 0
+
+Maximum angular momentum = 0
+# of {all,non-negligible} shell-pairs = {666,666}
+
+Time for initial setup: 0.01 secs
+HF exch = 1.00
+Time for computing orthogonalizer: 0.01 secs
+
+HCore Guess ...
+Total Time to compute initial guess: 0.01 secs
+
+
+ SCF iterations
+-----------------------------------------------------------------------------
+ Iter     Energy            E-Diff       RMSD        |[F,P]|^2       Time(s)
+-----------------------------------------------------------------------------
+   1  -20.6250000000    -2.06E+01     8.33E-02     1.26E-28         0.0 
+<DIIS> Singularity in Pulay matrix detected.
+   2  -34.5000000000    -1.39E+01     3.57E-16     6.12E-28         0.0 
+<DIIS> Singularity in Pulay matrix detected.
+   3  -34.5000000000     1.42E-14     3.81E-16     7.84E-28         0.0 
+
+** Total SCF energy = -34.5000000000000
+
+Nuclear repulsion energy = 0.000000000000000
+#electrons        = 18
+1e energy kinetic = 0.0000000000000000
+1e energy N-e     = 0.0000000000000000
+1e energy         = -48.0000000000000071
+2e energy         = 13.4999999999999982
+
+
+                      Electron        Nuclear        Total  
+                  ------------------------------------------
+    Monopole         -63.619995     36.000000    -27.619995
+
+      Dipole   X       0.000000      0.000000      0.000000
+      Dipole   Y       0.000000      0.000000      0.000000
+      Dipole   Z    -210.392642    119.052746    -91.339896
+
+  Quadrupole  XX     -42.809363      0.000000    -42.809363
+  Quadrupole  XY       0.000000      0.000000      0.000000
+  Quadrupole  XZ       0.000000      0.000000      0.000000
+  Quadrupole  YY     -42.809363      0.000000    -42.809363
+  Quadrupole  YZ       0.000000      0.000000      0.000000
+  Quadrupole  ZZ    -953.797735    532.445766   -421.351969
+
+    Octupole XXX       0.000000      0.000000      0.000000
+    Octupole XXY       0.000000      0.000000      0.000000
+    Octupole XXZ    -141.571451      0.000000   -141.571451
+    Octupole XYY       0.000000      0.000000      0.000000
+    Octupole XYZ       0.000000      0.000000      0.000000
+    Octupole XZZ       0.000000      0.000000      0.000000
+    Octupole YYY       0.000000      0.000000      0.000000
+    Octupole YYZ    -141.571451      0.000000   -141.571451
+    Octupole YZZ       0.000000      0.000000      0.000000
+    Octupole ZZZ   -4860.816306   2678.413966  -2182.402339
+
+
+writing orbitals and density to disk ... done.
+
+Total Time taken for Hartree-Fock: 0.38 secs
+
+CD Options
+{
+  debug             = false
+  skip_cd           = [false, 100]
+  write_cv          = [false, 5000]
+  diagtol           = 1E-12
+  itilesize         = 1000
+  max_cvecs_factor  = 40
+}
+
+- #occupied, #virtual = 18, 54
+
+- Tilesize for the MSO space: 40
+
+------------------------------------------------------------
+Begin 2-index transformation ... 
+
+nAO, nMO, nelectrons = 36, 72, 18
+n_occ_alpha, n_vir_alpha, n_occ_beta, n_vir_beta = 9,27,9,27
+
+Time taken for Fao->Fmo transform: 0.00 secs
+
+------------------------------------------------------------
+scf_type = restricted
+Hubbard Model enabled
+Closed-Shell SCF
+nbf = 36
+nbf_orig = 36
+n_lindep = 0
+focc = 1
+nmo = 72
+nocc = 18
+nvir = 54
+n_occ_alpha = 9
+n_vir_alpha = 27
+n_occ_beta = 9
+n_vir_beta = 27
+nelectrons = 18
+nelectrons_alpha = 9
+nelectrons_beta = 9
+n_frozen_core = 0
+n_frozen_virtual = 0
+----------------------------
+
+Hubbard Setup Time: 0.08 secs
+
+
+ CCSD iterations
+------------------------------------------------------------
+  Iter     Residuum          Correlation          Time(s)
+------------------------------------------------------------
+   1     7.1082893707121   -7.9013853815937         0.09
+   2     4.0918382954996   -3.2959486444301         0.09
+   3     3.6710751355795   -7.0852588427446         0.09
+   4     4.0522667648355   -3.7968556576809         0.09
+   5     5.4188401842337   -7.2368167572968         0.09
+ MICROCYCLE DIIS UPDATE:                    6
+   6     0.1872111511162   -5.5034430892165         0.09
+   7     0.1801193096714   -5.3815410882810         0.09
+   8     0.1995394620725   -5.5008596331947         0.09
+   9     0.2319239598959   -5.3856649804192         0.09
+  10     0.2756097498108   -5.4989814738917         0.09
+ MICROCYCLE DIIS UPDATE:                   11
+  11     0.0027827350143   -5.4430686607346         0.09
+  12     0.0027977793288   -5.4430735166896         0.09
+  13     0.0040534330738   -5.4426809543048         0.09
+  14     0.0061206569073   -5.4436897506109         0.09
+  15     0.0092947534920   -5.4418306382658         0.09
+ MICROCYCLE DIIS UPDATE:                   16
+  16     0.0000599275984   -5.4430191186209         0.09
+  17     0.0000368051424   -5.4430178928342         0.09
+  18     0.0000389714102   -5.4430150125637         0.09
+  19     0.0000489331087   -5.4430229493775         0.09
+  20     0.0000654274520   -5.4430093912508         0.09
+ MICROCYCLE DIIS UPDATE:                   21
+  21     0.0000010280926   -5.4430177667421         0.08
+  22     0.0000010945398   -5.4430178173544         0.09
+  23     0.0000015417700   -5.4430176774888         0.09
+  24     0.0000022700106   -5.4430179944714         0.09
+  25     0.0000033946060   -5.4430174115851         0.09
+ MICROCYCLE DIIS UPDATE:                   26
+  26     0.0000000220711   -5.4430177847450         0.09
+------------------------------------------------------------------
+ Iterations converged
+ CCSD correlation energy / hartree =        -5.443017784745046
+ CCSD total energy / hartree       =       -39.943017784745059
+
+Time taken for Canonical CCSD: 2.74 secs
+
+Executing DUCC routine
+======================
+Number of active occupied alpha = 9
+Number of active occupied beta  = 9
+Number of active virtual alpha  = 18
+Number of active virtual beta   = 18
+ducc_lvl = 2
+
+Full SCF Energy: -34.500000000000
+Bare SCF Energy: -34.500000000000
+Frozen Core Energy: 0.000000000000
+Norm of T1 (Full): 0.000000000000
+Norm of T2 (Full): 1.655695795432
+Norm of T1 (Ext): 0.000000000000
+Norm of T2 (Ext): 0.893945700458
+Max abs of T1 (Ext): 0.000000000000
+Max abs of T2 (Ext): 0.022828107626
+Norm of T1 (Int): 0.000000000000
+Norm of T2 (Int): 1.393624645176
+
+DUCC: Time taken to compute Bare Hamiltonian: 0.00 secs
+Bare Active Space SCF Energy: -34.500000000000
+
+DUCC: Time taken to compute single commutator of F and V and double commutator of F: 0.91 secs
+
+DUCC: Time taken to compute double commutator of V and triple commutator of F: 8.88 secs
+Fully Contracted Scalar: -2.757876652036
+
+DUCC SCF energy: -37.082844854587
+Total Energy Shift: -0.175031797449
+
+DUCC: Total compute time: 9.79 secs
+
+DUCC: Time to write results: 0.16 secs
+DUCC Memory Stats
+-----------------
+allocation count: 4211
+deallocation count: 4202
+total memory allocated: 9.837676 GiB
+total memory deallocated: 9.837656 GiB
+maximum memory in single allocation: 0.100113 GiB
+maximum memory consumption: 1.493417 GiB
+
+Total ExaChem runtime: 13.28 secs
+
++ echo ==========================================
+==========================================
+++ date
++ echo 'Job completed at: Mon Oct 12 03:27:13 PM PDT 2026'
+Job completed at: Mon Oct 12 03:27:13 PM PDT 2026
++ echo ==========================================
+==========================================

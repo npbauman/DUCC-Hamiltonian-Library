@@ -1,0 +1,104 @@
+{
+  "output": {
+    "execution_environment": {
+      "date": "2026-10-12T15:25:56-0700",
+      "nodes": 1,
+      "mpi_ranks": {
+        "per_node": 28,
+        "total": 28
+      },
+      "cpu": {
+        "model": "AMD EPYC 9124 16-Core Processor",
+        "memory_per_node_gib": 1007,
+        "memory_total_gib": 1007
+      },
+      "gpu": null
+    },
+    "build_configuration": {
+      "git": {
+        "exachem": {
+          "branch": "main",
+          "commit": "4b4fce7ddd2b658a032a64635d68e0c770e67697",
+          "describe": "4b4fce7",
+          "commit_date": "2026-09-30 15:30:22 -0700",
+          "dirty": true
+        },
+        "tamm": {
+          "branch": "main",
+          "commit": "4271585b02f821486a071843e056503178e814a1",
+          "describe": "4271585b",
+          "commit_date": "2026-09-30 18:25:37 +0000",
+          "dirty": false
+        }
+      },
+      "build_type": "Release",
+      "compilers": {
+        "c": "GNU 14.3.0",
+        "cxx": "GNU 14.3.0",
+        "fortran": "GNU 14.3.0"
+      },
+      "gpu": null,
+      "install_prefix": "/ravenfs/scratch/baum612/code/install/TAMM_cpu",
+      "language_bindings": {
+        "python": false
+      },
+      "linear_algebra": {
+        "blas": "IntelMKL",
+        "blas_integers": 32,
+        "elpa": false,
+        "scalapack": false
+      },
+      "memory": {
+        "libnuma": false
+      },
+      "modules": {
+        "enabled": [
+          "CC"
+        ],
+        "gauxc_gpu": false,
+        "nwqsim": true
+      },
+      "mpi_library": "Open MPI v5.0.10, package: Open MPI root@raven Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026",
+      "parallelism": {
+        "global_arrays": {
+          "runtime": "MPI_PROGRESS_RANK"
+        },
+        "openmp": false
+      },
+      "shared_libraries": false,
+      "versions": {
+        "DOCTEST": "2.4.11",
+        "EcpInt": "95203c68d1bb4134a235480d8c69c3014faaccf9",
+        "Eigen3": "e50fac9ff304cbcaa8c1fdc92484ac33835ac675",
+        "GauXC": "162e4562552323a871af17ae4acd73b71071bd24",
+        "Global Arrays": "843923e3b263fbccf97023da92b93263ee9b670e",
+        "HDF5": "hdf5_1.14.4.3",
+        "LibInt2": "2.13.1",
+        "NJSON": "3.12.0",
+        "NWQSim": "202f5cab03477c78ab9f0b4dbbbf8f135778ac8f",
+        "SPDLOG": "v1.15.2"
+      }
+    },
+    "system_info": {
+      "nbf": 36,
+      "nshells": 36,
+      "nelectrons_total": 18,
+      "nelectrons_alpha": 9,
+      "nelectrons_beta": 9
+    },
+    "SCF": {
+      "nucl_rep_energy": 0.0
+    }
+  },
+  "molecule": {
+    "name": "hub_2s_36s_ducc",
+    "basis": {
+      "basisset": "sto-3g"
+    },
+    "nbf": 36,
+    "nshells": 36,
+    "nelectrons": 18,
+    "nelectrons_alpha": 9,
+    "nelectrons_beta": 9
+  }
+}

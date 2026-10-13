@@ -1,0 +1,775 @@
+==========================================
+Job ID: 4710
+Job Name: exachem
+Nodes: raven01
+Number of nodes: 1
+Number of tasks: 29
+Tasks per node: 
+CPUs per task: 1
+==========================================
++ ml
+++ /usr/share/lmod/lmod/libexec/ml_cmd
++ eval 'module  list'
+++ module list
+++ '[' -z '' ']'
+++ case "$-" in
+++ __lmod_sh_dbg=x
+++ '[' -n x ']'
+++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for Lmod's output
+
+Currently Loaded Modules:
+  1) glibc/2.34-ppxsf4c                   (H)
+  2) gcc/14.3.0
+  3) gcc-runtime/14.3.0-234ptmr           (H)
+  4) libiconv/1.18-ygm3enq                (H)
+  5) xz/5.6.3-fu2n3ua                     (H)
+  6) zlib-ng/2.3.3-tiqgdh3                (H)
+  7) libxml2/2.13.9-mxyu5gq               (H)
+  8) cuda/12.9.1
+  9) libpciaccess/0.17-iobe4jw            (H)
+ 10) ncurses/6.6-nyt3pv7                  (H)
+ 11) hwloc/2.4.1-cuda12.9.1-qbqq3vv       (H)
+ 12) libevent/2.1.12-prvc5cg              (H)
+ 13) numactl/2.0.18-uge4ock               (H)
+ 14) openssh/8.7p1-2af6vx3                (H)
+ 15) pmix/5.0.7-23nsh4y                   (H)
+ 16) slurm/25.05.5-lzoq5k2                (H)
+ 17) prrte/3.0.13-cuda12.9.1-khbsrxk      (H)
+ 18) gdrcopy/2.5.2-ib2zk2y                (H)
+ 19) knem/master-r2qfrbz                  (H)
+ 20) rdma-core/51.0-w7ceu32               (H)
+ 21) ucx/1.20.0-cuda12.9.1
+ 22) openmpi/5.0.10-cuda12.9.1
+ 23) nghttp2/1.67.1-xigcsl5               (H)
+ 24) openssl/3.6.0-kubxruc                (H)
+ 25) curl/8.18.0-5iw4khc                  (H)
+ 26) gmake/4.4.1-auqxkub                  (H)
+ 27) cmake/3.31.11
+ 28) bzip2/1.0.8-osev6nb                  (H)
+ 29) libmd/1.1.0-dkb3qpm                  (H)
+ 30) libbsd/0.12.2-jdwugv4                (H)
+ 31) expat/2.7.5-ez3hmln                  (H)
+ 32) readline/8.3-zpq4e4b                 (H)
+ 33) gdbm/1.26-jy4zyqm                    (H)
+ 34) gettext/0.23.1-fklvnm6               (H)
+ 35) libffi/3.5.2-cllmhov                 (H)
+ 36) sqlite/3.51.2-2l7s57y                (H)
+ 37) util-linux-uuid/2.41-cim5psq         (H)
+ 38) zstd/1.5.7-7x3nrpz                   (H)
+ 39) python/3.14.3
+ 40) intel-oneapi-mkl/2026.0.0-cuda12.9.1
+
+  Where:
+   H:  Hidden Module
+
+ 
+
+Shell debugging restarted
+++ unset __lmod_sh_dbg
+++ return 0
++ cd /ravenfs/scratch/jaye143/hubbard/2D_model/6x6_18_elec/U_2.0/ducc_2/9O-14V
++ EC=/ravenfs/scratch/baum612/code/exachem-dev
++ EXE=/ravenfs/scratch/baum612/code/exachem-dev/build_cpu/methods_stage/ravenfs/scratch/baum612/code/install/TAMM_cpu/methods/ExaChem
++ srun --mpi=pmix -n 29 /ravenfs/scratch/baum612/code/exachem-dev/build_cpu/methods_stage/ravenfs/scratch/baum612/code/install/TAMM_cpu/methods/ExaChem hub_2d_16s.json
+
+ExaChem Git Information
+{
+ Branch: main
+ Commit Hash: 794cab1 [794cab19fe2444da5b7170dc4e6f291fbc1ab75c]
+ Commit Date: 2026-07-04 08:31:04 -0700
+ Commit Message: fix ci result compare script, update cr2 reference outputs
+
+ WARNING: The following ExaChem sources have uncommitted changes at build-time.
+
+ M exachem/cc/ducc/ducc-t_ccsd.cpp
+ M exachem/cc/ducc/qflow-t_ccsd.cpp
+
+diff --git a/exachem/cc/ducc/ducc-t_ccsd.cpp b/exachem/cc/ducc/ducc-t_ccsd.cpp
+index 4b468c1..afa37ad 100644
+--- a/exachem/cc/ducc/ducc-t_ccsd.cpp
++++ b/exachem/cc/ducc/ducc-t_ccsd.cpp
+@@ -222 +222,11 @@ void DUCCInternal<T>::DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec
+-    (eob_temp(h1i, h2i) = 1.0 * deltaoo(h3i, h4i) * vtijkl(h3i, h1i, h4i, h2i))
++    .execute(ex_hw);
++  // clang-format on
++
++  const auto bas_energy1 = get_scalar(adj_scalar);
++  if(ducc_print) {
++    std::cout << "F Contribution to Bare SCF " << std::setprecision(12) << bas_energy1
++              << std::endl;
++  }
++
++  // clang-format off
++  sch(eob_temp(h1i, h2i) = 1.0 * deltaoo(h3i, h4i) * vtijkl(h3i, h1i, h4i, h2i))
+@@ -228,0 +239,6 @@ void DUCCInternal<T>::DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec
++  const auto bas_energy2 = get_scalar(adj_scalar);
++  if(ducc_print) {
++    std::cout << "F and V together for Bare SCF: " << std::setprecision(12) << bas_energy2
++              << std::endl;
++  }
++
+diff --git a/exachem/cc/ducc/qflow-t_ccsd.cpp b/exachem/cc/ducc/qflow-t_ccsd.cpp
+index a037583..f3ef85a 100644
+--- a/exachem/cc/ducc/qflow-t_ccsd.cpp
++++ b/exachem/cc/ducc/qflow-t_ccsd.cpp
+@@ -572,0 +573,216 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
++  
++  // START COVOS READING HERE!
++  {
++    // Ion-Ion Energy
++    const std::string covos_dir    = chem_env.get_files_dir();
++    const std::string ion_ion_file = covos_dir + "/ion_ion.dat";
++    if(!fs::exists(ion_ion_file))
++      tamm_terminate("[COVOS ERROR]: could not find " + ion_ion_file);
++
++    std::ifstream ion_ion_in(ion_ion_file);
++    double        covos_ion_ion_energy = 0.0;
++    ion_ion_in >> covos_ion_ion_energy;
++    chem_env.scf_context.nuc_repl_energy = covos_ion_ion_energy;
++
++    if(rank == 0) {
++      std::cout << "[COVOS] Overwriting ion-ion repulsion energy with value read from "
++                << ion_ion_file << ": " << std::setprecision(15) << covos_ion_ion_energy
++                << std::endl;
++    }
++
++    // One-Electron Integrals
++    // d_f1 is the spin-orbital Fock matrix, ordered occ_alpha | occ_beta | virt_alpha | virt_beta.
++    // Since d_f1 is a TAMM tensor (block-addressable, not element-addressable), it is filled via
++    // a full Eigen matrix and then converted back.
++    const std::string one_electron_file = covos_dir + "/one_electron_integrals.dat";
++    if(!fs::exists(one_electron_file))
++      tamm_terminate("[COVOS ERROR]: could not find " + one_electron_file);
++
++    if(rank == 0) {
++      std::ifstream oe_in(one_electron_file);
++      TAMM_SIZE     file_nocc = 0, file_nvirt = 0;
++      size_t        nelements = 0;
++      oe_in >> file_nocc >> file_nvirt >> nelements;
++      if(file_nocc != nocc_orb || file_nvirt != nvirt_orb)
++        tamm_terminate("[COVOS ERROR]: " + one_electron_file +
++                       " orbital counts (occ=" + std::to_string(file_nocc) +
++                       ", virt=" + std::to_string(file_nvirt) + ") do not match expected (occ=" +
++                       std::to_string(nocc_orb) + ", virt=" + std::to_string(nvirt_orb) + ")");
++
++      // Maps a 1-based spatial orbital index to its (alpha, beta) spin-orbital indices.
++      auto spatial_to_spin = [&](TAMM_SIZE p) -> std::pair<size_t, size_t> {
++        if(p <= nocc_orb) {
++          size_t idx = p - 1;
++          return {idx, chem_env.sys_data.n_occ_alpha + idx};
++        }
++        size_t idx = p - nocc_orb - 1;
++        return {chem_env.sys_data.nocc + idx,
++                chem_env.sys_data.nocc + chem_env.sys_data.n_vir_alpha + idx};
++      };
++
++      Matrix d_f1_eig = tamm_to_eigen_matrix(d_f1);
++      d_f1_eig.setZero();
++
++      for(size_t k = 0; k < nelements; ++k) {
++        TAMM_SIZE p = 0, q = 0;
++        T         val = 0.0;
++        oe_in >> p >> q >> val;
++
++        auto [p_a, p_b] = spatial_to_spin(p);
++        auto [q_a, q_b] = spatial_to_spin(q);
++
++        d_f1_eig(p_a, q_a) = val;
++        d_f1_eig(q_a, p_a) = val;
++        d_f1_eig(p_b, q_b) = val;
++        d_f1_eig(q_b, p_b) = val;
++      }
++
++      eigen_to_tamm_tensor(d_f1, d_f1_eig);
++      std::cout << "[COVOS] Overwrote one-electron integrals (d_f1) with values read from "
++                << one_electron_file << std::endl;
++    }
++
++    // Two-Electron Integrals
++    // Values are Mulliken (chemist) notation (pq|rs) over spatial orbitals, printed with 8-fold
++    // permutational symmetry. They are expanded into a full spin-orbital chemist-notation array,
++    // combined into the physicist-notation antisymmetrized integral <pq||rs> = (pr|qs) - (ps|qr)
++    // (matching the convention used by exachem::cholesky_2e::setupV2()), and converted to the
++    // TAMM tensor chem_env.cd_context.d_v2.
++    const std::string two_electron_file = covos_dir + "/two_electron_integrals.dat";
++    if(!fs::exists(two_electron_file))
++      tamm_terminate("[COVOS ERROR]: could not find " + two_electron_file);
++
++    Tensor<T>& d_v2 = chem_env.cd_context.d_v2;
++    d_v2            = Tensor<T>{{MO, MO, MO, MO}, {2, 2}};
++    sch.allocate(d_v2).execute();
++
++    // if(rank == 0) {
++      std::ifstream te_in(two_electron_file);
++      TAMM_SIZE     file_nocc = 0, file_nvirt = 0;
++      size_t        nelements = 0;
++      te_in >> file_nocc >> file_nvirt >> nelements;
++      if(file_nocc != nocc_orb || file_nvirt != nvirt_orb)
++        tamm_terminate("[COVOS ERROR]: " + two_electron_file +
++                       " orbital counts (occ=" + std::to_string(file_nocc) +
++                       ", virt=" + std::to_string(file_nvirt) + ") do not match expected (occ=" +
++                       std::to_string(nocc_orb) + ", virt=" + std::to_string(nvirt_orb) + ")");
++
++      // Flat spatial-orbital chemist-notation array with 8-fold permutational symmetry.
++      std::vector<T> v_chem(total_orbitals * total_orbitals * total_orbitals * total_orbitals,
++                            0.0);
++      auto           idx4 = [total_orbitals](size_t a, size_t b, size_t c, size_t d) {
++        return ((a * total_orbitals + b) * total_orbitals + c) * total_orbitals + d;
++      };
++      auto set_8fold = [&](size_t p, size_t q, size_t r, size_t s, T val) {
++        v_chem[idx4(p, q, r, s)] = val;
++        v_chem[idx4(q, p, r, s)] = val;
++        v_chem[idx4(p, q, s, r)] = val;
++        v_chem[idx4(q, p, s, r)] = val;
++        v_chem[idx4(r, s, p, q)] = val;
++        v_chem[idx4(s, r, p, q)] = val;
++        v_chem[idx4(r, s, q, p)] = val;
++        v_chem[idx4(s, r, q, p)] = val;
++      };
++
++      for(size_t k = 0; k < nelements; ++k) {
++        TAMM_SIZE p = 0, q = 0, r = 0, s = 0;
++        T         val = 0.0;
++        te_in >> p >> q >> r >> s >> val;
++        set_8fold(p - 1, q - 1, r - 1, s - 1, val);
++      }
++
++      // Maps a 0-based spin-orbital index to its (spatial index, spin) pair (0 = alpha, 1 = beta).
++      const auto& sd        = chem_env.sys_data;
++      auto        spin_info = [&](size_t so) -> std::pair<size_t, int> {
++        if(so < sd.n_occ_alpha) return {so, 0};
++        if(so < sd.nocc) return {so - sd.n_occ_alpha, 1};
++        if(so < sd.nocc + sd.n_vir_alpha) return {nocc_orb + (so - sd.nocc), 0};
++        return {nocc_orb + (so - sd.nocc - sd.n_vir_alpha), 1};
++      };
++
++      // Chemist-notation spin-orbital integral (ab|cd); zero unless spin(a)=spin(b), spin(c)=spin(d).
++      auto chem_spin = [&](size_t a, size_t b, size_t c, size_t d) -> T {
++        auto [asp, aspin] = spin_info(a);
++        auto [bsp, bspin] = spin_info(b);
++        if(aspin != bspin) return 0.0;
++        auto [csp, cspin] = spin_info(c);
++        auto [dsp, dspin] = spin_info(d);
++        if(cspin != dspin) return 0.0;
++        return v_chem[idx4(asp, bsp, csp, dsp)];
++      };
++
++      const size_t n_so = chem_env.sys_data.nmo;
++      Tensor4D     d_v2_eig(n_so, n_so, n_so, n_so);
++      for(size_t p = 0; p < n_so; ++p)
++        for(size_t q = 0; q < n_so; ++q)
++          for(size_t r = 0; r < n_so; ++r)
++            for(size_t s = 0; s < n_so; ++s)
++              d_v2_eig(p, q, r, s) = chem_spin(p, r, q, s) - chem_spin(p, s, q, r);
++
++      // Sanity check #1: HF electronic energy from the bare one-electron Hamiltonian (d_f1 still
++      // holds h at this point, before it is overwritten with the Fock operator below) and the
++      // antisymmetrized two-electron integrals: E = sum_i h_ii + 1/2 sum_ij <ij||ij>
++      Matrix       h_eig     = tamm_to_eigen_matrix(d_f1);
++      const size_t n_occ_so  = sd.nocc;
++      T            h_trace   = 0.0;
++      for(size_t i = 0; i < n_occ_so; ++i) h_trace += h_eig(i, i);
++      T v2_docc = 0.0;
++      for(size_t i = 0; i < n_occ_so; ++i)
++        for(size_t j = 0; j < n_occ_so; ++j) v2_docc += d_v2_eig(i, j, i, j);
++
++      const T e1_elec  = h_trace + 0.5 * v2_docc;
++      const T e1_total = e1_elec + chem_env.scf_context.nuc_repl_energy;
++
++      // Build the Fock operator: f_pq = h_pq + sum_i <pi||qi>.
++      Matrix f_eig = h_eig;
++      for(size_t p = 0; p < n_so; ++p)
++        for(size_t q = 0; q < n_so; ++q) {
++          T sum = 0.0;
++          for(size_t i = 0; i < n_occ_so; ++i) sum += d_v2_eig(p, i, q, i);
++          f_eig(p, q) += sum;
++        }
++
++      // Sanity check #2: same electronic energy, from the Fock operator and the antisymmetrized
++      // two-electron integrals: E = sum_i f_ii - 1/2 sum_ij <ij||ij>
++      T f_trace = 0.0;
++      for(size_t i = 0; i < n_occ_so; ++i) f_trace += f_eig(i, i);
++      const T e2_elec  = f_trace - 0.5 * v2_docc;
++      const T e2_total = e2_elec + chem_env.scf_context.nuc_repl_energy;
++
++      eigen_to_tamm_tensor(d_v2, d_v2_eig);
++      eigen_to_tamm_tensor(d_f1, f_eig); // overwrite d_f1: bare Hamiltonian -> Fock operator
++
++      std::cout << "[COVOS] Overwrote two-electron integrals (d_v2) with values read from "
++                << two_electron_file << std::endl;
++      std::cout << "[COVOS] Overwrote d_f1 with the Fock operator built from h and <ij||ij>"
++                << std::endl;
++      std::cout << std::setprecision(12);
++      std::cout << "[COVOS] Sanity SCF energy from h + 0.5*sum<ij||ij>: " << e1_total
++                << " (electronic = " << e1_elec << ", sum h_ii = " << h_trace
++                << ", 0.5*sum<ij||ij> = " << 0.5 * v2_docc << ")" << std::endl;
++      std::cout << "[COVOS] Sanity SCF energy from f - 0.5*sum<ij||ij>: " << e2_total
++                << " (electronic = " << e2_elec << ", sum f_ii = " << f_trace
++                << ", 0.5*sum<ij||ij> = " << 0.5 * v2_docc << ")" << std::endl;
++      chem_env.scf_context.hf_energy = e2_total;
++    // }
++    // ec.pg().barrier();
++
++    // Split the full antisymmetrized d_v2 tensor into the occ/virt blocks used downstream
++    // (i,j,k,l = occupied via h3,h4,h5,h6; a,b,c,d = virtual via p1,p2,p3,p4), mirroring how
++    // these blocks are normally built from Cholesky vectors via
++    // exachem::cholesky_2e::setupV2Tensors().
++    // clang-format off
++    sch(v2tensors.v2ijab(h3, h4, p1, p2) = d_v2(h3, h4, p1, p2))
++       (v2tensors.v2iajb(h3, p1, h4, p2) = d_v2(h3, p1, h4, p2))
++       (v2tensors.v2ijka(h3, h4, h5, p1) = d_v2(h3, h4, h5, p1))
++       (v2tensors.v2ijkl(h3, h4, h5, h6) = d_v2(h3, h4, h5, h6))
++       (v2tensors.v2iabc(h3, p1, p2, p3) = d_v2(h3, p1, p2, p3))
++       (v2tensors.v2abcd(p1, p2, p3, p4) = d_v2(p1, p2, p3, p4))
++       .execute(ex_hw);
++    // clang-format on
++    if(rank == 0) {
++      std::cout << "[COVOS] Split d_v2 into v2tensors blocks (ijab, iajb, ijka, ijkl, iabc, abcd)"
++                << std::endl;
++    }
++
++  }
+@@ -862 +1078 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
+-        // Retile tensors to the new MO index space
++        // // Retile tensors to the new MO index space
+@@ -864,9 +1080,9 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
+-        if(!do_hubbard) {
+-          Tensor<T> cholVpr_sub{{N_AS, N_AS, CI},
+-                                {SpinPosition::upper, SpinPosition::lower, SpinPosition::ignore}};
+-          sub_sch.allocate(cholVpr_sub).execute();
+-          retile_tamm_tensor(cholVpr, cholVpr_sub);
+-          v2tensors_sub = cholesky_2e::setupV2Tensors<T>(sub_ec, cholVpr_sub, ex_hw);
+-          free_tensors(cholVpr_sub);
+-        }
+-        else {
++        // if(!do_hubbard) {
++        //   Tensor<T> cholVpr_sub{{N_AS, N_AS, CI},
++        //                         {SpinPosition::upper, SpinPosition::lower, SpinPosition::ignore}};
++        //   sub_sch.allocate(cholVpr_sub).execute();
++        //   retile_tamm_tensor(cholVpr, cholVpr_sub);
++        //   v2tensors_sub = cholesky_2e::setupV2Tensors<T>(sub_ec, cholVpr_sub, ex_hw);
++        //   free_tensors(cholVpr_sub);
++        // }
++        // else {
+@@ -880 +1096 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
+-        }
++        // }
+
+}
+
+
+TAMM Git Information
+{
+ Branch: main
+ Commit Hash: e485b7a6 [e485b7a6e79f495b0ffb2c18c6a830b45c7ddbcb]
+ Commit Date: 2026-07-06 06:28:40 -0500
+ Commit Message: refactor: replace gsl::span with std::span (C++20) (#143)
+}
+
+
+date: Wed Jul 22 12:55:30 2026
+program: "/ravenfs/scratch/baum612/code/exachem-dev/build_cpu/methods_stage/ravenfs/scratch/baum612/code/install/TAMM_cpu/methods/ExaChem"
+nnodes: 1, nproc_per_node: 28, nproc_total: 28, 
+Memory information
+{
+[AMD EPYC 9124 16-Core Processor                ] : 
+  CPU memory per node (GiB): 1007
+  Total CPU memory (GiB): 1007
+}
+
+------------------------------------------------------------
+
+Input file provided: /ravenfs/scratch/jaye143/hubbard/2D_model/6x6_18_elec/U_2.0/ducc_2/9O-14V/hub_2d_16s.json
+
+{
+  "geometry": {
+    "coordinates": [
+      "H    0  0   0",
+      "H    0  0   0.1",
+      "H    0  0   0.2",
+      "H    0  0   0.3",
+      "H    0  0   0.4",
+      "H    0  0   0.5",
+      "H    0  0   0.6",
+      "H    0  0   0.7",
+      "H    0  0   0.8",
+      "H    0  0   0.9",
+      "H    0  0   1",
+      "H    0  0   1.1",
+      "H    0  0   1.2",
+      "H    0  0   1.3",
+      "H    0  0   1.4",
+      "H    0  0   1.5",
+      "H    0  0   1.6",
+      "H    0  0   1.7",
+      "H    0  0   1.8",
+      "H    0  0   1.9",
+      "H    0  0   2",
+      "H    0  0   2.1",
+      "H    0  0   2.2",
+      "H    0  0   2.3",
+      "H    0  0   2.4",
+      "H    0  0   2.5",
+      "H    0  0   2.6",
+      "H    0  0   2.7",
+      "H    0  0   2.8",
+      "H    0  0   2.9",
+      "H    0  0   3",
+      "H    0  0   3.1",
+      "H    0  0   3.2",
+      "H    0  0   3.3",
+      "H    0  0   3.4",
+      "H    0  0   3.5"
+    ],
+    "units": "angstrom"
+  },
+  "basis": {
+    "basisset": "sto-3g"
+  },
+  "common": {
+    "maxiter": 100
+  },
+  "SCF": {
+    "tol_lindep": 1e-06,
+    "conve": 1e-09,
+    "convd": 1e-08,
+    "diis_hist": 10,
+    "charge": 0,
+    "multiplicity": 1,
+    "scf_type": "restricted",
+    "hubbard": {
+      "do_hubbard": true,
+      "t_val": 1.0,
+      "U_val": 2.0,
+      "nelectrons": 18,
+      "is_periodic": [
+        true,
+        true
+      ],
+      "lattice": [
+        6,
+        6
+      ]
+    },
+    "PRINT": {
+      "mos_txt": false,
+      "mulliken": false,
+      "mo_vectors": [
+        false,
+        -50.0
+      ]
+    },
+    "restart": false
+  },
+  "CD": {
+    "diagtol": 1e-12,
+    "max_cvecs": 40
+  },
+  "CC": {
+    "threshold": 1e-06,
+    "ndiis": 5,
+    "writet": false,
+    "ccsd_maxiter": 100,
+    "nactive_va": 4,
+    "nactive_vb": 4,
+    "nactive_oa": 9,
+    "nactive_ob": 9,
+    "ducc_lvl": 2,
+    "CCSD(T)": {
+      "ccsdt_tilesize": 28
+    },
+    "debug": false
+  },
+  "TASK": {
+    "scf": false,
+    "ccsd": false,
+    "ducc": [
+      true,
+      "default"
+    ]
+  }
+}
+
+Output folder & files prefix: hub_2d_16s.sto-3g
+
+  H (hydrogen)
+  ------------
+          Exponent        Coefficients
+      ----------------  --------------------
+  1 S  3.42525091E+00      0.276934
+  1 S  6.23913730E-01      0.267839
+  1 S  1.68855400E-01      0.083474
+
+
+
+
+----------------------------------------------------------------------
+                            Geometry in angstrom
+
+1     H       0.0000000000    0.0000000000    0.0000000000
+2     H       0.0000000000    0.0000000000    0.1000000000
+3     H       0.0000000000    0.0000000000    0.2000000000
+4     H       0.0000000000    0.0000000000    0.3000000000
+5     H       0.0000000000    0.0000000000    0.4000000000
+6     H       0.0000000000    0.0000000000    0.5000000000
+7     H       0.0000000000    0.0000000000    0.6000000000
+8     H       0.0000000000    0.0000000000    0.7000000000
+9     H       0.0000000000    0.0000000000    0.8000000000
+10    H       0.0000000000    0.0000000000    0.9000000000
+11    H       0.0000000000    0.0000000000    1.0000000000
+12    H       0.0000000000    0.0000000000    1.1000000000
+13    H       0.0000000000    0.0000000000    1.2000000000
+14    H       0.0000000000    0.0000000000    1.3000000000
+15    H       0.0000000000    0.0000000000    1.4000000000
+16    H       0.0000000000    0.0000000000    1.5000000000
+17    H       0.0000000000    0.0000000000    1.6000000000
+18    H       0.0000000000    0.0000000000    1.7000000000
+19    H       0.0000000000    0.0000000000    1.8000000000
+20    H       0.0000000000    0.0000000000    1.9000000000
+21    H       0.0000000000    0.0000000000    2.0000000000
+22    H       0.0000000000    0.0000000000    2.1000000000
+23    H       0.0000000000    0.0000000000    2.2000000000
+24    H       0.0000000000    0.0000000000    2.3000000000
+25    H       0.0000000000    0.0000000000    2.4000000000
+26    H       0.0000000000    0.0000000000    2.5000000000
+27    H       0.0000000000    0.0000000000    2.6000000000
+28    H       0.0000000000    0.0000000000    2.7000000000
+29    H       0.0000000000    0.0000000000    2.8000000000
+30    H       0.0000000000    0.0000000000    2.9000000000
+31    H       0.0000000000    0.0000000000    3.0000000000
+32    H       0.0000000000    0.0000000000    3.1000000000
+33    H       0.0000000000    0.0000000000    3.2000000000
+34    H       0.0000000000    0.0000000000    3.3000000000
+35    H       0.0000000000    0.0000000000    3.4000000000
+36    H       0.0000000000    0.0000000000    3.5000000000
+
+ Number of nodes, processes per node used for SCF calculation: 1, 28
+
+Common Options
+{
+  maxiter       = 100
+  basis         = sto-3g spherical
+  geom_units    = angstrom
+  ang2au factor = 1.889726126
+  debug         = false
+  file_prefix   = hub_2d_16s
+}
+
+SCF Options
+{
+  charge            = 0
+  multiplicity      = 1
+  level shift       = 0
+  tol_int           = 1E-22
+  tol_sch           = 1E-12
+  tol_lindep        = 1E-06
+  conve             = 1E-09
+  convd             = 1E-08
+  diis_hist         = 10
+  AO_tilesize       = 30
+  writem            = 1
+  damp              = 100
+  n_lindep          = 0
+  scf_type          = restricted
+  cuscf             = false
+ Hubbard options {
+  t_val               = 1
+  U_val               = 2
+  nelectrons          = 18
+  is_periodic         = [1,1,]
+  lattice             = [6,6,]
+ }
+  direct_df         = false
+  restart_size      = 2000
+  restart           = false
+  debug             = false
+}
+
+Number of basis functions = 36
+
+Total number of shells = 36
+
+Total number of electrons = 18
+  # of alpha electrons    = 9
+  # of beta electons      = 9
+
+Nuclear repulsion energy  = 0
+
+Maximum angular momentum = 0
+# of {all,non-negligible} shell-pairs = {666,666}
+Number of AO tiles = 36
+
+Time for initial setup: 0.01 secs
+HF exch = 1.00
+Time for computing orthogonalizer: 0.01 secs
+
+HCore Guess ...
+Total Time to compute initial guess: 0.01 secs
+
+
+ SCF iterations
+-----------------------------------------------------------------------------
+ Iter     Energy            E-Diff       RMSD        |[F,P]|^2       Time(s)
+-----------------------------------------------------------------------------
+   1  -22.8750000000    -2.29E+01     8.33E-02     8.46E-29         0.0 
+<DIIS> Singularity in Pulay matrix detected.
+   2  -43.5000000000    -2.06E+01     2.23E-16     1.91E-28         0.0 
+<DIIS> Singularity in Pulay matrix detected.
+   3  -43.5000000000    -7.11E-15     2.66E-16     3.56E-28         0.0 
+
+** Total SCF energy = -43.5000000000000
+
+Nuclear repulsion energy = 0.000000000000000
+#electrons        = 18
+1e energy kinetic = 0.0000000000000000
+1e energy N-e     = 0.0000000000000000
+1e energy         = -48.0000000000000142
+2e energy         = 4.5000000000000018
+
+
+                      Electron        Nuclear        Total  
+                  ------------------------------------------
+    Monopole         -63.619995     36.000000    -27.619995
+
+      Dipole   X       0.000000      0.000000      0.000000
+      Dipole   Y       0.000000      0.000000      0.000000
+      Dipole   Z    -210.392642    119.052746    -91.339896
+
+  Quadrupole  XX     -42.809364      0.000000    -42.809364
+  Quadrupole  XY       0.000000      0.000000      0.000000
+  Quadrupole  XZ       0.000000      0.000000      0.000000
+  Quadrupole  YY     -42.809364      0.000000    -42.809364
+  Quadrupole  YZ       0.000000      0.000000      0.000000
+  Quadrupole  ZZ    -953.797735    532.445766   -421.351969
+
+    Octupole XXX       0.000000      0.000000      0.000000
+    Octupole XXY       0.000000      0.000000      0.000000
+    Octupole XXZ    -141.571453      0.000000   -141.571453
+    Octupole XYY       0.000000      0.000000      0.000000
+    Octupole XYZ       0.000000      0.000000      0.000000
+    Octupole XZZ       0.000000      0.000000      0.000000
+    Octupole YYY       0.000000      0.000000      0.000000
+    Octupole YYZ    -141.571453      0.000000   -141.571453
+    Octupole YZZ       0.000000      0.000000      0.000000
+    Octupole ZZZ   -4860.816309   2678.413966  -2182.402342
+
+
+writing orbitals and density to disk ... done.
+
+Total Time taken for Hartree-Fock: 0.38 secs
+
+CD Options
+{
+  debug             = false
+  skip_cd           = [false, 100]
+  write_cv          = [false, 5000]
+  diagtol           = 1E-12
+  itilesize         = 1000
+  max_cvecs_factor  = 40
+}
+
+- #occupied, #virtual = 18, 54
+
+- Tilesize for the MSO space: 40
+
+-----------------------------------------------------
+Begin 2-index transformation ... 
+
+nAO, nMO, nelectrons = 36, 72, 18
+n_occ_alpha, n_vir_alpha, n_occ_beta, n_vir_beta = 9,27,9,27
+
+Time taken for Fao->Fmo transform: 0.00 secs
+
+-----------------------------------------------------
+scf_type = restricted
+Hubbard Model enabled
+Closed-Shell SCF
+nbf = 36
+nbf_orig = 36
+n_lindep = 0
+focc = 1
+nmo = 72
+nocc = 18
+nvir = 54
+n_occ_alpha = 9
+n_vir_alpha = 27
+n_occ_beta = 9
+n_vir_beta = 27
+nelectrons = 18
+nelectrons_alpha = 9
+nelectrons_beta = 9
+n_frozen_core = 0
+n_frozen_virtual = 0
+----------------------------
+
+Hubbard Setup Time: 0.08 secs
+
+
+ CCSD iterations
+------------------------------------------------------------
+  Iter     Residuum          Correlation          Time(s)
+------------------------------------------------------------
+   1     2.3694297902373   -0.8779317090660         0.09
+   2     0.3485308660004   -0.7586508971852         0.08
+   3     0.0904565068550   -0.7841459059575         0.08
+   4     0.0333468474725   -0.7778016797238         0.08
+   5     0.0138803510673   -0.7797843828749         0.08
+ MICROCYCLE DIIS UPDATE:                    6
+   6     0.0004208022301   -0.7792713819688         0.08
+   7     0.0000671602789   -0.7792713770331         0.08
+   8     0.0000185688620   -0.7792712878171         0.08
+   9     0.0000061084119   -0.7792712725499         0.08
+  10     0.0000023122853   -0.7792713438157         0.08
+ MICROCYCLE DIIS UPDATE:                   11
+  11     0.0000001802972   -0.7792713185805         0.08
+------------------------------------------------------------------
+ Iterations converged
+ CCSD correlation energy / hartree =        -0.779271318580472
+ CCSD total energy / hartree       =       -44.279271318580506
+
+Time taken for Canonical CCSD: 1.16 secs
+
+Executing DUCC routine
+======================
+Number of active occupied alpha = 9
+Number of active occupied beta  = 9
+Number of active virtual alpha  = 4
+Number of active virtual beta   = 4
+ducc_lvl = 2
+
+Full SCF Energy: -43.500000000000
+Bare SCF Energy: -43.500000000000
+Frozen Core Energy: -0.000000000000
+
+DUCC: Time taken to compute Bare Hamiltonian: 0.00 secs
+F Contribution to Bare SCF -39.000000000000
+F and V together for Bare SCF: -43.500000000000
+Bare Active Space SCF Energy: -43.500000000000
+
+DUCC: Time taken to compute single commutator of F and V and double commutator of F: 0.59 secs
+
+DUCC: Time taken to compute double commutator of V and triple commutator of F: 6.15 secs
+Fully Contracted Scalar: -0.741892396244
+
+DUCC SCF energy: -44.206520339660
+Total Energy Shift: -0.035372056584
+
+DUCC: Total compute time: 6.74 secs
+
+DUCC: Time to write results: 0.04 secs
+DUCC Memory Stats
+-----------------
+allocation count: 3752
+deallocation count: 3751
+total memory allocated: 1.957503 GiB
+total memory deallocated: 1.957503 GiB
+maximum memory in single allocation: 0.100113 GiB
+maximum memory consumption: 0.294555 GiB
++ echo ==========================================
+==========================================
+++ date
++ echo 'Job completed at: Wed Jul 22 12:55:39 PM PDT 2026'
+Job completed at: Wed Jul 22 12:55:39 PM PDT 2026
++ echo ==========================================
+==========================================

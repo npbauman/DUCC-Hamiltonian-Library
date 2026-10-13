@@ -1,0 +1,19 @@
+{
+  "ao_tilesize": 30,
+  "do_freeze": false,
+  "mso_tilesize": 40,
+  "ccsd": {
+    "converged": false
+  },
+  "ducc": {
+    "nactive_oa": 9,
+    "nactive_ob": 9,
+    "nactive_va": 14,
+    "nactive_vb": 14,
+    "ducc_lvl": 2,
+    "level0": true,
+    "level1": true,
+    "level2": true,
+    "total_shift": -36.36009875723835
+  }
+}

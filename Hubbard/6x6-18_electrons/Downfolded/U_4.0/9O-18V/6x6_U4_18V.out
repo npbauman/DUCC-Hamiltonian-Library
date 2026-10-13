@@ -1,0 +1,2044 @@
+==========================================
+Job ID: 6494
+Job Name: exachem
+Nodes: raven04
+Number of nodes: 1
+Number of tasks: 29
+Tasks per node: 
+CPUs per task: 1
+==========================================
++ ml
+++ /usr/share/lmod/lmod/libexec/ml_cmd
++ eval 'module  list'
+++ module list
+++ '[' -z '' ']'
+++ case "$-" in
+++ __lmod_sh_dbg=x
+++ '[' -n x ']'
+++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for Lmod's output
+
+Currently Loaded Modules:
+  1) glibc/2.34-ppxsf4c                   (H)
+  2) gcc/14.3.0
+  3) gcc-runtime/14.3.0-234ptmr           (H)
+  4) libiconv/1.18-ygm3enq                (H)
+  5) xz/5.6.3-fu2n3ua                     (H)
+  6) zlib-ng/2.3.3-tiqgdh3                (H)
+  7) libxml2/2.13.9-mxyu5gq               (H)
+  8) cuda/12.9.1
+  9) libpciaccess/0.17-iobe4jw            (H)
+ 10) ncurses/6.6-nyt3pv7                  (H)
+ 11) hwloc/2.4.1-cuda12.9.1-qbqq3vv       (H)
+ 12) libevent/2.1.12-prvc5cg              (H)
+ 13) numactl/2.0.18-uge4ock               (H)
+ 14) openssh/8.7p1-2af6vx3                (H)
+ 15) pmix/5.0.7-23nsh4y                   (H)
+ 16) slurm/25.05.5-lzoq5k2                (H)
+ 17) prrte/3.0.13-cuda12.9.1-khbsrxk      (H)
+ 18) gdrcopy/2.5.2-ib2zk2y                (H)
+ 19) knem/master-r2qfrbz                  (H)
+ 20) rdma-core/51.0-w7ceu32               (H)
+ 21) ucx/1.20.0-cuda12.9.1
+ 22) openmpi/5.0.10-cuda12.9.1
+ 23) nghttp2/1.67.1-xigcsl5               (H)
+ 24) openssl/3.6.0-kubxruc                (H)
+ 25) curl/8.18.0-5iw4khc                  (H)
+ 26) gmake/4.4.1-auqxkub                  (H)
+ 27) cmake/3.31.11
+ 28) bzip2/1.0.8-osev6nb                  (H)
+ 29) libmd/1.1.0-dkb3qpm                  (H)
+ 30) libbsd/0.12.2-jdwugv4                (H)
+ 31) expat/2.7.5-ez3hmln                  (H)
+ 32) readline/8.3-zpq4e4b                 (H)
+ 33) gdbm/1.26-jy4zyqm                    (H)
+ 34) gettext/0.23.1-fklvnm6               (H)
+ 35) libffi/3.5.2-cllmhov                 (H)
+ 36) sqlite/3.51.2-2l7s57y                (H)
+ 37) util-linux-uuid/2.41-cim5psq         (H)
+ 38) zstd/1.5.7-7x3nrpz                   (H)
+ 39) python/3.14.3
+ 40) intel-oneapi-mkl/2026.0.0-cuda12.9.1
+
+  Where:
+   H:  Hidden Module
+
+ 
+
+Shell debugging restarted
+++ unset __lmod_sh_dbg
+++ return 0
++ cd /ravenfs/scratch/jaye143/hubbard/2D_model/6x6_18_elec/U_4.0/ducc_2/9O-18V
++ EC=/ravenfs/scratch/baum612/code/exachem-dev
++ EXE=/ravenfs/scratch/baum612/code/exachem-dev/build_cpu/methods_stage/ravenfs/scratch/baum612/code/install/TAMM_cpu/methods/ExaChem
++ srun --mpi=pmix -n 29 /ravenfs/scratch/baum612/code/exachem-dev/build_cpu/methods_stage/ravenfs/scratch/baum612/code/install/TAMM_cpu/methods/ExaChem hub_2s_36s_ducc.json
+
+ExaChem Git Information
+{
+ Branch: main
+ Commit Hash: 794cab1 [794cab19fe2444da5b7170dc4e6f291fbc1ab75c]
+ Commit Date: 2026-07-04 08:31:04 -0700
+ Commit Message: fix ci result compare script, update cr2 reference outputs
+
+ WARNING: The following ExaChem sources have uncommitted changes at build-time.
+
+ M exachem/cc/ducc/ducc-t_ccsd.cpp
+ M exachem/cc/ducc/ducc-t_ccsd.hpp
+ M exachem/cc/ducc/ducc.cmake
+ M exachem/cc/ducc/qflow-t_ccsd.cpp
+ M exachem/cc/scripts/hamiltonian_extractor/README.md
+ M exachem/cc/scripts/hamiltonian_extractor/__init__.py
+ M exachem/cc/scripts/hamiltonian_extractor/extract_hamiltonian.py
+ M exachem/cc/scripts/hamiltonian_extractor/fci_solver.py
+ M exachem/cc/scripts/hamiltonian_extractor/fcidump_writer.py
+ M exachem/cc/scripts/hamiltonian_extractor/format_writer.py
+ D exachem/cc/scripts/hamiltonian_extractor/grab_data.py
+ M exachem/cc/scripts/hamiltonian_extractor/hamiltonian_data.py
+ D exachem/cc/scripts/hamiltonian_extractor/yaml_writer.py
+ M exachem/cholesky/cholesky_2e.cpp
+
+diff --git a/exachem/cc/ducc/ducc-t_ccsd.cpp b/exachem/cc/ducc/ducc-t_ccsd.cpp
+index 4b468c1..25f4afe 100644
+--- a/exachem/cc/ducc/ducc-t_ccsd.cpp
++++ b/exachem/cc/ducc/ducc-t_ccsd.cpp
+@@ -154,0 +155,7 @@ void DUCCInternal<T>::DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec
++  // Print norms of original T1/T2 operators
++  const auto t1_full_norm   = tamm::norm(t1);
++  const auto t2_full_norm   = tamm::norm(t2);
++
++  qfstr << "Norm of T1 (Full): " << t1_full_norm << std::endl;
++  qfstr <<  "Norm of T2 (Full): " << t2_full_norm << std::endl;
++
+@@ -161,0 +169,19 @@ void DUCCInternal<T>::DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec
++  const auto t1_ext_norm   = tamm::norm(t1);
++  const auto t2_ext_norm   = tamm::norm(t2);
++
++  auto [maxt1ext, maxblockid1, maxcoord1] = tamm::max_element(t1);
++  auto [mint1ext, minblockid1, mincoord1] = tamm::min_element(t1);
++  auto [maxt2ext, maxblockid2, maxcoord2] = tamm::max_element(t2);
++  auto [mint2ext, minblockid2, mincoord2] = tamm::min_element(t2);
++
++  qfstr << "Norm of T1 (Ext): " << t1_ext_norm << std::endl;
++  qfstr << "Norm of T2 (Ext): " << t2_ext_norm << std::endl;
++  // qfstr << std::endl;
++  qfstr << "Max abs of T1 (Ext): " << maxt1ext << std::endl;
++  qfstr << "Min abs of T1 (Ext): " << mint1ext << std::endl;
++  qfstr << "Max abs of T2 (Ext): " << maxt2ext << std::endl;
++  qfstr << "Min abs of T2 (Ext): " << mint2ext << std::endl;
++  // qfstr << std::endl;
++  qfstr << "Norm of T1 (Int): " << sqrt(t1_full_norm * t1_full_norm - t1_ext_norm * t1_ext_norm) << std::endl;
++  qfstr << "Norm of T2 (Int): " << sqrt(t2_full_norm * t2_full_norm - t2_ext_norm * t2_ext_norm) << std::endl;
++
+@@ -395,2 +420,0 @@ void DUCCInternal<T>::DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec
+-  // TODO: Everything is assuming closed shell. For open shell calculations,
+-  //       formats starting from the tensor contractions to printing must be reconsidered.
+@@ -398,163 +422,2 @@ void DUCCInternal<T>::DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec
+-  ExecutionContext ec_dense{ec.pg(), DistributionKind::dense,
+-                            MemoryManagerKind::ga}; // create ec_dense once
+-  // const auto       nelectrons       = sys_data.nelectrons;
+-  auto print_blockstr = [](std::string filename, std::string val, bool append = false) {
+-    if(!filename.empty()) {
+-      std::ofstream tos;
+-      if(append) tos.open(filename + ".txt", std::ios::app);
+-      else tos.open(filename + ".txt", std::ios::out);
+-      if(!tos) std::cerr << "Error opening file " << filename << std::endl;
+-      tos << val << std::endl;
+-      tos.close();
+-    }
+-  };
+-  const std::string results_file = files_prefix + ".ducc.results";
+-
+-  if(ducc_print) {
+-    print_blockstr(results_file, "Begin IJ Block");
+-    // std::cout << "Begin IJ Block" << std::endl;
+-  }
+-
+-  Tensor<T>                                X1       = to_dense_tensor(ec_dense, ftij);
+-  std::function<bool(std::vector<size_t>)> dp_cond1 = [&](std::vector<size_t> cond) {
+-    if(cond[0] < nactoa && cond[1] < nactoa && cond[0] <= cond[1]) return true;
+-    // if(cond[0] < nelectrons_alpha && cond[1] < nelectrons_alpha && cond[0] <= cond[1]) return
+-    // true;
+-    return false;
+-  };
+-  print_dense_tensor(X1, dp_cond1, results_file, true);
+-  if(ducc_print) {
+-    print_blockstr(results_file, "End IJ Block", true);
+-    T first_val                                         = tamm::get_tensor_element(X1, {0, 0});
+-    sys_data.results["output"]["DUCC"]["results"]["X1"] = first_val;
+-  }
+-  Tensor<T>::deallocate(X1);
+-
+-  if(nactva > 0) {
+-    if(ducc_print) print_blockstr(results_file, "Begin IA Block", true);
+-    Tensor<T>                                X2       = to_dense_tensor(ec_dense, ftia);
+-    std::function<bool(std::vector<size_t>)> dp_cond2 = [&](std::vector<size_t> cond) {
+-      if(cond[0] < nactoa && cond[1] < nactva) return true;
+-      return false;
+-    };
+-    print_dense_tensor(X2, dp_cond2, results_file, true);
+-    if(ducc_print) {
+-      print_blockstr(results_file, "End IA Block", true);
+-      T first_val                                         = tamm::get_tensor_element(X2, {0, 0});
+-      sys_data.results["output"]["DUCC"]["results"]["X2"] = first_val;
+-    }
+-    Tensor<T>::deallocate(X2);
+-
+-    if(ducc_print) print_blockstr(results_file, "Begin AB Block", true);
+-    Tensor<T>                                X3       = to_dense_tensor(ec_dense, ftab);
+-    std::function<bool(std::vector<size_t>)> dp_cond3 = [&](std::vector<size_t> cond) {
+-      if(cond[0] < nactva && cond[1] < nactva && cond[0] <= cond[1]) return true;
+-      return false;
+-    };
+-    print_dense_tensor(X3, dp_cond3, results_file, true);
+-    if(ducc_print) {
+-      print_blockstr(results_file, "End AB Block", true);
+-      T first_val                                         = tamm::get_tensor_element(X3, {0, 0});
+-      sys_data.results["output"]["DUCC"]["results"]["X3"] = first_val;
+-    }
+-    Tensor<T>::deallocate(X3);
+-  }
+-
+-  if(ducc_print) print_blockstr(results_file, "Begin IJKL Block", true);
+-  Tensor<T>                                X4       = to_dense_tensor(ec_dense, vtijkl);
+-  std::function<bool(std::vector<size_t>)> dp_cond4 = [&](std::vector<size_t> cond) {
+-    if(cond[0] < nactoa && cond[2] < nactoa && nactoa <= cond[1] && nactoa <= cond[3]) return true;
+-    return false;
+-  };
+-  print_dense_tensor(X4, dp_cond4, results_file, true);
+-  if(ducc_print) {
+-    print_blockstr(results_file, "End IJKL Block", true);
+-    T first_val = tamm::get_tensor_element(X4, {0, 0, 0, 0});
+-    sys_data.results["output"]["DUCC"]["results"]["X4"] = first_val;
+-  }
+-  Tensor<T>::deallocate(X4);
+-
+-  if(nactva > 0) {
+-    if(ducc_print) print_blockstr(results_file, "Begin IJAB Block", true);
+-    Tensor<T>                                X5       = to_dense_tensor(ec_dense, vtijab);
+-    std::function<bool(std::vector<size_t>)> dp_cond5 = [&](std::vector<size_t> cond) {
+-      if(cond[0] < nactoa && nactoa <= cond[1] && cond[2] < nactva && nactva <= cond[3])
+-        return true;
+-      return false;
+-    };
+-    print_dense_tensor(X5, dp_cond5, results_file, true);
+-    if(ducc_print) {
+-      print_blockstr(results_file, "End IJAB Block", true);
+-      T first_val = tamm::get_tensor_element(X5, {0, 0, 0, 0});
+-      sys_data.results["output"]["DUCC"]["results"]["X5"] = first_val;
+-    }
+-    Tensor<T>::deallocate(X5);
+-
+-    if(ducc_print) print_blockstr(results_file, "Begin ABCD Block", true);
+-    Tensor<T>                                X6       = to_dense_tensor(ec_dense, vtabcd);
+-    std::function<bool(std::vector<size_t>)> dp_cond6 = [&](std::vector<size_t> cond) {
+-      if(cond[0] < nactva && cond[2] < nactva && nactva <= cond[1] && nactva <= cond[3])
+-        return true;
+-      return false;
+-    };
+-    print_dense_tensor(X6, dp_cond6, results_file, true);
+-    if(ducc_print) {
+-      print_blockstr(results_file, "End ABCD Block", true);
+-      T first_val = tamm::get_tensor_element(X6, {0, 0, 0, 0});
+-      sys_data.results["output"]["DUCC"]["results"]["X6"] = first_val;
+-    }
+-    Tensor<T>::deallocate(X6);
+-
+-    if(ducc_print) print_blockstr(results_file, "Begin AIJB Block", true);
+-    Tensor<T>                                X7         = to_dense_tensor(ec_dense, vtaijb);
+-    std::function<bool(std::vector<size_t>)> dp_cond7_1 = [&](std::vector<size_t> cond) {
+-      if(cond[0] < nactva && cond[2] < nactoa && nactoa <= cond[1] && nactva <= cond[3])
+-        return true;
+-      return false;
+-    };
+-    print_dense_tensor(X7, dp_cond7_1, results_file, true);
+-
+-    std::function<bool(std::vector<size_t>)> dp_cond7_2 = [&](std::vector<size_t> cond) {
+-      if(cond[0] < nactva && nactoa <= cond[1] && nactoa <= cond[2] && cond[3] < nactva)
+-        return true;
+-      return false;
+-    };
+-    print_dense_tensor(X7, dp_cond7_2, results_file, true);
+-    if(ducc_print) print_blockstr(results_file, "End AIJB Block", true);
+-    if(ducc_print) {
+-      T first_val = tamm::get_tensor_element(X7, {0, 0, 0, 0});
+-      sys_data.results["output"]["DUCC"]["results"]["X7"] = first_val;
+-    }
+-    Tensor<T>::deallocate(X7);
+-
+-    if(ducc_print) print_blockstr(results_file, "Begin IJKA Block", true);
+-    Tensor<T>                                X8       = to_dense_tensor(ec_dense, vtijka);
+-    std::function<bool(std::vector<size_t>)> dp_cond8 = [&](std::vector<size_t> cond) {
+-      if(cond[0] < nactoa && cond[2] < nactoa && nactoa <= cond[1] && nactva <= cond[3])
+-        return true;
+-      return false;
+-    };
+-    print_dense_tensor(X8, dp_cond8, results_file, true);
+-    if(ducc_print) {
+-      print_blockstr(results_file, "End IJKA Block", true);
+-      T first_val = tamm::get_tensor_element(X8, {0, 0, 0, 0});
+-      sys_data.results["output"]["DUCC"]["results"]["X8"] = first_val;
+-    }
+-    Tensor<T>::deallocate(X8);
+-
+-    if(ducc_print) print_blockstr(results_file, "Begin IABC Block", true);
+-    Tensor<T>                                X9       = to_dense_tensor(ec_dense, vtiabc);
+-    std::function<bool(std::vector<size_t>)> dp_cond9 = [&](std::vector<size_t> cond) {
+-      if(cond[0] < nactoa && cond[2] < nactva && nactva <= cond[1] && nactva <= cond[3])
+-        return true;
+-      return false;
+-    };
+-    print_dense_tensor(X9, dp_cond9, results_file, true);
+-    if(ducc_print) {
+-      print_blockstr(results_file, "End IABC Block", true);
+-      T first_val = tamm::get_tensor_element(X9, {0, 0, 0, 0});
+-      sys_data.results["output"]["DUCC"]["results"]["X9"] = first_val;
+-    }
+-    Tensor<T>::deallocate(X9);
+-  }
+-
++  print_ducc_results(chem_env, ec, files_prefix, ducc_print, nactoa, nactva, ftij, ftia, ftab,
++                     vtijkl, vtijka, vtaijb, vtijab, vtiabc, vtabcd);
+diff --git a/exachem/cc/ducc/ducc-t_ccsd.hpp b/exachem/cc/ducc/ducc-t_ccsd.hpp
+index 9c97030..f3780a5 100644
+--- a/exachem/cc/ducc/ducc-t_ccsd.hpp
++++ b/exachem/cc/ducc/ducc-t_ccsd.hpp
+@@ -14,0 +15,2 @@
++#include "exachem/cc/ducc/ducc_print.hpp"
++
+diff --git a/exachem/cc/ducc/ducc.cmake b/exachem/cc/ducc/ducc.cmake
+index 7e54b08..477ce3a 100644
+--- a/exachem/cc/ducc/ducc.cmake
++++ b/exachem/cc/ducc/ducc.cmake
+@@ -14 +14,3 @@ endif()
+-set(DUCC_INCLUDES ${DUCC_SRCDIR}/ducc-t_ccsd.hpp)
++set(DUCC_INCLUDES
++    ${DUCC_SRCDIR}/ducc-t_ccsd.hpp
++    ${DUCC_SRCDIR}/ducc_print.hpp)
+diff --git a/exachem/cc/ducc/qflow-t_ccsd.cpp b/exachem/cc/ducc/qflow-t_ccsd.cpp
+index a037583..7ee6773 100644
+--- a/exachem/cc/ducc/qflow-t_ccsd.cpp
++++ b/exachem/cc/ducc/qflow-t_ccsd.cpp
+@@ -598,42 +597,0 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
+-  // std::vector<std::vector<int>> occ_combinations;
+-  // std::vector<std::vector<int>> virt_combinations;
+-  // generate_combinations(occ_list, occ_alpha_int, occ_combinations);
+-  // generate_combinations(virt_list, vir_alpha_int, virt_combinations);
+-
+-  // for(const auto& occ_set: occ_combinations) {
+-  //   for(const auto& virt_set: virt_combinations) {
+-  //     std::vector<int> combined;
+-
+-  //     // First nao: original occ_set
+-  //     combined.insert(combined.end(), occ_set.begin(), occ_set.end());
+-
+-  //     // Next nao: occ_set + nocc_orb
+-  //     for(int val: occ_set) combined.push_back(val + nocc_orb);
+-
+-  //     // Next nav: virt_set + nocc_orb
+-  //     for(int val: virt_set) combined.push_back(val + nocc_orb);
+-
+-  //     // Final nav: virt_set + nocc_orb + nvirt_orb
+-  //     for(int val: virt_set) combined.push_back(val + nocc_orb + nvirt_orb);
+-
+-  //     double occ_sum = 0.0, virt_sum = 0.0;
+-  //     for(int j: occ_set) occ_sum += p_evl_sorted[j];
+-  //     for(int i: virt_set) virt_sum += p_evl_sorted[i + nocc_orb];
+-
+-  //     double orb_e_diff = virt_sum - occ_sum;
+-  //     combinations_with_energy.emplace_back(combined, orb_e_diff);
+-
+-  //     // if(rank == 0) {
+-  //     //   std::cout << "occ_set: [ ";
+-  //     //   for(int val: occ_set) { std::cout << val << " "; }
+-  //     //   std::cout << "] virt_set: [ ";
+-  //     //   for(int val: virt_set) { std::cout << val << " "; }
+-  //     //   std::cout << "] | spin orbital combination: [ ";
+-  //     //   for(int val: combined) { std::cout << val << " "; }
+-  //     //   std::cout << "] | associated energy: " << occ_sum << " " << virt_sum << " " <<
+-  //     orb_e_diff
+-  //     //   << std::endl;
+-  //     // }
+-  //   }
+-  // }
+-
+@@ -757 +715 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
+-  for(int cycle = cycle_start; cycle < cycles; ++cycle) {
++  for(int cycle = cycle_start; cycle < cycles+1; ++cycle) {
+@@ -898,0 +857,5 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
++        // Trick last cycles to give final active-space statisitcs
++        if(cycle == cycles){
++          chem_env.ioptions.ccsd_options.ducc_lvl = 0;
++        }
++
+@@ -905,0 +869,3 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
++        // Skip the work for the last cycle, since we don't need to update the amplitudes for the last cycle.
++        if(cycle < cycles){
++
+@@ -1041,0 +1008,2 @@ void ducc_qflow_driver(ExecutionContext& ec, ChemEnv& chem_env) {
++        
++        } // end if cycle < cycles
+diff --git a/exachem/cc/scripts/hamiltonian_extractor/README.md b/exachem/cc/scripts/hamiltonian_extractor/README.md
+index 07233be..5068b02 100644
+--- a/exachem/cc/scripts/hamiltonian_extractor/README.md
++++ b/exachem/cc/scripts/hamiltonian_extractor/README.md
+@@ -3 +3,4 @@
+-A modular utility for extracting Hamiltonian data from ExaChem calculation output files and converting it to various formats for quantum chemistry and quantum computing applications.
++Turns a DUCC calculation's output files into a plain active-space Hamiltonian
++(one- and two-electron integrals over a fixed, orthonormal orbital set, plus
++a core/nuclear repulsion energy) and writes that Hamiltonian out in formats
++used by other tools, and/or runs a correlated calculation on it directly.
+@@ -5 +8 @@ A modular utility for extracting Hamiltonian data from ExaChem calculation outpu
+-## Overview
++Currently supports **closed-shell (RHF-derived) Hamiltonians only.**
+@@ -7,5 +10 @@ A modular utility for extracting Hamiltonian data from ExaChem calculation outpu
+-This utility processes calculation results and generates Hamiltonian representations in multiple formats:
+-- **FCIDUMP**: Modified for DMRG calculations with MolMPS program
+-- **YAML**: Based on Broombridge version 0.3 schema
+-- **XACC**: For quantum computing applications with XACC software
+-- **Info**: Human-readable analysis file
++## Input files
+@@ -13 +12 @@ This utility processes calculation results and generates Hamiltonian representat
+-## Requirements
++Two files, both produced by a DUCC run:
+@@ -15,4 +14,7 @@ This utility processes calculation results and generates Hamiltonian representat
+-- Python 3.6+
+-- NumPy
+-- PyYAML or ruamel.yaml (for YAML format output)
+-- PySCF (for FCI calculations)
++1. **`output_file`** - the run's stdout/log. Supplies the geometry, nuclear
++   repulsion energy, active-space orbital counts (`n_occ_alpha`, `n_occ_beta`,
++   `n_virt_alpha`, `n_virt_beta`), and the DUCC energy shift.
++2. **`integral_path`** - the `<prefix>.ducc.results.txt` file. Supplies the
++   one- and two-electron integrals over the active space as a sequence of
++   `Begin <BLOCK> Block ... End` sections (`IJ`, `IA`, `AB`, `IJKL`, `ABCD`,
++   `IJAB`, `AIJB`, `IJKA`, `IABC`).
+@@ -20 +22 @@ This utility processes calculation results and generates Hamiltonian representat
+-## Installation
++The [`Test/`](Test/) directory has a worked H2O/6-31G example (see below).
+@@ -22 +24 @@ This utility processes calculation results and generates Hamiltonian representat
+-No installation required. Simply use the script directly from the `hamiltonian_extractor` directory.
++## Basic invocation
+@@ -24 +26,3 @@ No installation required. Simply use the script directly from the `hamiltonian_e
+-## Usage
++```bash
++python extract_hamiltonian.py <output_file> <integral_path> [options]
++```
+@@ -26 +30,3 @@ No installation required. Simply use the script directly from the `hamiltonian_e
+-### Basic Usage
++By default this extracts the Hamiltonian, writes `<prefix>-info`, and writes
++every output format (`fcidump`, `xacc`, and - if PySCF is installed -
++`pyscf`), where `<prefix>` defaults to the basename of `output_file`.
+@@ -29 +35,4 @@ No installation required. Simply use the script directly from the `hamiltonian_e
+-python extract_hamiltonian.py <output_file> <integral_path> [options]
++# Using the bundled H2O test case
++cd Test
++python ../extract_hamiltonian.py H2O-DUCC.out H2O-DUCC.6-31g.ducc.results.txt \
++    --output-prefix h2o
+@@ -32 +41,2 @@ python extract_hamiltonian.py <output_file> <integral_path> [options]
+-### Examples
++produces `h2o-info`, `h2o-FCIDUMP`, `h2o-xacc`, and (with PySCF installed)
++`h2o.pyscf.fcidump`.
+@@ -34,4 +44 @@ python extract_hamiltonian.py <output_file> <integral_path> [options]
+-1. **Extract all formats:**
+-   ```bash
+-   python extract_hamiltonian.py h2o_ducc.out h2o_ducc.cc-pvdz_files/restricted/ducc/h2o_ducc.cc-pvdz.ducc.results.txt
+-   ```
++## Command-line options
+@@ -39,4 +46,11 @@ python extract_hamiltonian.py <output_file> <integral_path> [options]
+-2. **Extract only FCIDUMP format:**
+-   ```bash
+-   python extract_hamiltonian.py h2o_ducc.out h2o_ducc.cc-pvdz_files/restricted/ducc/h2o_ducc.cc-pvdz.ducc.results.txt --format fcidump
+-   ```
++| Option | Description |
++|---|---|
++| `output_file`, `integral_path` | positional; the two input files above |
++| `--output-prefix PREFIX` | base name for output files (default: `output_file`'s stem) |
++| `--format {fcidump,xacc,pyscf,all}` | which format(s) to write (default: `all`) |
++| `--threshold VALUE` | integral magnitude below which entries are omitted from writers (default `5e-11`) |
++| `--verbose` | print progress as each stage runs |
++| `--fci` / `--n-roots N` / `--fci-threshold T` | run FCI via PySCF (see below) |
++| `--pyscf-ccsd` / `--pyscf-ccsd-threshold T` | run CCSD via PySCF (see below) |
++| `--mp2` | run the built-in MP2 solver (no extra dependency) |
++| `--cc-method METHOD` (+ `--miniccpy-path`, `--cc-maxit`, `--cc-convergence`, `--cc-level-shift`, `--cc-diis-size`) | run a correlated method via miniccpy (see below) |
+@@ -44,4 +58 @@ python extract_hamiltonian.py <output_file> <integral_path> [options]
+-3. **Extract multiple specific formats:**
+-   ```bash
+-   python extract_hamiltonian.py h2o_ducc.out h2o_ducc.cc-pvdz_files/restricted/ducc/h2o_ducc.cc-pvdz.ducc.results.txt --format yaml xacc
+-   ```
++Run `python extract_hamiltonian.py --help` for the full list with defaults.
+@@ -49,4 +60 @@ python extract_hamiltonian.py <output_file> <integral_path> [options]
+-4. **Use custom output prefix and threshold:**
+-   ```bash
+-   python extract_hamiltonian.py h2o_ducc.out h2o_ducc.cc-pvdz_files/restricted/ducc/h2o_ducc.cc-pvdz.ducc.results.txt --output-prefix my_hamiltonian --threshold 1e-10
+-   ```
++## Output formats
+@@ -54,4 +62 @@ python extract_hamiltonian.py <output_file> <integral_path> [options]
+-5. **Run FCI calculation:**
+-   ```bash
+-   # Calculate ground state
+-   python extract_hamiltonian.py h2o_ducc.out h2o_ducc.cc-pvdz_files/restricted/ducc/h2o_ducc.cc-pvdz.ducc.results.txt --fci
++### `.info` (always written)
+@@ -59,2 +64,3 @@ python extract_hamiltonian.py <output_file> <integral_path> [options]
+-   # Calculate multiple states
+-   python extract_hamiltonian.py h2o_ducc.out h2o_ducc.cc-pvdz_files/restricted/ducc/h2o_ducc.cc-pvdz.ducc.results.txt --fci --n-roots 3
++`<prefix>-info` is a human-readable summary: nuclear repulsion energy, DUCC
++energy shift, active-space orbital counts, the SCF energy, and the nonzero
++(`|F_ij| > threshold`) Fock matrix elements. It has no file extension.
+@@ -62,3 +68 @@ python extract_hamiltonian.py <output_file> <integral_path> [options]
+-   # Adjust CI vector printing threshold
+-   python extract_hamiltonian.py h2o_ducc.out h2o_ducc.cc-pvdz_files/restricted/ducc/h2o_ducc.cc-pvdz.ducc.results.txt --fci --fci-threshold 0.01
+-   ```
++### FCIDUMP (`--format fcidump`, always available)
+@@ -66 +70,5 @@ python extract_hamiltonian.py <output_file> <integral_path> [options]
+-### Command-line Options
++`<prefix>-FCIDUMP`. **This is not a standard FCIDUMP file** - it is a
++convention specific to this project's downstream DMRG/MolMPS use case: the
++two-electron block is written three times (AAAA, BBBB, AABB, all identical
++since the Hamiltonian is closed-shell) and the header sets `IUHF=1`. If you
++need a normal FCIDUMP, use `--format pyscf` instead (below).
+@@ -68,9 +76 @@ python extract_hamiltonian.py <output_file> <integral_path> [options]
+-- `output_file`: Path to the DUCC output file
+-- `integral_path`: Path to the integral file (typically ends with .ducc.results.txt)
+-- `--format`: Output format(s) to generate (choices: fcidump, yaml, xacc, all; default: all)
+-- `--output-prefix`: Prefix for output files (default: use input output_file name)
+-- `--threshold`: Threshold for printing integrals (default: 5e-11)
+-- `--verbose`: Enable verbose output
+-- `--fci`: Perform Full Configuration Interaction (FCI) calculation
+-- `--n-roots`: Number of FCI roots to compute (default: 1)
+-- `--fci-threshold`: Threshold for printing CI vector components (default: 0.001)
++### XACC (`--format xacc`, always available)
+@@ -78 +78,3 @@ python extract_hamiltonian.py <output_file> <integral_path> [options]
+-### Output Files
++`<prefix>-xacc`. A list of second-quantized Hamiltonian terms
++(`(coeff,0)p^ q^ r s +`) plus a final constant term, in the form expected by
++the XACC quantum computing framework.
+@@ -80 +82,11 @@ python extract_hamiltonian.py <output_file> <integral_path> [options]
+-The utility generates the following files (using `output_prefix` as the base name):
++### PySCF-compatible integrals (`--format pyscf`, requires PySCF)
++
++`<prefix>.pyscf.fcidump` - a **standard** FCIDUMP file, written with
++`pyscf.tools.fcidump.from_integrals`. Anyone already using PySCF can read it
++back exactly as they would any other FCIDUMP:
++
++```python
++from pyscf.tools import fcidump
++result = fcidump.read("h2o.pyscf.fcidump")
++h1e, h2e, ecore = result["H1"], result["H2"], result["ECORE"]
++```
+@@ -82,6 +94,7 @@ The utility generates the following files (using `output_prefix` as the base nam
+-1. **`{output_prefix}-info`**: Human-readable analysis file containing:
+-   - Nuclear repulsion energy
+-   - Energy shifts
+-   - Orbital counts
+-   - SCF and core energies
+-   - Orbital energies after downfolding
++This is the recommended substitute for PySCF's own integral-generation step
++(`mol.intor(...)` / `mf.get_hcore()` / `ao2mo.kernel(...)`) when what you
++actually want are DUCC's downfolded active-space integrals: run this script
++instead of building an AO Hamiltonian yourself, and treat `h1e`/`h2e`/`ecore`
++as if they had come from PySCF directly (`h1e` and `h2e` are already in the
++active-space MO basis, in chemist notation, so no further transformation is
++needed).
+@@ -89 +102,6 @@ The utility generates the following files (using `output_prefix` as the base nam
+-2. **`{output_prefix}-FCIDUMP`**: FCIDUMP format file for DMRG calculations
++For driving PySCF *from Python* rather than round-tripping through a file,
++`pyscf_backend.to_pyscf_mean_field(data)` builds a mock `scf.RHF` object
++carrying these same integrals (`mf.get_hcore()`, `mf._eri`, `mf.mo_coeff`,
++`mf.e_tot`, ...) that can be handed directly to any PySCF post-mean-field
++method, e.g. `cc.RCCSD(mf).run()` or `mp.MP2(mf).run()` - this is exactly
++what `--pyscf-ccsd` below does internally.
+@@ -91 +109 @@ The utility generates the following files (using `output_prefix` as the base nam
+-3. **`{output_prefix}.yaml`**: YAML format file based on Broombridge version 0.3 schema
++## Running FCI/CCSD through PySCF
+@@ -93 +111 @@ The utility generates the following files (using `output_prefix` as the base nam
+-4. **`{output_prefix}-xacc`**: XACC format file for quantum computing applications
++Requires `pip install pyscf`.
+@@ -95 +113,3 @@ The utility generates the following files (using `output_prefix` as the base nam
+-## Architecture
++```bash
++# FCI ground state
++python extract_hamiltonian.py H2O-DUCC.out H2O-DUCC.6-31g.ducc.results.txt --fci
+@@ -97 +117,2 @@ The utility generates the following files (using `output_prefix` as the base nam
+-The utility is designed with a modular architecture:
++# FCI, 3 lowest roots, looser CI-vector printing threshold
++python extract_hamiltonian.py H2O-DUCC.out H2O-DUCC.6-31g.ducc.results.txt --fci --n-roots 3 --fci-threshold 0.01
+@@ -98,0 +120,2 @@ The utility is designed with a modular architecture:
++# CCSD
++python extract_hamiltonian.py H2O-DUCC.out H2O-DUCC.6-31g.ducc.results.txt --pyscf-ccsd
+@@ -100,11 +123,13 @@ The utility is designed with a modular architecture:
+-hamiltonian_extractor/
+-├── __init__.py                 # Package initialization
+-├── extract_hamiltonian.py      # Main command-line utility
+-├── grab_data.py                # Core data extraction
+-├── hamiltonian_data.py         # Data structures and analysis
+-├── format_writer.py            # Base class for format writers
+-├── fcidump_writer.py           # FCIDUMP format writer
+-├── yaml_writer.py              # YAML format writer
+-├── xacc_writer.py              # XACC format writer
+-├── fci_solver.py              # Full Configuration Interaction solver
+-└── README.md                   # This file
++
++Both build on the extracted integrals directly (FCI via
++`pyscf.fci.direct_nosym`, CCSD via `pyscf.cc.RCCSD` on the mock mean-field
++object described above) - no AO basis or geometry is needed.
++
++## Using miniccpy
++
++Requires `miniccpy` on the Python path (`pip install` it, or point
++`--miniccpy-path /path/to/miniccpy` at a source checkout).
++
++```bash
++python extract_hamiltonian.py H2O-DUCC.out H2O-DUCC.6-31g.ducc.results.txt --cc-method ccsd
++python extract_hamiltonian.py H2O-DUCC.out H2O-DUCC.6-31g.ducc.results.txt --cc-method ccsdt --cc-convergence 1e-8
+@@ -113 +138,7 @@ hamiltonian_extractor/
+-### Key Components
++`--cc-method` accepts any method miniccpy implements (`mp2`, `ccsd`,
++`ccsdt`, `ccsdtq`, `cc3`, `lrccsd`, ...). The extracted integrals are
++converted to miniccpy's spin-orbital, antisymmetrized-integral convention by
++`HamiltonianData.spin_orbital_integrals()`. If `h5py` or `pyscf.symm` (two of
++miniccpy's own dependencies) aren't available, pure-NumPy shims are used
++automatically so miniccpy's in-memory DIIS and amplitude printing still work
++without them.
+@@ -115,8 +146 @@ hamiltonian_extractor/
+-- **`HamiltonianData`**: Container class for extracted data and analysis results
+-- **`FormatWriter`**: Abstract base class for format writers
+-- **Format Writers**: Specific implementations for each output format
+-- **`FCISolver`**: Full Configuration Interaction solver with support for:
+-  - Ground state and excited states calculation
+-  - Spin multiplicity analysis
+-  - CI vector analysis with configurable threshold
+-- **`extract_hamiltonian_data()`**: Main extraction function
++## Built-in MP2
+@@ -124 +148,2 @@ hamiltonian_extractor/
+-## Adding New Formats
++`--mp2` computes an MP2 correlation energy directly (no PySCF or miniccpy
++required), using the same spin-orbital integrals as the miniccpy backend.
+@@ -126 +151 @@ hamiltonian_extractor/
+-To add a new output format:
++## Required vs. optional dependencies
+@@ -128,7 +153,5 @@ To add a new output format:
+-1. Create a new writer class inheriting from `FormatWriter`
+-2. Implement the required methods:
+-   - `write(data)`: Write the format
+-   - `get_file_extension()`: Return file extension
+-   - `get_description()`: Return format description
+-3. Add the writer to the `get_format_writers()` function in `extract_hamiltonian.py`
+-4. Update the argument parser choices
++| Dependency | Needed for |
++|---|---|
++| Python 3.8+, NumPy | everything |
++| PySCF | `--fci`, `--pyscf-ccsd`, `--format pyscf` |
++| miniccpy | `--cc-method` |
+@@ -136,16 +159,14 @@ To add a new output format:
+-Example:
+-```python
+-from .format_writer import FormatWriter
+-
+-class MyFormatWriter(FormatWriter):
+-    def get_file_extension(self):
+-        return ".myformat"
+-    
+-    def get_description(self):
+-        return "My custom format"
+-    
+-    def write(self, data):
+-        filename = f"{self.output_prefix}{self.get_file_extension()}"
+-        with open(filename, 'w') as f:
+-            # Write your format here
+-            pass
++Parsing, the `.info` file, FCIDUMP, XACC, and `--mp2` all work with just
++NumPy. Missing an optional dependency never crashes an unrelated part of a
++run: `--format all` silently skips `pyscf` if PySCF isn't installed (with a
++one-line notice), and a solver flag that needs a missing package reports a
++clear error naming that flag alone.
++
++## Testing
++
++[`Test/`](Test/) contains a worked H2O/6-31G DUCC example plus a regression
++suite:
++
++```bash
++cd Test
++python3 -m unittest test_hamiltonian_extractor.py -v   # or: pytest -v
+@@ -154 +175,26 @@ class MyFormatWriter(FormatWriter):
+-## Data Access
++PySCF- and miniccpy-dependent tests are skipped automatically when those
++packages aren't installed.
++
++## Layout
++
++```
++hamiltonian_extractor/
++├── extract_hamiltonian.py   # CLI entry point
++├── parsing.py                # output_file + .ducc.results.txt -> HamiltonianData
++├── hamiltonian_data.py        # HamiltonianData: raw integrals + derived quantities
++├── format_writer.py           # FormatWriter base class; .info writer
++├── fcidump_writer.py          # this project's own FCIDUMP convention
++├── xacc_writer.py             # XACC format
++├── pyscf_backend.py           # mock PySCF mean-field + standard FCIDUMP writer
++├── fci_solver.py               # FCI via PySCF          (optional: pyscf)
++├── ccsd_solver.py              # CCSD via PySCF          (optional: pyscf)
++├── miniccpy_solver.py          # correlated methods via miniccpy (optional: miniccpy)
++├── mp2_solver.py                # built-in MP2 (no extra dependency)
++└── Test/                        # H2O example + regression tests
++```
++
++## Adding a new output format
++
++Subclass `FormatWriter` (`write(data)`, `get_file_extension()`,
++`get_description()`) and add it to `get_format_writers()` in
++`extract_hamiltonian.py`. See `xacc_writer.py` for a minimal example.
+@@ -156 +202 @@ class MyFormatWriter(FormatWriter):
+-The `HamiltonianData` object provides access to:
++## Adding a new computational backend
+@@ -158,4 +204,5 @@ The `HamiltonianData` object provides access to:
+-- **Raw data**: geometry, energies, orbital counts
+-- **Integral matrices**: one_body, two_body, fock
+-- **Processed data**: scf_energy
+-- **Helper methods**: compute_energies(), compute_fock_matrix(), validate_data()
++Follow the pattern in `mp2_solver.py` / `fci_solver.py` / `ccsd_solver.py`:
++a plain function taking a `HamiltonianData` and returning a result dict,
++importing its (optional) dependency lazily inside the function so the rest
++of the script keeps working without it. Wire it into `extract_hamiltonian.py`
++as a new flag.
+@@ -163 +210 @@ The `HamiltonianData` object provides access to:
+-## Limitations
++## Scope / limitations
+@@ -165,3 +212,3 @@ The `HamiltonianData` object provides access to:
+-- **Closed Shell Systems Only**: Currently designed for closed shell systems
+-- **DUCC Format Specific**: Tailored for DUCC output format
+-- **Python Dependencies**: Requires NumPy; YAML format needs PyYAML or ruamel.yaml
++- Closed-shell (RHF-derived) Hamiltonians only; UHF/open-shell support is
++  planned but not yet implemented.
++- Tailored to the DUCC output/integral file format described above.
+diff --git a/exachem/cc/scripts/hamiltonian_extractor/__init__.py b/exachem/cc/scripts/hamiltonian_extractor/__init__.py
+index 71f0338..ac7a801 100644
+--- a/exachem/cc/scripts/hamiltonian_extractor/__init__.py
++++ b/exachem/cc/scripts/hamiltonian_extractor/__init__.py
+@@ -4,3 +4,3 @@ Hamiltonian Extractor Package
+-This package provides utilities for extracting Hamiltonian data from
+-calculation output files and converting it to various formats for quantum
+-chemistry and quantum computing applications.
++Extracts Hamiltonian/integral data from DUCC calculation output files and
++converts it to various formats for quantum chemistry and quantum computing
++applications.
+@@ -9,5 +9,4 @@ Main Components:
+-- grab_data: Core data extraction functionality
+-- hamiltonian_data: Data structures for Hamiltonian information
+-- format_writer: Base class for format writers
+-- fcidump_writer: FCIDUMP format writer
+-- yaml_writer: YAML format writer (Broombridge schema)
++- parsing: input file parsing -> HamiltonianData
++- hamiltonian_data: HamiltonianData container and derived quantities
++- format_writer: base class for format writers, plus the .info writer
++- fcidump_writer: this project's own FCIDUMP format writer
+@@ -15 +14,6 @@ Main Components:
+-- extract_hamiltonian: Main command-line utility
++- pyscf_backend: mock PySCF mean-field object + standard FCIDUMP writer
++- fci_solver: Full CI via PySCF (optional dependency)
++- ccsd_solver: CCSD via PySCF (optional dependency)
++- miniccpy_solver: correlated methods via miniccpy (optional dependency)
++- mp2_solver: built-in MP2 (no extra dependency)
++- extract_hamiltonian: command-line entry point
+@@ -22 +25,0 @@ For detailed usage information, run:
+-"""
+@@ -24,2 +27,2 @@ For detailed usage information, run:
+-# __version__ = "1.0.0"
+-# __author__ = "ExaChem Development Team - Nicholas Bauman"
++See README.md for a full description of inputs, outputs, and options.
++"""
+@@ -27 +30 @@ For detailed usage information, run:
+-from .grab_data import extract_hamiltonian_data
++from .parsing import extract_hamiltonian_data
+@@ -31 +33,0 @@ from .fcidump_writer import FCIDUMPWriter
+-from .yaml_writer import YAMLWriter
+@@ -32,0 +35,5 @@ from .xacc_writer import XACCWriter
++from .pyscf_backend import to_pyscf_mean_field, write_pyscf_fcidump, PySCFIntegralWriter
++from .mp2_solver import solve_mp2
++from .fci_solver import solve_fci
++from .ccsd_solver import solve_ccsd
++from .miniccpy_solver import solve_miniccpy
+@@ -40,2 +47,8 @@ __all__ = [
+-    'YAMLWriter',
+-    'XACCWriter'
++    'XACCWriter',
++    'to_pyscf_mean_field',
++    'write_pyscf_fcidump',
++    'PySCFIntegralWriter',
++    'solve_mp2',
++    'solve_fci',
++    'solve_ccsd',
++    'solve_miniccpy',
+diff --git a/exachem/cc/scripts/hamiltonian_extractor/extract_hamiltonian.py b/exachem/cc/scripts/hamiltonian_extractor/extract_hamiltonian.py
+index 4c01a50..b2f7adc 100755
+--- a/exachem/cc/scripts/hamiltonian_extractor/extract_hamiltonian.py
++++ b/exachem/cc/scripts/hamiltonian_extractor/extract_hamiltonian.py
+@@ -5,3 +5,4 @@ Hamiltonian Extractor Utility
+-This utility extracts Hamiltonian data from DUCC calculation output files
+-and converts it to various formats for different quantum chemistry and
+-quantum computing applications.
++Extracts Hamiltonian data from DUCC calculation output files and converts
++it to various formats for downstream quantum chemistry and quantum
++computing applications, and/or runs correlated calculations directly on
++the extracted integrals.
+@@ -21 +22 @@ try:
+-    from grab_data import extract_hamiltonian_data
++    from parsing import extract_hamiltonian_data
+@@ -24 +24,0 @@ try:
+-    from yaml_writer import YAMLWriter
+@@ -25,0 +26,2 @@ try:
++    from pyscf_backend import PySCFIntegralWriter
++    from mp2_solver import solve_mp2
+@@ -26,0 +29,2 @@ try:
++    from miniccpy_solver import solve_miniccpy
++    from ccsd_solver import solve_ccsd
+@@ -29 +33 @@ except ImportError:
+-    from .grab_data import extract_hamiltonian_data
++    from .parsing import extract_hamiltonian_data
+@@ -32 +35,0 @@ except ImportError:
+-    from .yaml_writer import YAMLWriter
+@@ -33,0 +37,2 @@ except ImportError:
++    from .pyscf_backend import PySCFIntegralWriter
++    from .mp2_solver import solve_mp2
+@@ -34,0 +40,2 @@ except ImportError:
++    from .miniccpy_solver import solve_miniccpy
++    from .ccsd_solver import solve_ccsd
+@@ -47 +54 @@ Examples:
+-  # Extract only FCIDUMP format
++  # Extract only this project's FCIDUMP format
+@@ -50,2 +57,5 @@ Examples:
+-  # Extract multiple specific formats
+-  python extract_hamiltonian.py h2o_ducc.out h2o_ducc.cc-pvdz_files/restricted/ducc/h2o_ducc.cc-pvdz.ducc.results.txt --format yaml xacc
++  # Extract a standard PySCF-readable FCIDUMP and the XACC format
++  python extract_hamiltonian.py h2o_ducc.out h2o_ducc.cc-pvdz_files/restricted/ducc/h2o_ducc.cc-pvdz.ducc.results.txt --format pyscf xacc
++
++  # Run CCSD via PySCF directly on the extracted integrals
++  python extract_hamiltonian.py h2o_ducc.out h2o_ducc.cc-pvdz_files/restricted/ducc/h2o_ducc.cc-pvdz.ducc.results.txt --pyscf-ccsd
+@@ -54,2 +64 @@ Available formats:
+-  - fcidump: FCIDUMP format (modified for DMRG calculations)
+-  - yaml: YAML format based on Broombridge version 0.3
++  - fcidump: this project's own FCIDUMP convention (modified for DMRG calculations)
+@@ -57 +66,2 @@ Available formats:
+-  - info: Information file about the extracted Hamiltonian (always generated)
++  - pyscf: standard FCIDUMP file readable via pyscf.tools.fcidump (requires PySCF)
++  - info: information file about the extracted Hamiltonian (always generated)
+@@ -60 +70 @@ Available formats:
+-    
++
+@@ -65 +75 @@ Available formats:
+-    
++
+@@ -70 +80 @@ Available formats:
+-    
++
+@@ -73 +83 @@ Available formats:
+-        choices=['fcidump', 'yaml', 'xacc', 'all'],
++        choices=['fcidump', 'xacc', 'pyscf', 'all'],
+@@ -78 +88 @@ Available formats:
+-    
++
+@@ -83 +93 @@ Available formats:
+-    
++
+@@ -90 +100 @@ Available formats:
+-    
++
+@@ -96 +106,2 @@ Available formats:
+-    
++
++    # ── PySCF FCI ─────────────────────────────────────────────────────────────
+@@ -100 +111 @@ Available formats:
+-        help='Perform Full Configuration Interaction (FCI) calculation'
++        help='Perform Full Configuration Interaction (FCI) calculation via PySCF'
+@@ -102 +113 @@ Available formats:
+-    
++
+@@ -109 +120 @@ Available formats:
+-    
++
+@@ -116 +127,71 @@ Available formats:
+-    
++
++    # ── PySCF CCSD ───────────────────────────────────────────────────────────
++    parser.add_argument(
++        '--pyscf-ccsd',
++        action='store_true',
++        help='Perform CCSD calculation via PySCF'
++    )
++
++    parser.add_argument(
++        '--pyscf-ccsd-threshold',
++        type=float,
++        default=0.001,
++        help='Threshold for printing T1/T2 amplitudes (default: 0.001)'
++    )
++
++    # ── Built-in MP2 (no extra dependency) ──────────────────────────────────
++    parser.add_argument(
++        '--mp2',
++        action='store_true',
++        help='Compute MP2 energy using the built-in spin-orbital implementation'
++    )
++
++    # ── miniccpy correlated methods ───────────────────────────────────────────
++    parser.add_argument(
++        '--cc-method',
++        metavar='METHOD',
++        help=(
++            'Run a correlated calculation via miniccpy using the extracted '
++            'Fock and two-electron integrals. '
++            'Examples: ccsd, ccsdt, ccsdtq, mp2, cc3, lrccsd. '
++            'Requires miniccpy to be installed.'
++        )
++    )
++
++    parser.add_argument(
++        '--miniccpy-path',
++        metavar='PATH',
++        default=None,
++        help='Path to prepend to sys.path so that miniccpy can be imported '
++             '(e.g. /path/to/miniccpy). Optional if miniccpy is already installed.'
++    )
++
++    parser.add_argument(
++        '--cc-maxit',
++        type=int,
++        default=80,
++        help='Maximum CC iterations for the miniccpy solver (default: 80)'
++    )
++
++    parser.add_argument(
++        '--cc-convergence',
++        type=float,
++        default=1.0e-7,
++        help='Convergence threshold for the miniccpy CC solver (default: 1e-7)'
++    )
++
++    parser.add_argument(
++        '--cc-level-shift',
++        type=float,
++        default=0.0,
++        help='Amplitude denominator level shift for miniccpy convergence '
++             '(default: 0.0, distinct from the DUCC energy shift)'
++    )
++
++    parser.add_argument(
++        '--cc-diis-size',
++        type=int,
++        default=6,
++        help='DIIS subspace size for the miniccpy CC solver (default: 6)'
++    )
++
+@@ -124,2 +205,2 @@ def get_format_writers(output_prefix):
+-        'yaml': YAMLWriter(output_prefix),
+-        'xacc': XACCWriter(output_prefix)
++        'xacc': XACCWriter(output_prefix),
++        'pyscf': PySCFIntegralWriter(output_prefix),
+@@ -133 +214 @@ def main():
+-    
++
+@@ -138 +219 @@ def main():
+-    
++
+@@ -142 +223 @@ def main():
+-    
++
+@@ -145 +226 @@ def main():
+-    
++
+@@ -149 +230 @@ def main():
+-    
++
+@@ -153 +234 @@ def main():
+-        
++
+@@ -161 +242 @@ def main():
+-    
++
+@@ -165,2 +246,2 @@ def main():
+-    
+-    # Always write info file
++
++    # Always write the .info file
+@@ -170,2 +251,2 @@ def main():
+-    
+-    # Run FCI if requested
++
++    # ── PySCF FCI ────────────────────────────────────────────────────────────
+@@ -175,9 +256,6 @@ def main():
+-        
+-        # Run FCI
+-        fci_results = solve_fci(
+-            data,
+-            n_roots=args.n_roots,
+-            threshold=args.fci_threshold
+-        )
+-        
+-        # Print FCI results
++        try:
++            fci_results = solve_fci(data, n_roots=args.n_roots, threshold=args.fci_threshold)
++        except ImportError as e:
++            print(f"Error: {e}")
++            sys.exit(1)
++
+@@ -189 +267 @@ def main():
+-            for occ_str, coef in sorted(result['ci_vector'].items(), 
++            for occ_str, coef in sorted(result['ci_vector'].items(),
+@@ -193 +271,42 @@ def main():
+-    
++
++    # ── PySCF CCSD ───────────────────────────────────────────────────────────
++    if args.pyscf_ccsd:
++        if args.verbose:
++            print("\nRunning CCSD via PySCF...")
++        try:
++            result = solve_ccsd(data, threshold=args.pyscf_ccsd_threshold)
++            print(f"\nCCSD Correlation Energy = {result['e_corr']:.12f}")
++            print(f"CCSD Total Energy       = {result['energy']:.12f}")
++        except ImportError as e:
++            print(f"Error: {e}")
++            print("  Hint: install pyscf with 'pip install pyscf'")
++            sys.exit(1)
++
++    # ── Built-in MP2 ─────────────────────────────────────────────────────────
++    if args.mp2:
++        if args.verbose:
++            print("\nComputing MP2 energy (built-in spin-orbital implementation)...")
++        solve_mp2(data)
++
++    # ── miniccpy correlated calculation ─────────────────────────────────────
++    if args.cc_method:
++        if args.verbose:
++            print(f"\nRunning {args.cc_method.upper()} via miniccpy...")
++        try:
++            solve_miniccpy(
++                data,
++                method=args.cc_method,
++                maxit=args.cc_maxit,
++                convergence=args.cc_convergence,
++                level_shift=args.cc_level_shift,
++                diis_size=args.cc_diis_size,
++                miniccpy_path=args.miniccpy_path,
++            )
++        except ImportError as e:
++            print(f"Error: {e}")
++            print("  Hint: install miniccpy or pass --miniccpy-path <path>")
++            sys.exit(1)
++        except NotImplementedError:
++            print(f"Error: method '{args.cc_method}' is not implemented in miniccpy.")
++            sys.exit(1)
++
+@@ -197,3 +316,2 @@ def main():
+-        formats_to_write = ['fcidump', 'yaml', 'xacc']
+-    
+-    # Get available writers
++        formats_to_write = ['fcidump', 'xacc', 'pyscf']
++
+@@ -201,2 +319,2 @@ def main():
+-    
+-    # Write requested formats
++
++    had_error = False
+@@ -204,14 +322,2 @@ def main():
+-        if format_name in writers:
+-            writer = writers[format_name]
+-            try:
+-                if args.verbose:
+-                    print(f"Writing {format_name} format ({writer.get_description()})...")
+-                writer.write(data)
+-                if args.verbose:
+-                    print(f"  -> {output_prefix}{writer.get_file_extension()}")
+-            except Exception as e:
+-                print(f"Error writing {format_name} format: {e}")
+-                if format_name == 'yaml' and 'yaml' in str(e).lower():
+-                    print("  Hint: Install PyYAML or ruamel.yaml: pip install PyYAML")
+-                sys.exit(1)
+-        else:
++        writer = writers.get(format_name)
++        if writer is None:
+@@ -219 +325,19 @@ def main():
+-    
++            continue
++        try:
++            if args.verbose:
++                print(f"Writing {format_name} format ({writer.get_description()})...")
++            writer.write(data)
++            if args.verbose:
++                print(f"  -> {output_prefix}{writer.get_file_extension()}")
++        except ImportError as e:
++            # A missing optional dependency shouldn't abort the whole run,
++            # since --format all requests every format regardless of what is
++            # installed.
++            print(f"Skipping {format_name} format: {e}")
++        except Exception as e:
++            print(f"Error writing {format_name} format: {e}")
++            had_error = True
++
++    if had_error:
++        sys.exit(1)
++
+diff --git a/exachem/cc/scripts/hamiltonian_extractor/fci_solver.py b/exachem/cc/scripts/hamiltonian_extractor/fci_solver.py
+index cfa11ab..66e025d 100644
+--- a/exachem/cc/scripts/hamiltonian_extractor/fci_solver.py
++++ b/exachem/cc/scripts/hamiltonian_extractor/fci_solver.py
+@@ -5 +5 @@ import numpy as np
+-from typing import Dict, Tuple, Optional
++from typing import Dict, Tuple
+diff --git a/exachem/cc/scripts/hamiltonian_extractor/fcidump_writer.py b/exachem/cc/scripts/hamiltonian_extractor/fcidump_writer.py
+index 13a7a0e..137dfe2 100644
+--- a/exachem/cc/scripts/hamiltonian_extractor/fcidump_writer.py
++++ b/exachem/cc/scripts/hamiltonian_extractor/fcidump_writer.py
+@@ -2,0 +3,6 @@ FCIDUMP format writer for DMRG calculations.
++
++This is a deliberately non-standard FCIDUMP variant for the MolMPS/DMRG
++program this project targets: it writes AAAA/BBBB/AABB two-electron blocks
++(all identical, since the underlying Hamiltonian is closed-shell/RHF) and
++sets IUHF=1. For a FCIDUMP file that follows PySCF's own convention
++instead, see pyscf_backend.write_pyscf_fcidump().
+@@ -28 +34,2 @@ class FCIDUMPWriter(FormatWriter):
+-            f.write("\n ISYM=1,\n")
++            f.write("\n ISYM=1,")
++            f.write("\n IUHF=1,\n")
+diff --git a/exachem/cc/scripts/hamiltonian_extractor/format_writer.py b/exachem/cc/scripts/hamiltonian_extractor/format_writer.py
+index 54b4e99..e6f0c5d 100644
+--- a/exachem/cc/scripts/hamiltonian_extractor/format_writer.py
++++ b/exachem/cc/scripts/hamiltonian_extractor/format_writer.py
+@@ -55,6 +54,0 @@ def write_info_file(data, output_prefix):
+-        
+-        # f.write("New orbital energies after downfolding\n")
+-        # f.write("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
+-        # sorted_energies = sorted(data.orbital_energies)
+-        # for i, energy in enumerate(sorted_energies):
+-        #     f.write(f"{energy:.6f}\n")
+diff --git a/exachem/cc/scripts/hamiltonian_extractor/grab_data.py b/exachem/cc/scripts/hamiltonian_extractor/grab_data.py
+deleted file mode 100644
+index 8d47e3f..0000000
+--- a/exachem/cc/scripts/hamiltonian_extractor/grab_data.py
++++ /dev/null
+@@ -1,246 +0,0 @@
+-"""
+-Hamiltonian data extraction utility.
+-"""
+-import numpy as np
+-try:
+-    from .hamiltonian_data import HamiltonianData
+-except ImportError:
+-    from hamiltonian_data import HamiltonianData
+-
+-
+-def extract_hamiltonian_data(output_file, integral_path):
+-    """
+-    Extract Hamiltonian data from output files.
+-    
+-    Args:
+-        output_file (str): Path to the output file
+-        integral_path (str): Path to the integral file
+-        
+-    Returns:
+-        HamiltonianData: Container with extracted data
+-    """
+-    data = HamiltonianData()
+-    
+-    # Extract data from output file
+-    _extract_output_data(output_file, data)
+-    
+-    # Extract integral data
+-    _extract_integral_data(integral_path, data)
+-    
+-    # Perform analysis
+-    data.compute_energies()
+-    data.compute_fock_matrix()
+-    
+-    return data
+-
+-
+-def _extract_output_data(output_file, data):
+-    """Extract data from the output file."""
+-    reader_mode = ""
+-    full_scf = None
+-    bare_scf = None
+-    
+-    with open(output_file, 'r') as f:
+-        for line in f:
+-            ln = line.strip()
+-            ln_segments = ln.split()
+-            
+-            if len(ln) == 0 or ln.startswith("#"):
+-                continue
+-                
+-            if reader_mode == "":
+-                if ln_segments[0] == '"coordinates":':
+-                    reader_mode = "cartesian_geometry"
+-                    data.geometry = {'coordinate_system': 'cartesian'}
+-                    data.geometry['atoms'] = []
+-                    data.geometry['symmetry'] = "C1"
+-                elif ln_segments[:4] == ["Nuclear", "repulsion", "energy", "="]:
+-                    data.coulomb_repulsion = {
+-                        'units': 'hartree',
+-                        'value': float(ln_segments[4])
+-                    }
+-                elif ln_segments[:5] == ['**', 'Total', 'SCF', 'energy', '=']:
+-                    data.scf_energy = {
+-                        'units': 'hartree',
+-                        'value': float(ln_segments[5])
+-                    }
+-                elif ln_segments[:6] == ["Number", "of", "active", "occupied", "alpha", "="]:
+-                    data.n_occ_alpha = int(ln_segments[6])
+-                elif ln_segments[:6] == ["Number", "of", "active", "occupied", "beta", "="]:
+-                    data.n_occ_beta = int(ln_segments[6])
+-                elif ln_segments[:6] == ["Number", "of", "active", "virtual", "alpha", "="]:
+-                    data.n_virt_alpha = int(ln_segments[6])
+-                elif ln_segments[:6] == ["Number", "of", "active", "virtual", "beta", "="]:
+-                    data.n_virt_beta = int(ln_segments[6])
+-                elif ln_segments[:2] == ["n_frozen_core", "="]:
+-                    data.n_frozen_core = int(ln_segments[2])
+-                elif ln_segments[:6] == ['CCSD', 'total', 'energy', '/', 'hartree', '=']:
+-                    data.note = "Full CCSD energy = " + ln_segments[6]
+-                elif ln_segments[:3] == ['Total', 'Energy', 'Shift:']:
+-                    data.energy_shift = float(ln_segments[3])
+-                elif ln_segments[:3] == ['Full', 'SCF', 'Energy:']:
+-                    full_scf = float(ln_segments[3])
+-                elif ln_segments[:5] == ['Bare', 'Active', 'Space', 'SCF', 'Energy:']:
+-                    bare_scf = float(ln_segments[5])
+-                elif ln_segments[:1] == ['ducc_lvl']:
+-                    data.n_orbitals = data.n_occ_alpha + data.n_virt_alpha
+-                    data.one_body = np.zeros((data.n_orbitals, data.n_orbitals))
+-                    data.two_body = np.zeros((data.n_orbitals, data.n_orbitals, 
+-                                            data.n_orbitals, data.n_orbitals))
+-                    
+-            elif reader_mode == "cartesian_geometry":
+-                if ln_segments[0] == '"units":':
+-                    reader_mode = ""
+-                    data.geometry['units'] = ln_segments[1].replace('"', '')
+-                elif len(ln_segments) == 4:
+-                    data.geometry['atoms'].append({
+-                        "name": ln_segments[0].replace('"', ''),
+-                        "coords": [float(ln_segments[1]), float(ln_segments[2]), 
+-                                 float(ln_segments[3].replace('"', '').replace(',', ''))]
+-                    })
+-
+-        # After reading file, check if we need to calculate energy shift
+-        if not hasattr(data, 'energy_shift') or data.energy_shift is None:
+-            if full_scf is not None and bare_scf is not None:
+-                data.energy_shift = full_scf - bare_scf
+-
+-
+-def _extract_integral_data(integral_path, data):
+-    """Extract integral data from the integral file."""
+-    reader_mode = ""
+-    with open(integral_path, 'r') as f:
+-        for line in f:
+-            ln = line.strip()
+-            ln_segments = ln.split()
+-            
+-            if len(ln) == 0 or ln.startswith("#"):
+-                continue
+-                
+-            if reader_mode == "":
+-                if ln_segments[:3] == ["Begin", "IJ", "Block"]:
+-                    reader_mode = "Read IJ"
+-                elif ln_segments[:3] == ["Begin", "IA", "Block"]:
+-                    reader_mode = "Read IA"
+-                elif ln_segments[:3] == ["Begin", "AB", "Block"]:
+-                    reader_mode = "Read AB"
+-                elif ln_segments[:3] == ["Begin", "IJKL", "Block"]:
+-                    reader_mode = "Read IJKL"
+-                elif ln_segments[:3] == ["Begin", "ABCD", "Block"]:
+-                    reader_mode = "Read ABCD"
+-                elif ln_segments[:3] == ["Begin", "IJAB", "Block"]:
+-                    reader_mode = "Read IJAB"
+-                elif ln_segments[:3] == ["Begin", "AIJB", "Block"]:
+-                    reader_mode = "Read AIJB"
+-                elif ln_segments[:3] == ["Begin", "IJKA", "Block"]:
+-                    reader_mode = "Read IJKA"
+-                elif ln_segments[:3] == ["Begin", "IABC", "Block"]:
+-                    reader_mode = "Read IABC"
+-                    
+-            elif reader_mode == "Read IJ":
+-                if ln_segments[0] == "End":
+-                    reader_mode = ""
+-                elif ln_segments[0] != "Begin":
+-                    i, j = int(ln_segments[0]) - 1, int(ln_segments[1]) - 1
+-                    value = float(ln_segments[2])
+-                    data.one_body[i, j] = data.one_body[j, i] = value
+-                    
+-            elif reader_mode == "Read IA":
+-                if ln_segments[0] == "End":
+-                    reader_mode = ""
+-                elif ln_segments[0] != "Begin":
+-                    i = int(ln_segments[0]) - 1
+-                    a = int(ln_segments[1]) - 1 + data.n_occ_alpha
+-                    value = float(ln_segments[2])
+-                    data.one_body[i, a] = data.one_body[a, i] = value
+-                    
+-            elif reader_mode == "Read AB":
+-                if ln_segments[0] == "End":
+-                    reader_mode = ""
+-                elif ln_segments[0] != "Begin":
+-                    a = int(ln_segments[0]) - 1 + data.n_occ_alpha
+-                    b = int(ln_segments[1]) - 1 + data.n_occ_alpha
+-                    value = float(ln_segments[2])
+-                    data.one_body[a, b] = data.one_body[b, a] = value
+-                    
+-            elif reader_mode == "Read IJKL":
+-                if ln_segments[0] == "End":
+-                    reader_mode = ""
+-                elif ln_segments[0] != "Begin":
+-                    i = int(ln_segments[0]) - 1
+-                    j = int(ln_segments[1]) - 1 - data.n_occ_alpha
+-                    k = int(ln_segments[2]) - 1
+-                    l = int(ln_segments[3]) - 1 - data.n_occ_alpha
+-                    value = float(ln_segments[4])
+-                    data.two_body[i, k, j, l] = value
+-                    
+-            elif reader_mode == "Read ABCD":
+-                if ln_segments[0] == "End":
+-                    reader_mode = ""
+-                elif ln_segments[0] != "Begin":
+-                    a = int(ln_segments[0]) - 1 + data.n_occ_alpha
+-                    b = int(ln_segments[1]) - 1 - data.n_virt_alpha + data.n_occ_alpha
+-                    c = int(ln_segments[2]) - 1 + data.n_occ_alpha
+-                    d = int(ln_segments[3]) - 1 - data.n_virt_alpha + data.n_occ_alpha
+-                    value = float(ln_segments[4])
+-                    data.two_body[a, c, b, d] = value
+-                    
+-            elif reader_mode == "Read IJAB":
+-                if ln_segments[0] == "End":
+-                    reader_mode = ""
+-                elif ln_segments[0] != "Begin":
+-                    i = int(ln_segments[0]) - 1
+-                    j = int(ln_segments[1]) - 1 - data.n_occ_alpha
+-                    a = int(ln_segments[2]) - 1 + data.n_occ_alpha
+-                    b = int(ln_segments[3]) - 1 - data.n_virt_alpha + data.n_occ_alpha
+-                    value = float(ln_segments[4])
+-                    data.two_body[i, a, j, b] = value
+-                    data.two_body[a, i, b, j] = value
+-                    
+-            elif reader_mode == "Read AIJB":
+-                if ln_segments[0] == "End":
+-                    reader_mode = ""
+-                elif ln_segments[0] != "Begin":
+-                    if int(ln_segments[2]) > data.n_occ_alpha:
+-                        a = int(ln_segments[0]) - 1 + data.n_occ_alpha
+-                        i = int(ln_segments[1]) - 1 - data.n_occ_alpha
+-                        j = int(ln_segments[2]) - 1 - data.n_occ_alpha
+-                        b = int(ln_segments[3]) - 1 + data.n_occ_alpha
+-                        value = -float(ln_segments[4])
+-                        data.two_body[a, b, i, j] = value
+-                        data.two_body[i, j, a, b] = value
+-                    else:
+-                        a = int(ln_segments[0]) - 1 + data.n_occ_alpha
+-                        i = int(ln_segments[1]) - 1 - data.n_occ_alpha
+-                        j = int(ln_segments[2]) - 1
+-                        b = int(ln_segments[3]) - 1 - data.n_virt_alpha + data.n_occ_alpha
+-                        value = float(ln_segments[4])
+-                        data.two_body[a, j, i, b] = value
+-                        data.two_body[j, a, b, i] = value
+-                        
+-            elif reader_mode == "Read IJKA":
+-                if ln_segments[0] == "End":
+-                    reader_mode = ""
+-                elif ln_segments[0] != "Begin":
+-                    i = int(ln_segments[0]) - 1
+-                    j = int(ln_segments[1]) - 1 - data.n_occ_alpha
+-                    k = int(ln_segments[2]) - 1
+-                    a = int(ln_segments[3]) - 1 - data.n_virt_alpha + data.n_occ_alpha
+-                    value = float(ln_segments[4])
+-                    data.two_body[i, k, j, a] = value
+-                    data.two_body[j, a, i, k] = value
+-                    data.two_body[k, i, a, j] = value
+-                    data.two_body[a, j, k, i] = value
+-                    
+-            elif reader_mode == "Read IABC":
+-                if ln_segments[0] == "End":
+-                    reader_mode = ""
+-                elif ln_segments[0] != "Begin":
+-                    i = int(ln_segments[0]) - 1
+-                    a = int(ln_segments[1]) - 1 - data.n_virt_alpha + data.n_occ_alpha
+-                    b = int(ln_segments[2]) - 1 + data.n_occ_alpha
+-                    c = int(ln_segments[3]) - 1 - data.n_virt_alpha + data.n_occ_alpha
+-                    value = float(ln_segments[4])
+-                    data.two_body[i, b, a, c] = value
+-                    data.two_body[b, i, c, a] = value
+-                    data.two_body[a, c, i, b] = value
+-                    data.two_body[c, a, b, i] = value
+diff --git a/exachem/cc/scripts/hamiltonian_extractor/hamiltonian_data.py b/exachem/cc/scripts/hamiltonian_extractor/hamiltonian_data.py
+index 2dcddc8..f60df5a 100644
+--- a/exachem/cc/scripts/hamiltonian_extractor/hamiltonian_data.py
++++ b/exachem/cc/scripts/hamiltonian_extractor/hamiltonian_data.py
+@@ -5 +4,0 @@ import numpy as np
+-from numpy import linalg as LA
+@@ -10 +9 @@ class HamiltonianData:
+-    
++
+@@ -24,2 +23,2 @@ class HamiltonianData:
+-        
+-        # Integral matrices
++
++        # Integral matrices (spatial orbital basis)
+@@ -29,5 +28 @@ class HamiltonianData:
+-        
+-        # Processed data
+-        self.scf_energy = None
+-        # self.orbital_energies = None
+-        
++
+@@ -36 +31 @@ class HamiltonianData:
+-        
++
+@@ -38,2 +33,4 @@ class HamiltonianData:
+-        """Compute Hartree-Fock and core energies."""
+-        # Compute the Hartree-Fock energy
++        """Compute the Hartree-Fock (SCF) energy from the extracted integrals."""
++        # Safety guard: treat missing energy shift as zero
++        if self.energy_shift is None:
++            self.energy_shift = 0.0
+@@ -46 +42,0 @@ class HamiltonianData:
+-
+@@ -48 +44 @@ class HamiltonianData:
+-        """Form the Fock operator matrix."""
++        """Form the closed-shell Fock operator matrix (spatial orbital basis)."""
+@@ -55,3 +51,44 @@ class HamiltonianData:
+-        
+-        # # Compute orbital energies
+-        # self.orbital_energies, _ = LA.eig(self.fock)
++
++    def spin_orbital_integrals(self):
++        """Build the spin-orbital Fock matrix and antisymmetrized two-electron
++        integrals used by post-HF backends (built-in MP2, miniccpy).
++
++        Spin orbitals are interleaved alpha/beta (index 2p = alpha p,
++        index 2p+1 = beta p), which is the layout expected by miniccpy.
++        Since the underlying data is a closed-shell (RHF) Hamiltonian, the
++        alpha and beta blocks are identical copies of the spatial-orbital
++        quantities.
++
++        Returns:
++            fockso (2*n_orb, 2*n_orb): spin-orbital Fock matrix, block diagonal
++            g (2*n_orb, ...): antisymmetrized two-electron integrals <pq||rs>
++            occ (slice): occupied spin-orbital slice
++            virt (slice): virtual spin-orbital slice
++        """
++        if self.fock is None:
++            self.compute_fock_matrix()
++
++        n_orb = self.n_orbitals
++        n_so = 2 * n_orb
++        n_occ = self.n_occ_alpha + self.n_occ_beta
++
++        fockso = np.zeros((n_so, n_so))
++        fockso[0::2, 0::2] = self.fock
++        fockso[1::2, 1::2] = self.fock
++
++        # Spin-orbital integrals in chemist notation (pq|rs), same-spin blocks
++        # only (cross-spin chemist integrals vanish for real orbitals).
++        stei = np.zeros((n_so, n_so, n_so, n_so))
++        stei[0::2, 0::2, 0::2, 0::2] = self.two_body
++        stei[1::2, 1::2, 1::2, 1::2] = self.two_body
++        stei[0::2, 0::2, 1::2, 1::2] = self.two_body
++        stei[1::2, 1::2, 0::2, 0::2] = self.two_body
++
++        # Antisymmetrize: <pq||rs> = <pq|rs> - <pq|sr>
++        #   <pq|rs> = (pr|qs) = stei.transpose(0, 2, 1, 3)
++        #   <pq|sr> = (ps|qr) = stei.transpose(0, 2, 3, 1)
++        g = stei.transpose(0, 2, 1, 3) - stei.transpose(0, 2, 3, 1)
++
++        occ = slice(0, n_occ)
++        virt = slice(n_occ, n_so)
++        return fockso, g, occ, virt
+diff --git a/exachem/cc/scripts/hamiltonian_extractor/yaml_writer.py b/exachem/cc/scripts/hamiltonian_extractor/yaml_writer.py
+deleted file mode 100644
+index 8fb62b3..0000000
+--- a/exachem/cc/scripts/hamiltonian_extractor/yaml_writer.py
++++ /dev/null
+@@ -1,154 +0,0 @@
+-"""
+-YAML format writer based on Broombridge version 0.3.
+-"""
+-try:
+-    from .format_writer import FormatWriter
+-except ImportError:
+-    from format_writer import FormatWriter
+-
+-# Try to import YAML libraries
+-emitter_yaml = False
+-emitter_ruamel = False
+-try:
+-    try:
+-        import ruamel.yaml as ruamel
+-    except ImportError:
+-        import ruamel_yaml as ruamel
+-    emitter_ruamel = True
+-except ImportError:
+-    try:
+-        import yaml
+-        emitter_yaml = True
+-    except ImportError:
+-        pass
+-
+-
+-class YAMLWriter(FormatWriter):
+-    """Writer for YAML format based on Broombridge version 0.3."""
+-    
+-    def __init__(self, output_prefix):
+-        super().__init__(output_prefix)
+-        self.preamble = '"$schema": https://raw.githubusercontent.com/Microsoft/Quantum/master/Chemistry/Schema/broombridge-0.3.schema.json \n'
+-        
+-        if not (emitter_yaml or emitter_ruamel):
+-            raise ImportError("Could not import YAML or RUAMEL packages. Please install one of them.")
+-    
+-    def get_file_extension(self):
+-        return ".yaml"
+-    
+-    def get_description(self):
+-        return "YAML format based on Broombridge version 0.3"
+-    
+-    def write(self, data):
+-        """Write Hamiltonian data in YAML format."""
+-        filename = f"{self.output_prefix}{self.get_file_extension()}"
+-        
+-        with open(filename, 'w') as f:
+-            f.write(self.preamble)
+-            yaml_data = self._build_yaml_data(data)
+-            
+-            if emitter_ruamel:
+-                yaml_obj = ruamel.YAML(typ="safe")
+-                yaml_obj.dump(yaml_data, f)
+-            elif emitter_yaml:
+-                yaml.dump(yaml_data, f, default_flow_style=None)
+-    
+-    def _get_integral_data(self, data):
+-        """Get processed integral data for YAML format."""
+-        one_electron_integrals = {
+-            'units': 'hartree',
+-            'format': 'sparse',
+-            'values': []
+-        }
+-        
+-        two_electron_integrals = {
+-            'units': 'hartree',
+-            'format': 'sparse',
+-            'symmetry': {'permutation': 'fourfold'},
+-            'index_convention': 'mulliken',
+-            'values': []
+-        }
+-        
+-        # Fill one-electron integrals
+-        for w in range(data.n_orbitals):
+-            for x in range(data.n_orbitals):
+-                if abs(data.one_body[w, x]) > data.printthresh:
+-                    one_electron_integrals['values'].append({
+-                        'key': [w + 1, x + 1],
+-                        'value': float(data.one_body[w, x])
+-                    })
+-        
+-        # Fill two-electron integrals
+-        for w in range(data.n_orbitals):
+-            for x in range(data.n_orbitals):
+-                for y in range(data.n_orbitals):
+-                    for z in range(data.n_orbitals):
+-                        if abs(data.two_body[w, x, y, z]) > data.printthresh:
+-                            two_electron_integrals['values'].append({
+-                                'key': [w + 1, x + 1,
+-                                       y + 1, z + 1],
+-                                'value': float(data.two_body[w, x, y, z])
+-                            })
+-        
+-        return one_electron_integrals, two_electron_integrals
+-
+-    def _build_yaml_data(self, data):
+-        """Build the YAML data structure."""
+-        # Get integral data
+-        one_electron_integrals, two_electron_integrals = self._get_integral_data(data)
+-        
+-        # Build main data structure
+-        yaml_data = {
+-            'format': {'version': '0.3'},
+-            'bibliography': [{'url': 'https://doi.org/10.48550/arXiv.2201.01257'}]
+-        }
+-        
+-        # Build energy offsets
+-        scf_energy_offset = {
+-            'units': 'hartree',
+-            'value': 0.0
+-        }
+-        
+-        energy_offset = {
+-            'units': 'hartree',
+-            'value': 0.0
+-        }
+-        
+-        # Build FCI energy placeholder
+-        fci_energy = {
+-            "units": "hartree",
+-            "value": 0.0,
+-            "upper": 0.0,
+-            "lower": 0.0
+-        }
+-        
+-        # Build Hamiltonian
+-        hamiltonian = {
+-            'one_electron_integrals': one_electron_integrals,
+-            'two_electron_integrals': two_electron_integrals
+-        }
+-        
+-        # Update coulomb repulsion with energy shift
+-        coulomb_repulsion = data.coulomb_repulsion.copy()
+-        coulomb_repulsion['value'] = float(data.coulomb_repulsion['value'] + data.energy_shift
+-        )
+-        
+-        # Build integral sets
+-        integral_sets = [{
+-            "metadata": {
+-                'molecule_name': 'unknown',
+-                'note': data.note
+-            },
+-            "geometry": data.geometry,
+-            "coulomb_repulsion": coulomb_repulsion,
+-            "scf_energy": data.scf_energy,
+-            "n_orbitals": data.n_orbitals,
+-            "n_electrons": data.n_occ_alpha + data.n_occ_beta,
+-            "fci_energy": fci_energy,
+-            "hamiltonian": hamiltonian,
+-            "scf_energy_offset": scf_energy_offset,
+-            "energy_offset": energy_offset
+-        }]
+-        
+-        yaml_data['problem_description'] = integral_sets
+-        return yaml_data
+diff --git a/exachem/cholesky/cholesky_2e.cpp b/exachem/cholesky/cholesky_2e.cpp
+index c17756b..195b39a 100644
+--- a/exachem/cholesky/cholesky_2e.cpp
++++ b/exachem/cholesky/cholesky_2e.cpp
+@@ -161,2 +161,2 @@ Cholesky_2E_Util::setupMOIS(ExecutionContext& ec, ChemEnv& chem_env, bool triple
+-    if(n_occ_alpha != n_occ_beta)
+-      tamm_terminate("[DUCC ERROR]: DUCC is only for closed-shell calculations");
++    // if(n_occ_alpha != n_occ_beta)
++    //   tamm_terminate("[DUCC ERROR]: DUCC is only for closed-shell calculations");
+@@ -169,2 +169,2 @@ Cholesky_2E_Util::setupMOIS(ExecutionContext& ec, ChemEnv& chem_env, bool triple
+-    if(occ_alpha_int != occ_beta_int) tamm_terminate("[DUCC ERROR]: nactive_oa != nactive_ob");
+-    if(vir_alpha_int != vir_beta_int) tamm_terminate("[DUCC ERROR]: nactive_va != nactive_vb");
++    // if(occ_alpha_int != occ_beta_int) tamm_terminate("[DUCC ERROR]: nactive_oa != nactive_ob");
++    // if(vir_alpha_int != vir_beta_int) tamm_terminate("[DUCC ERROR]: nactive_va != nactive_vb");
+
+}
+
+
+TAMM Git Information
+{
+ Branch: main
+ Commit Hash: e485b7a6 [e485b7a6e79f495b0ffb2c18c6a830b45c7ddbcb]
+ Commit Date: 2026-07-06 06:28:40 -0500
+ Commit Message: refactor: replace gsl::span with std::span (C++20) (#143)
+}
+
+
+date: Mon Aug 31 14:47:46 2026
+program: "/ravenfs/scratch/baum612/code/exachem-dev/build_cpu/methods_stage/ravenfs/scratch/baum612/code/install/TAMM_cpu/methods/ExaChem"
+nnodes: 1, nproc_per_node: 28, nproc_total: 28, 
+Memory information
+{
+[AMD EPYC 9124 16-Core Processor                ] : 
+  CPU memory per node (GiB): 1007
+  Total CPU memory (GiB): 1007
+}
+
+------------------------------------------------------------
+
+Input file provided: /ravenfs/scratch/jaye143/hubbard/2D_model/6x6_18_elec/U_4.0/ducc_2/9O-18V/hub_2s_36s_ducc.json
+
+{
+  "geometry": {
+    "coordinates": [
+      "H    0  0   0",
+      "H    0  0   0.1",
+      "H    0  0   0.2",
+      "H    0  0   0.3",
+      "H    0  0   0.4",
+      "H    0  0   0.5",
+      "H    0  0   0.6",
+      "H    0  0   0.7",
+      "H    0  0   0.8",
+      "H    0  0   0.9",
+      "H    0  0   1",
+      "H    0  0   1.1",
+      "H    0  0   1.2",
+      "H    0  0   1.3",
+      "H    0  0   1.4",
+      "H    0  0   1.5",
+      "H    0  0   1.6",
+      "H    0  0   1.7",
+      "H    0  0   1.8",
+      "H    0  0   1.9",
+      "H    0  0   2",
+      "H    0  0   2.1",
+      "H    0  0   2.2",
+      "H    0  0   2.3",
+      "H    0  0   2.4",
+      "H    0  0   2.5",
+      "H    0  0   2.6",
+      "H    0  0   2.7",
+      "H    0  0   2.8",
+      "H    0  0   2.9",
+      "H    0  0   3",
+      "H    0  0   3.1",
+      "H    0  0   3.2",
+      "H    0  0   3.3",
+      "H    0  0   3.4",
+      "H    0  0   3.5"
+    ],
+    "units": "angstrom"
+  },
+  "basis": {
+    "basisset": "sto-3g"
+  },
+  "common": {
+    "maxiter": 100
+  },
+  "SCF": {
+    "tol_lindep": 1e-06,
+    "conve": 1e-09,
+    "convd": 1e-08,
+    "diis_hist": 10,
+    "charge": 0,
+    "multiplicity": 1,
+    "scf_type": "restricted",
+    "hubbard": {
+      "do_hubbard": true,
+      "t_val": 1.0,
+      "U_val": 4.0,
+      "nelectrons": 18,
+      "is_periodic": [
+        true,
+        true
+      ],
+      "lattice": [
+        6,
+        6
+      ]
+    },
+    "PRINT": {
+      "mos_txt": false,
+      "mulliken": false,
+      "mo_vectors": [
+        false,
+        -100.0
+      ]
+    },
+    "restart": false
+  },
+  "CD": {
+    "diagtol": 1e-12,
+    "max_cvecs": 40
+  },
+  "CC": {
+    "threshold": 1e-06,
+    "ndiis": 5,
+    "writet": false,
+    "ccsd_maxiter": 100,
+    "nactive_va": 18,
+    "nactive_vb": 18,
+    "nactive_oa": 9,
+    "nactive_ob": 9,
+    "ducc_lvl": 2,
+    "CCSD(T)": {
+      "ccsdt_tilesize": 28
+    },
+    "debug": false
+  },
+  "TASK": {
+    "scf": false,
+    "ccsd": false,
+    "ducc": [
+      true,
+      "default"
+    ]
+  }
+}
+
+Output folder & files prefix: hub_2s_36s_ducc.sto-3g
+
+  H (hydrogen)
+  ------------
+          Exponent        Coefficients
+      ----------------  --------------------
+  1 S  3.42525091E+00      0.276934
+  1 S  6.23913730E-01      0.267839
+  1 S  1.68855400E-01      0.083474
+
+
+
+
+----------------------------------------------------------------------
+                            Geometry in angstrom
+
+1     H       0.0000000000    0.0000000000    0.0000000000
+2     H       0.0000000000    0.0000000000    0.1000000000
+3     H       0.0000000000    0.0000000000    0.2000000000
+4     H       0.0000000000    0.0000000000    0.3000000000
+5     H       0.0000000000    0.0000000000    0.4000000000
+6     H       0.0000000000    0.0000000000    0.5000000000
+7     H       0.0000000000    0.0000000000    0.6000000000
+8     H       0.0000000000    0.0000000000    0.7000000000
+9     H       0.0000000000    0.0000000000    0.8000000000
+10    H       0.0000000000    0.0000000000    0.9000000000
+11    H       0.0000000000    0.0000000000    1.0000000000
+12    H       0.0000000000    0.0000000000    1.1000000000
+13    H       0.0000000000    0.0000000000    1.2000000000
+14    H       0.0000000000    0.0000000000    1.3000000000
+15    H       0.0000000000    0.0000000000    1.4000000000
+16    H       0.0000000000    0.0000000000    1.5000000000
+17    H       0.0000000000    0.0000000000    1.6000000000
+18    H       0.0000000000    0.0000000000    1.7000000000
+19    H       0.0000000000    0.0000000000    1.8000000000
+20    H       0.0000000000    0.0000000000    1.9000000000
+21    H       0.0000000000    0.0000000000    2.0000000000
+22    H       0.0000000000    0.0000000000    2.1000000000
+23    H       0.0000000000    0.0000000000    2.2000000000
+24    H       0.0000000000    0.0000000000    2.3000000000
+25    H       0.0000000000    0.0000000000    2.4000000000
+26    H       0.0000000000    0.0000000000    2.5000000000
+27    H       0.0000000000    0.0000000000    2.6000000000
+28    H       0.0000000000    0.0000000000    2.7000000000
+29    H       0.0000000000    0.0000000000    2.8000000000
+30    H       0.0000000000    0.0000000000    2.9000000000
+31    H       0.0000000000    0.0000000000    3.0000000000
+32    H       0.0000000000    0.0000000000    3.1000000000
+33    H       0.0000000000    0.0000000000    3.2000000000
+34    H       0.0000000000    0.0000000000    3.3000000000
+35    H       0.0000000000    0.0000000000    3.4000000000
+36    H       0.0000000000    0.0000000000    3.5000000000
+
+ Number of nodes, processes per node used for SCF calculation: 1, 28
+
+Common Options
+{
+  maxiter       = 100
+  basis         = sto-3g spherical
+  geom_units    = angstrom
+  ang2au factor = 1.889726126
+  debug         = false
+  file_prefix   = hub_2s_36s_ducc
+}
+
+SCF Options
+{
+  charge            = 0
+  multiplicity      = 1
+  level shift       = 0
+  tol_int           = 1E-22
+  tol_sch           = 1E-12
+  tol_lindep        = 1E-06
+  conve             = 1E-09
+  convd             = 1E-08
+  diis_hist         = 10
+  AO_tilesize       = 30
+  writem            = 1
+  damp              = 100
+  n_lindep          = 0
+  scf_type          = restricted
+  cuscf             = false
+ Hubbard options {
+  t_val               = 1
+  U_val               = 4
+  nelectrons          = 18
+  is_periodic         = [1,1,]
+  lattice             = [6,6,]
+ }
+  direct_df         = false
+  restart_size      = 2000
+  restart           = false
+  debug             = false
+}
+
+Number of basis functions = 36
+
+Total number of shells = 36
+
+Total number of electrons = 18
+  # of alpha electrons    = 9
+  # of beta electons      = 9
+
+Nuclear repulsion energy  = 0
+
+Maximum angular momentum = 0
+# of {all,non-negligible} shell-pairs = {666,666}
+Number of AO tiles = 36
+
+Time for initial setup: 0.01 secs
+HF exch = 1.00
+Time for computing orthogonalizer: 0.01 secs
+
+HCore Guess ...
+Total Time to compute initial guess: 0.01 secs
+
+
+ SCF iterations
+-----------------------------------------------------------------------------
+ Iter     Energy            E-Diff       RMSD        |[F,P]|^2       Time(s)
+-----------------------------------------------------------------------------
+   1  -21.7500000000    -2.18E+01     8.33E-02     8.94E-29         0.0 
+<DIIS> Singularity in Pulay matrix detected.
+   2  -39.0000000000    -1.72E+01     3.68E-16     4.78E-28         0.0 
+<DIIS> Singularity in Pulay matrix detected.
+   3  -39.0000000000    -2.13E-14     4.07E-16     6.33E-28         0.0 
+
+** Total SCF energy = -39.0000000000000
+
+Nuclear repulsion energy = 0.000000000000000
+#electrons        = 18
+1e energy kinetic = 0.0000000000000000
+1e energy N-e     = 0.0000000000000000
+1e energy         = -48.0000000000000000
+2e energy         = 8.9999999999999964
+
+
+                      Electron        Nuclear        Total  
+                  ------------------------------------------
+    Monopole         -63.619995     36.000000    -27.619995
+
+      Dipole   X       0.000000      0.000000      0.000000
+      Dipole   Y       0.000000      0.000000      0.000000
+      Dipole   Z    -210.392642    119.052746    -91.339896
+
+  Quadrupole  XX     -42.809364      0.000000    -42.809364
+  Quadrupole  XY       0.000000      0.000000      0.000000
+  Quadrupole  XZ       0.000000      0.000000      0.000000
+  Quadrupole  YY     -42.809364      0.000000    -42.809364
+  Quadrupole  YZ       0.000000      0.000000      0.000000
+  Quadrupole  ZZ    -953.797735    532.445766   -421.351969
+
+    Octupole XXX       0.000000      0.000000      0.000000
+    Octupole XXY       0.000000      0.000000      0.000000
+    Octupole XXZ    -141.571453      0.000000   -141.571453
+    Octupole XYY       0.000000      0.000000      0.000000
+    Octupole XYZ       0.000000      0.000000      0.000000
+    Octupole XZZ       0.000000      0.000000      0.000000
+    Octupole YYY       0.000000      0.000000      0.000000
+    Octupole YYZ    -141.571453      0.000000   -141.571453
+    Octupole YZZ       0.000000      0.000000      0.000000
+    Octupole ZZZ   -4860.816309   2678.413966  -2182.402342
+
+
+writing orbitals and density to disk ... done.
+
+Total Time taken for Hartree-Fock: 0.38 secs
+
+CD Options
+{
+  debug             = false
+  skip_cd           = [false, 100]
+  write_cv          = [false, 5000]
+  diagtol           = 1E-12
+  itilesize         = 1000
+  max_cvecs_factor  = 40
+}
+
+- #occupied, #virtual = 18, 54
+
+- Tilesize for the MSO space: 40
+
+-----------------------------------------------------
+Begin 2-index transformation ... 
+
+nAO, nMO, nelectrons = 36, 72, 18
+n_occ_alpha, n_vir_alpha, n_occ_beta, n_vir_beta = 9,27,9,27
+
+Time taken for Fao->Fmo transform: 0.00 secs
+
+-----------------------------------------------------
+scf_type = restricted
+Hubbard Model enabled
+Closed-Shell SCF
+nbf = 36
+nbf_orig = 36
+n_lindep = 0
+focc = 1
+nmo = 72
+nocc = 18
+nvir = 54
+n_occ_alpha = 9
+n_vir_alpha = 27
+n_occ_beta = 9
+n_vir_beta = 27
+nelectrons = 18
+nelectrons_alpha = 9
+nelectrons_beta = 9
+n_frozen_core = 0
+n_frozen_virtual = 0
+----------------------------
+
+Hubbard Setup Time: 0.07 secs
+
+
+ CCSD iterations
+------------------------------------------------------------
+  Iter     Residuum          Correlation          Time(s)
+------------------------------------------------------------
+   1     4.7388595804747   -3.5117268362639         0.08
+   2     1.5988215612139   -2.3523166647166         0.07
+   3     0.9063078071743   -2.9373992053356         0.07
+   4     0.6689899997519   -2.6172263480391         0.07
+   5     0.5744358999161   -2.8262172119692         0.07
+ MICROCYCLE DIIS UPDATE:                    6
+   6     0.0115750714519   -2.7398050752341         0.07
+   7     0.0028790794259   -2.7392604736888         0.07
+   8     0.0015757109527   -2.7395854229973         0.07
+   9     0.0012099894970   -2.7394048497365         0.07
+  10     0.0010634423108   -2.7395566488914         0.07
+ MICROCYCLE DIIS UPDATE:                   11
+  11     0.0000476434610   -2.7394890775162         0.07
+  12     0.0000215823535   -2.7394822029446         0.07
+  13     0.0000147460728   -2.7394867587226         0.07
+  14     0.0000109128857   -2.7394837012978         0.07
+  15     0.0000085599888   -2.7394859830544         0.07
+ MICROCYCLE DIIS UPDATE:                   16
+  16     0.0000002641416   -2.7394850157805         0.07
+------------------------------------------------------------------
+ Iterations converged
+ CCSD correlation energy / hartree =        -2.739485015780472
+ CCSD total energy / hartree       =       -41.739485015780488
+
+Time taken for Canonical CCSD: 1.49 secs
+
+Executing DUCC routine
+======================
+Number of active occupied alpha = 9
+Number of active occupied beta  = 9
+Number of active virtual alpha  = 18
+Number of active virtual beta   = 18
+ducc_lvl = 2
+
+Full SCF Energy: -39.000000000000
+Bare SCF Energy: -39.000000000000
+Frozen Core Energy: 0.000000000000
+
+DUCC: Time taken to compute Bare Hamiltonian: 0.00 secs
+Bare Active Space SCF Energy: -39.000000000000
+
+DUCC: Time taken to compute single commutator of F and V and double commutator of F: 0.87 secs
+
+DUCC: Time taken to compute double commutator of V and triple commutator of F: 8.37 secs
+Fully Contracted Scalar: -1.290466876313
+
+DUCC SCF energy: -40.228068069450
+Total Energy Shift: -0.062398806863
+
+DUCC: Total compute time: 9.24 secs
+
+DUCC: Time to write results: 0.17 secs
+DUCC Memory Stats
+-----------------
+allocation count: 3902
+deallocation count: 3901
+total memory allocated: 9.675909 GiB
+total memory deallocated: 9.675909 GiB
+maximum memory in single allocation: 0.100113 GiB
+maximum memory consumption: 1.493398 GiB
++ echo ==========================================
+==========================================
+++ date
++ echo 'Job completed at: Mon Aug 31 02:47:58 PM PDT 2026'
+Job completed at: Mon Aug 31 02:47:58 PM PDT 2026
++ echo ==========================================
+==========================================
