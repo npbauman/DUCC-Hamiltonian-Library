@@ -7,17 +7,17 @@
     "units": "bohr"
   },
   "basis": {
-    "basisset": "cc-pvtz" 
+    "basisset": "cc-pvtz"
   },
   "common": {
     "file_prefix": "N2",
     "maxiter": 100
   },
   "SCF": {
-    "tol_int": 1e-16,
-    "tol_lindep": 1e-09,
-    "conve": 1e-10,
-    "convd": 1e-9,
+    "tol_int": 1E-16,
+    "tol_lindep": 1E-9,
+    "conve": 1E-10,
+    "convd": 1E-9,
     "diis_hist": 10,
     "charge": 0,
     "multiplicity": 1,
@@ -26,11 +26,11 @@
     "writem": 10
   },
   "CD": {
-    "diagtol": 1e-14,
+    "diagtol": 1E-14,
     "max_cvecs": 1000
   },
   "CC": {
-    "threshold": 1e-8,
+    "threshold": 1E-8,
     "ndiis": 5,
     "writet": false,
     "ccsd_maxiter": 100,
@@ -42,6 +42,9 @@
     "ducc_lvl": 1
   },
   "TASK": {
-    "ducc": true  
-  }  
+    "ducc": [
+      true,
+      "default"
+    ]
+  }
 }

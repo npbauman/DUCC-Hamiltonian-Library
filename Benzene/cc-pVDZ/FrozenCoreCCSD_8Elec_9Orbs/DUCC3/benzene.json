@@ -17,17 +17,17 @@
     "units": "angstrom"
   },
   "basis": {
-    "basisset": "cc-pvdz" 
+    "basisset": "cc-pvdz"
   },
   "common": {
     "file_prefix": "benzene",
     "maxiter": 100
   },
   "SCF": {
-    "tol_int": 1e-16,
-    "tol_lindep": 1e-09,
-    "conve": 1e-11,
-    "convd": 1e-10,
+    "tol_int": 1E-16,
+    "tol_lindep": 1E-9,
+    "conve": 1E-11,
+    "convd": 1E-10,
     "diis_hist": 10,
     "charge": 0,
     "multiplicity": 1,
@@ -36,11 +36,11 @@
     "writem": 10
   },
   "CD": {
-    "diagtol": 1e-14,
+    "diagtol": 1E-14,
     "max_cvecs": 1000
   },
   "CC": {
-    "threshold": 1e-10,
+    "threshold": 1E-10,
     "ndiis": 5,
     "writet": false,
     "ccsd_maxiter": 100,
@@ -51,9 +51,12 @@
     "ducc_lvl": 2,
     "freeze": {
       "atomic": true
-    }    
+    }
   },
   "TASK": {
-    "ducc": true  
-  }  
+    "ducc": [
+      true,
+      "default"
+    ]
+  }
 }

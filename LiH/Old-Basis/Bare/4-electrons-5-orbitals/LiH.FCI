@@ -1,0 +1,16 @@
+/people/baum612/.local/lib/python3.14/site-packages/pyscf/fci/direct_nosym.py:209: UserWarning: direct_nosym.kernel is not able to diagonalize non-Hermitian Hamiltonian. If h1e and h2e is not hermtian, calling symmetric diagonalization in eig can lead to wrong results.
+  warnings.warn('direct_nosym.kernel is not able to diagonalize '
+davidson 0 1  |r|= 0.00868  e= [-8.98195031]  max|de|= -8.98  lindep=    1
+davidson 1 2  |r|= 0.000679  e= [-8.98204225]  max|de|= -9.19e-05  lindep=    1
+davidson 2 3  |r|= 0.000166  e= [-8.98204498]  max|de|= -2.73e-06  lindep= 0.985
+davidson 3 4  |r|= 4.73e-06  e= [-8.982045]  max|de|= -2.52e-08  lindep= 0.998
+root 0 converged  |r|= 2.02e-07  e= -8.982045002823307  max|de|= -8.12e-12
+converged 4 5  |r|= 2.02e-07  e= [-8.982045]  max|de|= -8.12e-12
+
+Root 0:
+FCI Energy = -7.986727365480
+2S+1 = 1.0000000
+
+CI vector components (|coef| > 0.001):
+22000:    0.99993
+20200:    0.00294

@@ -1,0 +1,33 @@
+/people/baum612/.local/lib/python3.14/site-packages/pyscf/fci/direct_nosym.py:209: UserWarning: direct_nosym.kernel is not able to diagonalize non-Hermitian Hamiltonian. If h1e and h2e is not hermtian, calling symmetric diagonalization in eig can lead to wrong results.
+  warnings.warn('direct_nosym.kernel is not able to diagonalize '
+davidson 0 1  |r|= 0.651  e= [-8.83769613]  max|de|= -8.84  lindep=    1
+davidson 1 2  |r|= 0.358  e= [-9.06981853]  max|de|= -0.232  lindep= 0.998
+davidson 2 3  |r|= 0.194  e= [-9.17962632]  max|de|= -0.11  lindep= 0.989
+davidson 3 4  |r|= 0.138  e= [-9.22663826]  max|de|= -0.047  lindep= 0.995
+davidson 4 5  |r|= 0.0646  e= [-9.24327975]  max|de|= -0.0166  lindep= 0.997
+davidson 5 6  |r|= 0.0309  e= [-9.24873598]  max|de|= -0.00546  lindep= 0.977
+davidson 6 7  |r|= 0.0136  e= [-9.25019179]  max|de|= -0.00146  lindep= 0.987
+davidson 7 8  |r|= 0.00768  e= [-9.2504067]  max|de|= -0.000215  lindep= 0.992
+davidson 8 9  |r|= 0.00364  e= [-9.25047252]  max|de|= -6.58e-05  lindep= 0.981
+davidson 9 10  |r|= 0.00183  e= [-9.25050701]  max|de|= -3.45e-05  lindep= 0.984
+davidson 10 11  |r|= 0.00113  e= [-9.25051355]  max|de|= -6.54e-06  lindep= 0.994
+davidson 11 12  |r|= 0.000998  e= [-9.25051434]  max|de|= -7.91e-07  lindep= 0.993
+davidson 12 13  |r|= 0.000712  e= [-9.25051604]  max|de|= -1.7e-06  lindep= 0.984
+davidson 13 14  |r|= 0.000442  e= [-9.25051735]  max|de|= -1.3e-06  lindep= 0.979
+davidson 14 15  |r|= 9.53e-05  e= [-9.25051765]  max|de|= -3.01e-07  lindep= 0.988
+davidson 15 16  |r|= 2.13e-05  e= [-9.25051766]  max|de|= -1.3e-08  lindep= 0.981
+davidson 16 17  |r|= 7.16e-06  e= [-9.25051766]  max|de|= -8.54e-10  lindep= 0.988
+root 0 converged  |r|= 2.67e-06  e= -9.25051766066484  max|de|= -8.47e-11
+converged 17 18  |r|= 2.67e-06  e= [-9.25051766]  max|de|= -8.47e-11
+
+Root 0:
+FCI Energy = -108.984155170189
+2S+1 = 1.0000000
+
+CI vector components (|coef| > 0.001):
+222000:    0.63468
+200220:   -0.05844
+020022:    0.01806
+002202:    0.01806
+020202:   -0.01745
+002022:    0.01745

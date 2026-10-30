@@ -1,0 +1,598 @@
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+CUDA: Failed to get number of devices with cudaGetDeviceCount(): no CUDA-capable device is detected
+
+ExaChem Git Information
+{
+ Branch: main
+ Commit Hash: e8f9f83 [e8f9f832fe4dc88b7b1ceb3febbaa5a24ca75b5a]
+ Commit Date: 2026-09-22 11:08:14 -0700
+ Commit Message: [QFlow] minor cleanup
+
+ WARNING: The following ExaChem sources have uncommitted changes at build-time.
+
+ M exachem/cc/ducc/ducc-t_ccsd.cpp
+ M exachem/cc/ducc/ducc-t_ccsd.hpp
+
+diff --git a/exachem/cc/ducc/ducc-t_ccsd.cpp b/exachem/cc/ducc/ducc-t_ccsd.cpp
+index eb1bc5d..9310935 100644
+--- a/exachem/cc/ducc/ducc-t_ccsd.cpp
++++ b/exachem/cc/ducc/ducc-t_ccsd.cpp
+@@ -155,0 +156,4 @@ void DUCCInternal<T>::DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec
++  // Print norms of original T1/T2 operators
++  const auto t1_full_norm   = tamm::norm(t1);
++  const auto t2_full_norm   = tamm::norm(t2);
++
+@@ -162,0 +167,21 @@ void DUCCInternal<T>::DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec
++  const auto t1_ext_norm   = tamm::norm(t1);
++  const auto t2_ext_norm   = tamm::norm(t2);
++  
++  auto [maxt1ext, maxblockid1, maxcoord1] = tamm::max_element(t1);
++  auto [mint1ext, minblockid1, mincoord1] = tamm::min_element(t1);
++  const auto maxabst1ext = std::max(std::abs(maxt1ext), std::abs(mint1ext));
++  auto [maxt2ext, maxblockid2, maxcoord2] = tamm::max_element(t2); //T2 is antisymmetric so max and min are the same.
++
++  const bool is_qflow = chem_env.ioptions.task_options.ducc.second == "qflow";
++
++  if(!is_qflow || (is_qflow && ducc_lvl == 0)) {
++  qfstr << "Norm of T1 (Full): " << t1_full_norm << std::endl;
++  qfstr << "Norm of T2 (Full): " << t2_full_norm << std::endl;
++  qfstr << "Norm of T1 (Ext): " << t1_ext_norm << std::endl;
++  qfstr << "Norm of T2 (Ext): " << t2_ext_norm << std::endl;
++  qfstr << "Max abs of T1 (Ext): " << maxabst1ext << std::endl;
++  qfstr << "Max abs of T2 (Ext): " << maxt2ext << std::endl;
++  qfstr << "Norm of T1 (Int): " << sqrt(t1_full_norm * t1_full_norm - t1_ext_norm * t1_ext_norm) << std::endl;
++  qfstr << "Norm of T2 (Int): " << sqrt(t2_full_norm * t2_full_norm - t2_ext_norm * t2_ext_norm) << std::endl;
++  }
++
+diff --git a/exachem/cc/ducc/ducc-t_ccsd.hpp b/exachem/cc/ducc/ducc-t_ccsd.hpp
+index 9fcdfa0..86ec01e 100644
+--- a/exachem/cc/ducc/ducc-t_ccsd.hpp
++++ b/exachem/cc/ducc/ducc-t_ccsd.hpp
+@@ -352 +352 @@ auto op7 = (
+-          -1.0 * (LTOp)v2tensors.v2abcd(c, b, e, a) * (LTOp)t1(e, i)      // PT ORDER = 3
++          -1.0 * (LTOp)v2tensors.v2abcd(c, b, e, a) * (LTOp)t1(e, i) +    // PT ORDER = 3
+@@ -469 +469 @@ auto op2 = (
+-           (1.0/2.0) * (LTOp)t1(e, m) * (LTOp)f1(n, b) * (LTOp)t2(a, e, m, n)      // PT ORDER = 3
++           (1.0/2.0) * (LTOp)t1(e, m) * (LTOp)f1(n, b) * (LTOp)t2(a, e, m, n) +    // PT ORDER = 3
+@@ -490 +490 @@ auto op3 = (
+-          -(1.0/2.0) * (LTOp)t1(e, m) * (LTOp)f1(a, m) * (LTOp)t1(e, i)      // PT ORDER = 4
++          -(1.0/2.0) * (LTOp)t1(e, m) * (LTOp)f1(a, m) * (LTOp)t1(e, i) +    // PT ORDER = 4
+@@ -1298 +1298 @@ auto op3 = (
+-          -(1.0/6.0) * (LTOp)t1(e, m) * (LTOp)f1(a, f) * (LTOp)t1(e, i) * (LTOp)t1(f, m)      // PT ORDER = 6
++          -(1.0/6.0) * (LTOp)t1(e, m) * (LTOp)f1(a, f) * (LTOp)t1(e, i) * (LTOp)t1(f, m) +    // PT ORDER = 6
+
+}
+
+
+TAMM Git Information
+{
+ Branch: main
+ Commit Hash: fa8c8926 [fa8c89263221c20da7ea472387d0eab1c23ab6b1]
+ Commit Date: 2026-09-23 10:15:47 -0700
+ Commit Message: Fix op_dag subtraction operators evaluating as addition (#147)
+}
+
+
+date: Thu Sep 24 13:29:49 2026
+program: "/ravenfs/scratch/baum612/code/EXACHEM/exachem-dev/build_cpu/methods_stage/ravenfs/scratch/baum612/code/install/TAMM_cpu/methods/ExaChem"
+nnodes: 1, nproc_per_node: 28, nproc_total: 28, 
+Memory information
+{
+[AMD EPYC 9124 16-Core Processor                ]
+  libnuma support: disabled
+  CPU memory per node (GiB): 1007
+  Total CPU memory (GiB): 1007
+}
+
+------------------------------------------------------------
+
+Input file provided: /ravenfs/scratch/baum612/lih_basis_runs_20260924/New-Basis/DUCC3/4-electrons-5-orbitals/LiH.json
+
+{
+  "geometry": {
+    "coordinates": [
+      "Li 0.000000  0.000000  0.000000",
+      "H  0.000000  0.000000  1.595000"
+    ],
+    "units": "angstrom"
+  },
+  "basis": {
+    "basisset": "cc-pvtz"
+  },
+  "common": {
+    "maxiter": 100
+  },
+  "SCF": {
+    "tol_int": 1e-16,
+    "tol_lindep": 1e-09,
+    "conve": 1e-11,
+    "convd": 1e-10,
+    "charge": 0,
+    "multiplicity": 1,
+    "scf_type": "restricted"
+  },
+  "CD": {
+    "diagtol": 1e-14,
+    "max_cvecs": 1000
+  },
+  "CC": {
+    "threshold": 1e-08,
+    "ndiis": 5,
+    "writet": false,
+    "ccsd_maxiter": 100,
+    "nactive_oa": 2,
+    "nactive_ob": 2,
+    "nactive_va": 3,
+    "nactive_vb": 3,
+    "ducc_lvl": 2,
+    "freeze": {
+      "atomic": false
+    }
+  },
+  "TASK": {
+    "ducc": [
+      true,
+      "default"
+    ]
+  }
+}
+
+Output folder & files prefix: LiH.cc-pvtz
+
+  Li (lithium)
+  ------------
+          Exponent        Coefficients
+      ----------------  --------------------
+  1 S  5.98800000E+03      0.064619
+  1 S  8.98900000E+02      0.120104
+  1 S  2.05900000E+02      0.204535
+  1 S  5.92400000E+01      0.318977
+  1 S  1.98700000E+01      0.445628
+  1 S  7.40600000E+00      0.531197
+  1 S  2.93000000E+00      0.503573
+  1 S  1.18900000E+00      0.319820
+  1 S  4.79800000E-01      0.078538
+
+  2 S  5.98800000E+03     -0.037675
+  2 S  8.98900000E+02     -0.069659
+  2 S  2.05900000E+02     -0.117469
+  2 S  5.92400000E+01     -0.187176
+  2 S  1.98700000E+01     -0.260910
+  2 S  7.40600000E+00     -0.332441
+  2 S  2.93000000E+00     -0.330149
+  2 S  1.18900000E+00     -0.297802
+  2 S  4.79800000E-01     -0.170456
+
+  3 S  7.50900000E-02      0.102234
+
+  4 S  2.83200000E-02      0.049202
+
+  5 P  3.26600000E+00      0.222451
+  5 P  6.51100000E-01      0.163232
+  5 P  1.69600000E-01      0.134040
+
+  6 P  5.57800000E-02      0.038640
+
+  7 P  2.05000000E-02      0.011057
+
+  8 D  1.90000000E-01      0.089997
+
+  9 D  7.25000000E-02      0.016673
+
+  10 F  1.27000000E-01      0.014175
+
+
+  H (hydrogen)
+  ------------
+          Exponent        Coefficients
+      ----------------  --------------------
+  1 S  3.38700000E+01      0.255108
+  1 S  5.09500000E+00      0.460098
+  1 S  1.15900000E+00      0.678414
+
+  2 S  3.25800000E-01      0.307343
+
+  3 S  1.02700000E-01      0.129297
+
+  4 P  1.40700000E+00      2.184277
+
+  5 P  3.88000000E-01      0.436495
+
+  6 D  1.05700000E+00      1.813597
+
+
+
+Printing Internal Coordinates
+
+------------------------------------------------------------
+                Bond Lengths
+
+i      j        Length (Angstroms)     Length (Bohr)
+0      1          1.5950000000         3.0141131708
+
+Number of Angles: 0
+Number of Torsional Angles: 0
+
+
+----------------------------------------------------------------------
+                          Center of Mass
+
+         x               y               z              Unit
+               0               0    0.2003384764      Angstrom
+               0               0    0.3785848528          Bohr
+
+----------------------------------------------------------------------
+                Moment of Inertia Tensor
+
+           8.00594                 0                 0
+                 0           8.00594                 0
+                 0                 0                 0
+
+----------------------------------------------------------------------
+                      Principal Moments of Inertia
+
+           x                 y                 z                Unit
+                 0       2.241891726       2.241891726       amu * ang^2
+                 0       8.005940699       8.005940699      amu * bohr^2
+  0.0000000000e+00  3.7227513357e-40  3.7227513357e-40          g * cm^2
+
+ - Molecule is diatomic.
+
+----------------------------------------------------------------------
+
+         Rotational constants (MHz)
+
+    A = inf        B = 2.2543e+05        C = 2.2543e+05
+
+----------------------------------------------------------------------
+
+        Rotational constants (cm-1)
+
+    A = inf        B = 7.5194e+00        C = 7.5194e+00
+
+----------------------------------------------------------------------
+
+                                Z-Matrix
+Li  
+H        1       3.0141132
+
+----------------------------------------------------------------------
+
+             Converted back to Cartesian
+
+Li       0.000000      0.000000      0.000000
+H        0.000000      0.000000      3.014113
+
+----------------------------------------------------------------------
+                            Geometry in angstrom
+
+1     Li      0.0000000000    0.0000000000    0.0000000000
+2     H       0.0000000000    0.0000000000    1.5950000000
+Resetting tol_sch to 1e-13
+
+ Number of nodes, processes per node used for SCF calculation: 1, 28
+
+Common Options
+{
+  maxiter       = 100
+  basis         = cc-pvtz spherical
+  geom_units    = angstrom
+  ang2au factor = 1.889726126
+  debug         = false
+  profile       = false
+  file_prefix   = LiH
+}
+
+SCF Options
+{
+  charge            = 0
+  multiplicity      = 1
+  level shift       = 0
+  tol_int           = 1e-16
+  tol_sch           = 1e-13
+  tol_lindep        = 1e-09
+  conve             = 1e-11
+  convd             = 1e-10
+  diis_hist         = 10
+  AO_tilesize       = 30
+  writem            = 1
+  damp              = 100
+  n_lindep          = 0
+  scf_type          = restricted
+  cuscf             = false
+  direct_df         = false
+  restart_size      = 2000
+  restart           = false
+  debug             = false
+  profile           = false
+}
+
+Number of basis functions = 44
+
+Total number of shells = 16
+
+Total number of electrons = 4
+  # of alpha electrons    = 2
+  # of beta electons      = 2
+
+Nuclear repulsion energy  = 0.995317637386834
+
+Maximum angular momentum = 3
+# of {all,non-negligible} shell-pairs = {136,136}
+
+Time for initial setup: 0.01 secs
+HF exch = 1.00
+
+Time for computing 1-e integrals T, V, S: 0.01 secs
+Time for computing orthogonalizer: 0.02 secs
+
+Superposition of Atomic Density Guess ...
+Time taken for SAD: 0.14 secs
+Total Time to compute initial guess: 0.15 secs
+
+
+ SCF iterations
+-----------------------------------------------------------------------------
+ Iter     Energy            E-Diff       RMSD        |[F,P]|^2       Time(s)
+-----------------------------------------------------------------------------
+   1  -7.8010678845    -7.80e+00     1.87e-02     1.87e-01         0.0 
+   2  -7.9802596395    -1.79e-01     4.20e-03     2.54e-02         0.0 
+   3  -7.9859222226    -5.66e-03     1.90e-03     1.95e-03         0.0 
+   4  -7.9866037373    -6.82e-04     2.80e-04     3.70e-05         0.0 
+   5  -7.9866431014    -3.94e-05     1.03e-04     2.86e-06         0.0 
+   6  -7.9866470981    -4.00e-06     2.03e-05     6.25e-08         0.1 
+   7  -7.9866471511    -5.31e-08     1.85e-06     4.74e-10         0.1 
+   8  -7.9866471515    -3.56e-10     4.53e-07     9.89e-12         0.1 
+   9  -7.9866471515    -6.80e-12     3.20e-08     5.21e-14         0.1 
+  10  -7.9866471515    -5.15e-14     2.13e-09     1.17e-15         0.1 
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+  11  -7.9866471515     1.24e-14     8.99e-11     7.55e-18         0.2 
+
+** Total SCF energy = -7.9866471515064
+
+Nuclear repulsion energy = 0.995317637386834
+#electrons        = 4
+1e energy kinetic = 7.9864281033850553
+1e energy N-e     = -20.4548993444368001
+1e energy         = -12.4684712410517502
+2e energy         = 3.4865064521585598
+
+
+                      Electron        Nuclear        Total  
+                  ------------------------------------------
+    Monopole          -4.000000      4.000000      0.000000
+
+      Dipole   X      -0.000000      0.000000     -0.000000
+      Dipole   Y      -0.000000      0.000000     -0.000000
+      Dipole   Z      -5.369080      3.014113     -2.354967
+
+  Quadrupole  XX      -3.929425      0.000000     -3.929425
+  Quadrupole  XY       0.000000      0.000000      0.000000
+  Quadrupole  XZ      -0.000000      0.000000     -0.000000
+  Quadrupole  YY      -3.929425      0.000000     -3.929425
+  Quadrupole  YZ      -0.000000      0.000000     -0.000000
+  Quadrupole  ZZ     -18.041789      9.084878     -8.956911
+
+    Octupole XXX      -0.000000      0.000000     -0.000000
+    Octupole XXY       0.000000      0.000000      0.000000
+    Octupole XXZ      -8.985646      0.000000     -8.985646
+    Octupole XYY      -0.000000      0.000000     -0.000000
+    Octupole XYZ       0.000000      0.000000      0.000000
+    Octupole XZZ      -0.000000      0.000000     -0.000000
+    Octupole YYY       0.000000      0.000000      0.000000
+    Octupole YYZ      -8.985646      0.000000     -8.985646
+    Octupole YZZ      -0.000000      0.000000     -0.000000
+    Octupole ZZZ     -64.570407     27.382851    -37.187556
+
+
+writing orbitals and density to disk ... done.
+
+Total Time taken for Hartree-Fock: 1.47 secs
+
+CD Options
+{
+  debug             = false
+  skip_cd           = [false, 100]
+  write_cv          = [false, 5000]
+  diagtol           = 1e-14
+  itilesize         = 1000
+  max_cvecs_factor  = 1000
+}
+
+- #occupied, #virtual = 4, 84
+
+- Tilesize for the MSO space: 40
+
+------------------------------------------------------------
+Begin 2-index transformation ... 
+
+nAO, nMO, nelectrons = 44, 88, 4
+n_occ_alpha, n_vir_alpha, n_occ_beta, n_vir_beta = 2,42,2,42
+
+Time taken for Fao->Fmo transform: 0.00 secs
+
+------------------------------------------------------------
+# of {all,non-negligible} shell-pairs = {136,136}
+
+    Begin Cholesky Decomposition
+---------------------------------------------
+Total # of mpi ranks used for Cholesky decomposition: 28
+  --> Number of nodes, mpi ranks per node: 1, 28
+- CPU memory required for computing cholesky vectors: 0.04 GiB
+
+- Time for computing the diagonal: 0.00 secs
+
+- Total number of cholesky vectors = 1232
+
+- Time to compute cholesky vectors: 1.65 secs
+
+- CPU memory required for resizing the ao cholesky tensor: 0.04 GiB
+- CPU memory required for ao2mo transformation: 0.05 GiB
+- CPU memory required for the 2-step contraction: 0.07 GiB
+
+- Time for ao to mo transform: 0.07 secs
+
+   End Cholesky Decomposition
+---------------------------------------------
+
+Total Time taken for Cholesky Decomposition: 1.77 secs
+
+scf_type = restricted
+Closed-Shell SCF
+nbf = 44
+nbf_orig = 44
+n_lindep = 0
+focc = 1
+nmo = 88
+nocc = 4
+nvir = 84
+n_occ_alpha = 2
+n_vir_alpha = 42
+n_occ_beta = 2
+n_vir_beta = 42
+nelectrons = 4
+nelectrons_alpha = 2
+nelectrons_beta = 2
+n_frozen_core = 0
+n_frozen_virtual = 0
+----------------------------
+
+Total CPU memory required for Closed Shell Cholesky CCSD calculation: 0.11 GiB
+
+
+ CCSD iterations
+------------------------------------------------------------
+  Iter     Residuum          Correlation          Time(s)
+------------------------------------------------------------
+   1     0.0589589769956   -0.0512328327030         0.21
+   2     0.0126452390409   -0.0497169743634         0.19
+   3     0.0022016060782   -0.0498204962354         0.20
+   4     0.0008398396820   -0.0498645835716         0.20
+   5     0.0005218056455   -0.0498926572313         0.20
+ MICROCYCLE DIIS UPDATE:                    6
+   6     0.0003858202539   -0.0499171300874         0.20
+   7     0.0002093214191   -0.0499195147480         0.19
+   8     0.0001435898129   -0.0499231249323         0.20
+   9     0.0000945001095   -0.0499253325740         0.20
+  10     0.0000654323710   -0.0499270947557         0.19
+ MICROCYCLE DIIS UPDATE:                   11
+  11     0.0000052974524   -0.0499307447047         0.20
+  12     0.0000019551087   -0.0499308272489         0.20
+  13     0.0000010245882   -0.0499308513305         0.20
+  14     0.0000005749063   -0.0499308601475         0.20
+  15     0.0000003535361   -0.0499308649925         0.20
+ MICROCYCLE DIIS UPDATE:                   16
+  16     0.0000001365063   -0.0499308696693         0.19
+  17     0.0000000790290   -0.0499308716184         0.19
+  18     0.0000000534279   -0.0499308732120         0.20
+  19     0.0000000355216   -0.0499308742012         0.20
+  20     0.0000000243481   -0.0499308749151         0.20
+ MICROCYCLE DIIS UPDATE:                   21
+  21     0.0000000032781   -0.0499308763767         0.20
+------------------------------------------------------------------
+ Iterations converged
+ CCSD correlation energy / hartree =        -0.049930876376700
+ CCSD total energy / hartree       =        -8.036578027883053
+
+Time taken for Closed Shell Cholesky CCSD: 4.59 secs
+
+Executing DUCC routine
+======================
+Number of active occupied alpha = 2
+Number of active occupied beta  = 2
+Number of active virtual alpha  = 3
+Number of active virtual beta   = 3
+ducc_lvl = 2
+
+Full SCF Energy: -7.986647151506
+Bare SCF Energy: -7.986647151195
+Frozen Core Energy: -0.000000000311
+
+DUCC: Time taken to compute Bare Hamiltonian: 0.00 secs
+Bare Active Space SCF Energy: -7.986647151195
+
+DUCC: Time taken to compute single commutator of F and V and double commutator of F: 0.50 secs
+
+DUCC: Time taken to compute double commutator of V and triple commutator of F: 5.32 secs
+Fully Contracted Scalar: -0.050829663334
+
+DUCC SCF energy: -8.035595150324
+Total Energy Shift: -0.001881664516
+
+DUCC: Total compute time: 5.82 secs
+
+DUCC: Time to write results: 0.03 secs
+DUCC Memory Stats
+-----------------
+allocation count: 3660
+deallocation count: 3660
+total memory allocated: 0.416524 GiB
+total memory deallocated: 0.416524 GiB
+maximum memory in single allocation: 0.139104 GiB
+maximum memory consumption: 0.182314 GiB
+
+Total ExaChem runtime: 14.30 secs
+

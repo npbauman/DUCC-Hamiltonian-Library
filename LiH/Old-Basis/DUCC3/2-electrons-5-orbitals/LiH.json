@@ -1,0 +1,48 @@
+{
+  "geometry": {
+    "coordinates": [
+      "Li 0.000000  0.000000  0.000000",
+      "H  0.000000  0.000000  1.595000"
+    ],
+    "units": "angstrom"
+  },
+  "basis": {
+    "basisset": "cc-pvtz"
+  },
+  "common": {
+    "maxiter": 100
+  },
+  "SCF": {
+    "tol_int": 1E-16,
+    "tol_lindep": 1E-9,
+    "conve": 1E-11,
+    "convd": 1E-10,
+    "charge": 0,
+    "multiplicity": 1,
+    "scf_type": "restricted"
+  },
+  "CD": {
+    "diagtol": 1E-14,
+    "max_cvecs": 1000
+  },
+  "CC": {
+    "threshold": 1E-8,
+    "ndiis": 5,
+    "writet": false,
+    "ccsd_maxiter": 100,
+    "nactive_oa": 1,
+    "nactive_ob": 1,
+    "nactive_va": 4,
+    "nactive_vb": 4,
+    "ducc_lvl": 2,
+    "freeze": {
+      "atomic": true
+    }
+  },
+  "TASK": {
+    "ducc": [
+      true,
+      "default"
+    ]
+  }
+}

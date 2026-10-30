@@ -1,0 +1,50 @@
+/people/baum612/.local/lib/python3.14/site-packages/pyscf/fci/direct_nosym.py:209: UserWarning: direct_nosym.kernel is not able to diagonalize non-Hermitian Hamiltonian. If h1e and h2e is not hermtian, calling symmetric diagonalization in eig can lead to wrong results.
+  warnings.warn('direct_nosym.kernel is not able to diagonalize '
+davidson 0 1  |r|= 0.266  e= [-23.80649392]  max|de|= -23.8  lindep=    1
+davidson 1 2  |r|= 0.277  e= [-23.87744821]  max|de|= -0.071  lindep= 0.994
+davidson 2 3  |r|= 0.112  e= [-24.07650456]  max|de|= -0.199  lindep=    1
+davidson 3 4  |r|= 0.221  e= [-24.13714253]  max|de|= -0.0606  lindep= 0.991
+davidson 4 5  |r|= 0.213  e= [-24.1725211]  max|de|= -0.0354  lindep=    1
+davidson 5 6  |r|= 0.148  e= [-24.2010715]  max|de|= -0.0286  lindep= 0.978
+davidson 6 7  |r|= 0.111  e= [-24.23190649]  max|de|= -0.0308  lindep= 0.972
+davidson 7 8  |r|= 0.0843  e= [-24.24122147]  max|de|= -0.00931  lindep= 0.993
+davidson 8 9  |r|= 0.0484  e= [-24.2456774]  max|de|= -0.00446  lindep= 0.97
+davidson 9 10  |r|= 0.0454  e= [-24.24779871]  max|de|= -0.00212  lindep= 0.969
+davidson 10 11  |r|= 0.0614  e= [-24.25269744]  max|de|= -0.0049  lindep= 0.984
+davidson 11 12  |r|= 0.0601  e= [-24.25638936]  max|de|= -0.00369  lindep= 0.982
+davidson 12 13  |r|= 0.0355  e= [-24.25877776]  max|de|= -0.00239  lindep= 0.969
+davidson 13 14  |r|= 0.0211  e= [-24.26003295]  max|de|= -0.00126  lindep= 0.98
+davidson 14 15  |r|= 0.0131  e= [-24.26045976]  max|de|= -0.000427  lindep= 0.976
+davidson 15 16  |r|= 0.00803  e= [-24.26067785]  max|de|= -0.000218  lindep= 0.975
+davidson 16 17  |r|= 0.00513  e= [-24.26073794]  max|de|= -6.01e-05  lindep= 0.962
+davidson 17 18  |r|= 0.00297  e= [-24.26076171]  max|de|= -2.38e-05  lindep= 0.963
+davidson 18 19  |r|= 0.00143  e= [-24.26076709]  max|de|= -5.38e-06  lindep= 0.956
+davidson 19 20  |r|= 0.000596  e= [-24.26076844]  max|de|= -1.34e-06  lindep= 0.957
+davidson 20 21  |r|= 0.00036  e= [-24.26076863]  max|de|= -1.95e-07  lindep= 0.98
+davidson 21 22  |r|= 0.0003  e= [-24.2607687]  max|de|= -6.82e-08  lindep= 0.964
+davidson 22 23  |r|= 0.000162  e= [-24.26076875]  max|de|= -5.31e-08  lindep= 0.95
+davidson 23 24  |r|= 9.79e-05  e= [-24.26076878]  max|de|= -2.37e-08  lindep= 0.971
+davidson 24 25  |r|= 3.87e-05  e= [-24.26076878]  max|de|= -7.2e-09  lindep= 0.984
+davidson 25 26  |r|= 1.99e-05  e= [-24.26076879]  max|de|= -1.1e-09  lindep= 0.973
+davidson 26 27  |r|= 1.07e-05  e= [-24.26076879]  max|de|= -3.49e-10  lindep= 0.961
+davidson 27 28  |r|= 5.67e-06  e= [-24.26076879]  max|de|= -1.1e-10  lindep= 0.979
+root 0 converged  |r|= 2.3e-06  e= -24.260768785647347  max|de|= -2.14e-11
+converged 28 29  |r|= 2.3e-06  e= [-24.26076879]  max|de|= -2.14e-11
+
+Root 0:
+FCI Energy = -108.951285702728
+2S+1 = 1.0000000
+
+CI vector components (|coef| > 0.001):
+22222000:    0.41683
+22200220:   -0.07035
+22020022:   -0.04185
+22002202:   -0.04185
+22020202:    0.04155
+22002022:   -0.04155
+20222002:    0.01830
+20200222:   -0.00345
+02220022:   -0.00203
+02202202:   -0.00203
+02220202:    0.00202
+02202022:   -0.00202
